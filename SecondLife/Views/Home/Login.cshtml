@@ -1,0 +1,61 @@
+﻿@{
+    Layout = null; // Hoặc dùng Layout chung của bro nếu muốn giữ Header/Footer
+}
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng nhập - RetroLife</title>
+    <link rel="stylesheet" href="~/Content/style.css"> <!-- Đường dẫn file CSS của bro -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="auth-body">
+
+    <div class="auth-container">
+        <!-- Nút quay lại trang chủ -->
+        <a href="/" class="back-to-home"><i class="fa-solid fa-arrow-left"></i> Quay lại trang chủ</a>
+
+        <div class="auth-box">
+            <div class="auth-header">
+                <h2>Chào mừng trở lại!</h2>
+                <p>Đăng nhập để khám phá kho đồ cũ chất lượng cùng RetroLife</p>
+            </div>
+
+            <!-- Form Đăng nhập -->
+            <form id="loginForm" onsubmit="handleLogin(event)">
+                <div class="form-group-auth">
+                    <label for="loginEmail"><i class="fa-solid fa-envelope"></i> Email hoặc Số điện thoại</label>
+                    <input type="text" id="loginEmail" placeholder="Nhập email hoặc số điện thoại..." required>
+                </div>
+
+                <div class="form-group-auth">
+                    <label for="loginPassword"><i class="fa-solid fa-lock"></i> Mật khẩu</label>
+                    <div class="password-wrapper">
+                        <input type="password" id="loginPassword" placeholder="Nhập mật khẩu..." required>
+                        <i class="fa-solid fa-eye toggle-password" onclick="togglePasswordVisibility('loginPassword', this)"></i>
+                    </div>
+                </div>
+
+                <div class="auth-actions">
+                    <label class="remember-me">
+                        <input type="checkbox" id="rememberMe"> Tự động đăng nhập
+                    </label>
+                    <a href="#" class="forgot-password">Quên mật khẩu?</a>
+                </div>
+
+                <div id="login-message" class="auth-message"></div>
+
+                <button type="submit" class="btn-auth-submit">Đăng Nhập Ngay</button>
+            </form>
+
+            <div class="auth-footer">
+                <p>Chưa có tài khoản? <a href="/Home/Register">Đăng ký thành viên mới</a></p>
+            </div>
+        </div>
+    </div>
+
+    <script src="~/Scripts/script.js"></script>
+</body>
+</html>

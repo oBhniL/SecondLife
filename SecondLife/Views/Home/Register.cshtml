@@ -1,0 +1,77 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng ký thành viên - RetroLife</title>
+    <link rel="stylesheet" href="~/Content/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="auth-body">
+
+    <div class="auth-container">
+        <a href="/" class="back-to-home"><i class="fa-solid fa-arrow-left"></i> Quay lại trang chủ</a>
+
+        <div class="auth-box">
+            <div class="auth-header">
+                <h2>Tạo tài khoản mới</h2>
+                <p>Trở thành thành viên của gia đình RetroLife ngay hôm nay</p>
+            </div>
+
+            <!-- Form Đăng ký -->
+            <form id="registerForm" onsubmit="handleRegister(event)">
+                <div class="form-group-auth">
+                    <label for="regName"><i class="fa-solid fa-user"></i> Họ và Tên</label>
+                    <input type="text" id="regName" placeholder="Nhập họ và tên của bạn..." required>
+                </div>
+
+                <div class="form-group-auth">
+                    <label for="regEmail"><i class="fa-solid fa-envelope"></i> Địa chỉ Email</label>
+                    <input type="email" id="regEmail" placeholder="example@gmail.com..." required>
+                </div>
+
+                <div class="form-group-auth">
+                    <label for="regPhone"><i class="fa-solid fa-phone"></i> Số điện thoại</label>
+                    <input type="tel" id="regPhone" placeholder="Nhập số điện thoại..." required>
+                </div>
+
+                <div class="form-group-auth">
+                    <label for="regPassword"><i class="fa-solid fa-lock"></i> Mật khẩu</label>
+                    <div class="password-wrapper">
+                        <input type="password" id="regPassword" placeholder="Tối thiểu 6 ký tự..." required>
+                        <i class="fa-solid fa-eye toggle-password" onclick="togglePasswordVisibility('regPassword', this)"></i>
+                    </div>
+                </div>
+
+                <div class="form-group-auth">
+                    <label for="regConfirmPassword"><i class="fa-solid fa-shield-halved"></i> Xác nhận mật khẩu</label>
+                    <div class="password-wrapper">
+                        <input type="password" id="regConfirmPassword" placeholder="Nhập lại mật khẩu..." required>
+                        <i class="fa-solid fa-eye toggle-password" onclick="togglePasswordVisibility('regConfirmPassword', this)"></i>
+                    </div>
+                </div>
+
+                <div class="auth-actions">
+                    <label class="remember-me">
+                        <input type="checkbox" id="agreeTerms" required> Tôi đồng ý với các điều khoản dịch vụ
+                    </label>
+                </div>
+
+                <div id="register-message" class="auth-message"></div>
+
+                <button type="submit" class="btn-auth-submit-reg">Đăng Ký Tài Khoản</button>
+            </form>
+
+            <div class="auth-footer">
+                <p>Đã có tài khoản rồi? <a href="/Home/Login">Đăng nhập tại đây</a></p>
+            </div>
+        </div>
+    </div>
+
+    <script src="~/Scripts/script.js"></script>
+</body>
+</html>

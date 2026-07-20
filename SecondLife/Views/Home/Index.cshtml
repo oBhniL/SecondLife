@@ -1,33 +1,509 @@
 ﻿@{
-    ViewBag.Title = "Home Page";
+    Layout = null;
 }
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RetroLife - Thiên Đường Đồ Cũ Chuyên Nghiệp</title>
+    <!-- Thêm ?v=1.2 để xóa sạch cache trình duyệt -->
+    <link rel="stylesheet" href="/Content/style.css?v=1.2" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+</head>
+<body>
 
-<main>
-    <section class="row" aria-labelledby="aspnetTitle">
-        <h1 id="title">ASP.NET</h1>
-        <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-        <p><a href="https://asp.net" class="btn btn-primary btn-md">Learn more &raquo;</a></p>
+    <!-- THANH ĐIỀU HƯỚNG (NAVBAR) -->
+    <nav class="navbar">
+        <div class="nav-left">
+            <a href="#home" class="logo-container">
+                <img src="/images/second-hand.png" alt="RetroLife Logo" class="web-logo" />
+                <span class="brand-name">RetroLife</span>
+            </a>
+
+            <div class="dropdown">
+                <button class="dropbtn">
+                    <i class="fa-solid fa-table-cells-large"></i> Danh mục sản phẩm <i class="fa-solid fa-chevron-down"></i>
+                </button>
+                <div class="dropdown-content">
+                    <a href="#categories"><i class="fa-solid fa-mobile-screen-button"></i> Đồ công nghệ cũ</a>
+                    <a href="#categories"><i class="fa-solid fa-shirt"></i> Thời trang & Phụ kiện</a>
+                    <a href="#categories"><i class="fa-solid fa-plug"></i> Đồ gia dụng thanh lý</a>
+                    <a href="#categories"><i class="fa-solid fa-couch"></i> Đồ nội thất cũ</a>
+                    <a href="#categories"><i class="fa-solid fa-wand-magic-sparkles"></i> Trang trí nhà cửa</a>
+                    <a href="#categories"><i class="fa-solid fa-car"></i> Các loại Xe cũ</a>
+                    <a href="#categories"><i class="fa-solid fa-guitar"></i> Nhạc cụ lướt</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="nav-menu">
+            <a href="#home" class="active">Trang Chủ</a>
+            <a href="#categories">Bộ Sưu Tập</a>
+            <a href="#products">Sản Phẩm</a>
+            <a href="#why">Vì Sao Chọn</a>
+            <a href="#order">Ký Gửi / Đặt Hàng</a>
+        </div>
+
+        <div class="nav-auth">
+            <a href="/Home/Login" class="btn-login">Đăng Nhập</a>
+            <a href="/Home/Register" class="btn-register">Đăng Ký</a>
+        </div>
+    </nav>
+
+    <!-- BANNER CHÍNH (HERO SECTION) -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <div class="tag-green">
+                <i class="fa-solid fa-leaf"></i> Sống Xanh - Mua Sắm Thông Minh
+            </div>
+            <h1>Cũ Với Người<br><span>Mới Với Bạn</span></h1>
+            <p>Nền tảng mua bán, ký gửi đồ Second Hand uy tín hàng đầu. Nơi giữ lại giá trị của thời gian và mở ra không gian mua sắm tiết kiệm, chất lượng nhất.</p>
+            <div class="hero-actions">
+                <a href="#products" class="btn-hero-primary">Khám Phá Ngay</a>
+                <a href="#order" class="btn-hero-secondary">Gửi Đồ Ký Gửi</a>
+            </div>
+        </div>
+        <div class="hero-image">
+            <div class="banner-slider">
+                <img src="~/images/anh1.jpg" alt="RetroLife Banner 1" class="slide active" />
+                <img src="/images/anh9.jpg" alt="RetroLife Banner 2" class="slide" />
+                <img src="/images/anh10.jpg" alt="RetroLife Banner 3" class="slide" />
+                <div class="slider-dots"></div>
+            </div>
+        </div>
     </section>
 
-    <div class="row">
-        <section class="col-md-4" aria-labelledby="gettingStartedTitle">
-            <h2 id="gettingStartedTitle">Getting started</h2>
-            <p>
-                ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-                enables a clean separation of concerns and gives you full control over markup
-                for enjoyable, agile development.
-            </p>
-            <p><a class="btn btn-outline-dark" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
-        </section>
-        <section class="col-md-4" aria-labelledby="librariesTitle">
-            <h2 id="librariesTitle">Get more libraries</h2>
-            <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-            <p><a class="btn btn-outline-dark" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-        </section>
-        <section class="col-md-4" aria-labelledby="hostingTitle">
-            <h2 id="hostingTitle">Web Hosting</h2>
-            <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-            <p><a class="btn btn-outline-dark" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
-        </section>
-    </div>
-</main>
+    <!-- THANH THỐNG KÊ (STATS BAR) -->
+    <section class="stats">
+        <div class="stat-item">
+            <h2>15,000+</h2>
+            <p>Sản Phẩm Đã Đăng</p>
+        </div>
+        <div class="stat-item">
+            <h2>8,000+</h2>
+            <p>Khách Hàng Tin Dùng</p>
+        </div>
+        <div class="stat-item">
+            <h2>99%</h2>
+            <p>Giao Dịch An Toàn</p>
+        </div>
+        <div class="stat-item">
+            <h2>64</h2>
+            <p>Tỉnh Thành Hỗ Trợ</p>
+        </div>
+    </section>
+
+    <!-- PHẦN DANH MỤC SẢN PHẨM ĐÃ FIX MÀU XANH LÁ VÀ TAG Ô VUÔNG -->
+    <section class="products" id="categories" style="font-family: sans-serif;">
+        <div class="section-header">
+            <h2>Danh Mục <span>Sản Phẩm Nổi Bật</span></h2>
+            <p>Khám phá thế giới đồ cũ được phân loại khoa học, dễ dàng tìm kiếm</p>
+        </div>
+
+        <!-- Thêm style ép chia thành 4 cột đều nhau -->
+        <div class="products-grid" style="display: grid !important; grid-template-columns: repeat(4, 1fr) !important; gap: 20px !important;">
+
+            <!-- 1. Đồ Công Nghệ -->
+            <div class="product-card">
+                <div class="product-img">
+                    <img src="/images/anh3.jpg" alt="Đồ Công Nghệ" />
+                    <div class="product-badge" style="background: #2ec4b6; color: #000; width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center; position: absolute; top: 10px; left: 10px; z-index: 2;">
+                        <i class="fa-solid fa-laptop"></i>
+                    </div>
+                </div>
+                <div class="product-info" style="padding: 15px; text-align: left;">
+                    <h3 style="font-size: 1.1rem; font-weight: bold; margin-bottom: 10px; color: #111;">Đồ Công Nghệ</h3>
+                    <div style="display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 15px;">
+                        <span style="background: #f1f3f5; color: #495057; font-size: 0.75rem; padding: 4px 8px; border-radius: 4px;">Điện thoại cũ</span>
+                        <span style="background: #f1f3f5; color: #495057; font-size: 0.75rem; padding: 4px 8px; border-radius: 4px;">Máy tính & Laptop</span>
+                        <span style="background: #f1f3f5; color: #495057; font-size: 0.75rem; padding: 4px 8px; border-radius: 4px;">Tai nghe</span>
+                    </div>
+                    <a href="#" style="color: #2ec4b6; background: #fff; text-decoration: none; font-weight: 600; font-size: 0.85rem; display: inline-flex; align-items: center; border: none; padding: 0;">
+                        Xem phân loại này <i class="fa-solid fa-arrow-right" style="margin-left: 5px;"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- 2. Thời Trang & Phụ Kiện -->
+            <div class="product-card">
+                <div class="product-img">
+                    <img src="/images/anh1.jpg" alt="Thời Trang & Phụ Kiện" />
+                    <div class="product-badge" style="background: #2ec4b6; color: #000; width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center; position: absolute; top: 10px; left: 10px; z-index: 2;">
+                        <i class="fa-solid fa-shirt"></i>
+                    </div>
+                </div>
+                <div class="product-info" style="padding: 15px; text-align: left;">
+                    <h3 style="font-size: 1.1rem; font-weight: bold; margin-bottom: 10px; color: #111;">Thời Trang Vintage</h3>
+                    <div style="display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 15px;">
+                        <span style="background: #f1f3f5; color: #495057; font-size: 0.75rem; padding: 4px 8px; border-radius: 4px;">Quần áo sỉ lẻ</span>
+                        <span style="background: #f1f3f5; color: #495057; font-size: 0.75rem; padding: 4px 8px; border-radius: 4px;">Áo khoác denim</span>
+                        <span style="background: #f1f3f5; color: #495057; font-size: 0.75rem; padding: 4px 8px; border-radius: 4px;">Đồ hiệu 2hand</span>
+                        <span style="background: #f1f3f5; color: #495057; font-size: 0.75rem; padding: 4px 8px; border-radius: 4px;">Túi xách</span>
+                        <span style="background: #f1f3f5; color: #495057; font-size: 0.75rem; padding: 4px 8px; border-radius: 4px;">Giày dép</span>
+                        <span style="background: #f1f3f5; color: #495057; font-size: 0.75rem; padding: 4px 8px; border-radius: 4px;">Trang sức</span>
+                    </div>
+                    <a href="#" style="color: #2ec4b6; background: #fff; text-decoration: none; font-weight: 600; font-size: 0.85rem; display: inline-flex; align-items: center; border: none; padding: 0;">
+                        Xem phân loại này <i class="fa-solid fa-arrow-right" style="margin-left: 5px;"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- 3. Đồ Gia Dụng -->
+            <div class="product-card">
+                <div class="product-img">
+                    <img src="/images/anh14.jpg" alt="Đồ Gia Dụng" />
+                    <div class="product-badge" style="background: #2ec4b6; color: #000; width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center; position: absolute; top: 10px; left: 10px; z-index: 2;">
+                        <i class="fa-solid fa-plug"></i>
+                    </div>
+                </div>
+                <div class="product-info" style="padding: 15px; text-align: left;">
+                    <h3 style="font-size: 1.1rem; font-weight: bold; margin-bottom: 10px; color: #111;">Đồ Gia Dụng</h3>
+                    <div style="display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 15px;">
+                        <span style="background: #f1f3f5; color: #495057; font-size: 0.75rem; padding: 4px 8px; border-radius: 4px;">Tủ lạnh</span>
+                        <span style="background: #f1f3f5; color: #495057; font-size: 0.75rem; padding: 4px 8px; border-radius: 4px;">Bếp từ</span>
+                        <span style="background: #f1f3f5; color: #495057; font-size: 0.75rem; padding: 4px 8px; border-radius: 4px;">Quạt gia đình</span>
+                    </div>
+                    <a href="#" style="color: #2ec4b6; background: #fff; text-decoration: none; font-weight: 600; font-size: 0.85rem; display: inline-flex; align-items: center; border: none; padding: 0;">
+                        Xem phân loại này <i class="fa-solid fa-arrow-right" style="margin-left: 5px;"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- 4. Đồ Nội Thất -->
+            <div class="product-card">
+                <div class="product-img">
+                    <img src="/images/anh10.jpg" alt="Đồ Nội Thất" />
+                    <div class="product-badge" style="background: #2ec4b6; color: #000; width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center; position: absolute; top: 10px; left: 10px; z-index: 2;">
+                        <i class="fa-solid fa-couch"></i>
+                    </div>
+                </div>
+                <div class="product-info" style="padding: 15px; text-align: left;">
+                    <h3 style="font-size: 1.1rem; font-weight: bold; margin-bottom: 10px; color: #111;">Đồ Nội Thất</h3>
+                    <div style="display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 15px;">
+                        <span style="background: #f1f3f5; color: #495057; font-size: 0.75rem; padding: 4px 8px; border-radius: 4px;">Giường nệm</span>
+                        <span style="background: #f1f3f5; color: #495057; font-size: 0.75rem; padding: 4px 8px; border-radius: 4px;">Bàn làm việc</span>
+                        <span style="background: #f1f3f5; color: #495057; font-size: 0.75rem; padding: 4px 8px; border-radius: 4px;">Tủ kệ gỗ</span>
+                    </div>
+                    <a href="#" style="color: #2ec4b6; background: #fff; text-decoration: none; font-weight: 600; font-size: 0.85rem; display: inline-flex; align-items: center; border: none; padding: 0;">
+                        Xem phân loại này <i class="fa-solid fa-arrow-right" style="margin-left: 5px;"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- 5. Đồ Trang Trí Nhà -->
+            <div class="product-card">
+                <div class="product-img">
+                    <img src="/images/anh9.jpg" alt="Đồ Trang Trí Nhà" />
+                    <div class="product-badge" style="background: #2ec4b6; color: #000; width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center; position: absolute; top: 10px; left: 10px; z-index: 2;">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i>
+                    </div>
+                </div>
+                <div class="product-info" style="padding: 15px; text-align: left;">
+                    <h3 style="font-size: 1.1rem; font-weight: bold; margin-bottom: 10px; color: #111;">Đồ Trang Trí Nhà</h3>
+                    <div style="display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 15px;">
+                        <span style="background: #f1f3f5; color: #495057; font-size: 0.75rem; padding: 4px 8px; border-radius: 4px;">Gương Decor</span>
+                        <span style="background: #f1f3f5; color: #495057; font-size: 0.75rem; padding: 4px 8px; border-radius: 4px;">Tranh cổ</span>
+                        <span style="background: #f1f3f5; color: #495057; font-size: 0.75rem; padding: 4px 8px; border-radius: 4px;">Đồ sưu tầm</span>
+                    </div>
+                    <a href="#" style="color: #2ec4b6; background: #fff; text-decoration: none; font-weight: 600; font-size: 0.85rem; display: inline-flex; align-items: center; border: none; padding: 0;">
+                        Xem phân loại này <i class="fa-solid fa-arrow-right" style="margin-left: 5px;"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- 6. Các Loại Xe Cũ -->
+            <div class="product-card">
+                <div class="product-img">
+                    <img src="/images/anh13.jpg" alt="Các Loại Xe Cũ" />
+                    <div class="product-badge" style="background: #2ec4b6; color: #000; width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center; position: absolute; top: 10px; left: 10px; z-index: 2;">
+                        <i class="fa-solid fa-car"></i>
+                    </div>
+                </div>
+                <div class="product-info" style="padding: 15px; text-align: left;">
+                    <h3 style="font-size: 1.1rem; font-weight: bold; margin-bottom: 10px; color: #111;">Các Loại Xe Cũ</h3>
+                    <div style="display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 15px;">
+                        <span style="background: #f1f3f5; color: #495057; font-size: 0.75rem; padding: 4px 8px; border-radius: 4px;">Ô tô nguyên chiếc</span>
+                        <span style="background: #f1f3f5; color: #495057; font-size: 0.75rem; padding: 4px 8px; border-radius: 4px;">Xe máy</span>
+                        <span style="background: #f1f3f5; color: #495057; font-size: 0.75rem; padding: 4px 8px; border-radius: 4px;">Xe đạp thể thao</span>
+                    </div>
+                    <a href="#" style="color: #2ec4b6; background: #fff; text-decoration: none; font-weight: 600; font-size: 0.85rem; display: inline-flex; align-items: center; border: none; padding: 0;">
+                        Xem phân loại này <i class="fa-solid fa-arrow-right" style="margin-left: 5px;"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- 7. Nhạc Cụ Lướt -->
+            <div class="product-card">
+                <div class="product-img">
+                    <img src="/images/anh12.jpg" alt="Nhạc Cụ Cũ" />
+                    <div class="product-badge" style="background: #2ec4b6; color: #000; width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center; position: absolute; top: 10px; left: 10px; z-index: 2;">
+                        <i class="fa-solid fa-guitar"></i>
+                    </div>
+                </div>
+                <div class="product-info" style="padding: 15px; text-align: left;">
+                    <h3 style="font-size: 1.1rem; font-weight: bold; margin-bottom: 10px; color: #111;">Nhạc Cụ Cũ</h3>
+                    <div style="display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 15px;">
+                        <span style="background: #f1f3f5; color: #495057; font-size: 0.75rem; padding: 4px 8px; border-radius: 4px;">Guitar & Bass</span>
+                        <span style="background: #f1f3f5; color: #495057; font-size: 0.75rem; padding: 4px 8px; border-radius: 4px;">Piano cổ điển</span>
+                        <span style="background: #f1f3f5; color: #495057; font-size: 0.75rem; padding: 4px 8px; border-radius: 4px;">Dàn trống</span>
+                    </div>
+                    <a href="#" style="color: #2ec4b6; background: #fff; text-decoration: none; font-weight: 600; font-size: 0.85rem; display: inline-flex; align-items: center; border: none; padding: 0;">
+                        Xem phân loại này <i class="fa-solid fa-arrow-right" style="margin-left: 5px;"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- 8. Dụng Cụ Thể Thao -->
+            <div class="product-card">
+                <div class="product-img">
+                    <img src="/images/anh15.jpg" alt="Dụng Cụ Thể Thao" />
+                    <div class="product-badge" style="background: #2ec4b6; color: #000; width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center; position: absolute; top: 10px; left: 10px; z-index: 2;">
+                        <i class="fa-solid fa-baseball-bat-ball"></i>
+                    </div>
+                </div>
+                <div class="product-info" style="padding: 15px; text-align: left;">
+                    <h3 style="font-size: 1.1rem; font-weight: bold; margin-bottom: 10px; color: #111;">Dụng Cụ Thể Thao</h3>
+                    <div style="display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 15px;">
+                        <span style="background: #f1f3f5; color: #495057; font-size: 0.75rem; padding: 4px 8px; border-radius: 4px;">Giày đá bóng</span>
+                        <span style="background: #f1f3f5; color: #495057; font-size: 0.75rem; padding: 4px 8px; border-radius: 4px;">Vợt cầu lông/Tennis</span>
+                        <span style="background: #f1f3f5; color: #495057; font-size: 0.75rem; padding: 4px 8px; border-radius: 4px;">Đồ tập Gym</span>
+                    </div>
+                    <a href="#" style="color: #2ec4b6; background: #fff; text-decoration: none; font-weight: 600; font-size: 0.85rem; display: inline-flex; align-items: center; border: none; padding: 0;">
+                        Xem phân loại này <i class="fa-solid fa-arrow-right" style="margin-left: 5px;"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION SẢN PHẨM MỚI LÊN KỆ (ĐÃ FIX LAYOUT NÚT SLIDER) -->
+    <section class="products" id="new-products" style="position: relative; padding: 40px 0;">
+        <div class="section-header" style="text-align: center; margin-bottom: 30px; position: relative;">
+            <h2>Sản Phẩm <span>Mới Lên Kệ</span></h2>
+            <p>Hàng độc bản, mỗi món thường chỉ có đúng 1 sản phẩm duy nhất!</p>
+
+            <div class="slider-container-fixed" style="position: relative !important; width: 100%; display: block;">
+            </div>
+            <!-- Nút bên trái -->
+            <button type="button" class="slide-btn-left" id="btn-slide-left" style="position: absolute !important; left: 10px; top: 160px; z-index: 9999 !important; width: 45px; height: 45px; border-radius: 50%; border: 1px solid #e0e0e0; background: #fff; color: #2ec4b6; box-shadow: 0 4px 10px rgba(0,0,0,0.15); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.1rem;">
+                <i class="fa-solid fa-angle-left"></i>
+            </button>
+            <!-- Nút bên phải -->
+            <button type="button" class="slide-btn-right" id="btn-slide-right" style="position: absolute !important; right: 10px; top: 160px; z-index: 9999 !important; width: 45px; height: 45px; border-radius: 50%; border: 1px solid #e0e0e0; background: #fff; color: #2ec4b6; box-shadow: 0 4px 10px rgba(0,0,0,0.15); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.1rem;">
+                <i class="fa-solid fa-angle-right"></i>
+            </button>
+        </div>
+
+        <!-- Khung chứa danh sách Card sản phẩm -->
+        <div class="products-carousel" id="carousel-new-products" style="display: flex !important; gap: 20px; overflow-x: auto; scroll-behavior: smooth; width: 100%; padding: 10px 5px; scrollbar-width: none; -ms-overflow-style: none;">
+            <style>
+                #carousel-new-products::-webkit-scrollbar {
+                    display: none;
+                }
+
+                #carousel-new-products .product-card {
+                    flex: 0 0 calc(33.33% - 14px) !important;
+                    min-width: 280px;
+                }
+            </style>
+
+            <!-- Sản phẩm 1 -->
+            <div class="product-card">
+                <div class="product-img">
+                    <img src="~/images/aosomiVintage.jpg" alt="Áo Vintage" />
+                    <div class="product-badge">Mới về</div>
+                </div>
+                <div class="product-info">
+                    <h3>Áo Khoác Denim Vintage Mỹ</h3>
+                    <p class="product-cat">Thời Trang / Quần Áo</p>
+                    <div class="product-price">
+                        <span class="price-new">250.000đ</span>
+                        <span class="price-old">750.000đ</span>
+                    </div>
+                    <a href="#order" class="btn-buy">Liên Hệ Mua</a>
+                </div>
+            </div>
+
+            <!-- Sản phẩm 2 -->
+            <div class="product-card">
+                <div class="product-img">
+                    <img src="~/images/taingheMarshall.jpg" alt="Tai nghe Bluetooth" />
+                    <div class="product-badge sale">95% New</div>
+                </div>
+                <div class="product-info">
+                    <h3>Tai nghe Bluetooth Marshall Acton II</h3>
+                    <p class="product-cat">Công Nghệ / Loa Cũ</p>
+                    <div class="product-price">
+                        <span class="price-new">3.200.000đ</span>
+                        <span class="price-old">5.800.000đ</span>
+                    </div>
+                    <a href="#order" class="btn-buy">Liên Hệ Mua</a>
+                </div>
+            </div>
+
+            <!-- Sản phẩm 3 -->
+            <div class="product-card">
+                <div class="product-img">
+                    <img src="~/images/guitarYamaha.jpg" alt="Guitar" />
+                    <div class="product-badge">Giá Tốt</div>
+                </div>
+                <div class="product-info">
+                    <h3>Đàn Guitar Acoustic Yamaha FG800</h3>
+                    <p class="product-cat">Nhạc Cụ / Guitar</p>
+                    <div class="product-price">
+                        <span class="price-new">2.100.000đ</span>
+                        <span class="price-old">4.200.000đ</span>
+                    </div>
+                    <a href="#order" class="btn-buy">Liên Hệ Mua</a>
+                </div>
+            </div>
+
+            <!-- Sản phẩm 4 -->
+            <div class="product-card">
+                <div class="product-img">
+                    <img src="~/images/iphone16.jpg" alt="Điện Thoại" />
+                    <div class="product-badge sale">98% Like New</div>
+                </div>
+                <div class="product-info">
+                    <h3>Iphone 16 Pro Max</h3>
+                    <p class="product-cat">Công Nghệ / ĐT Cũ</p>
+                    <div class="product-price">
+                        <span class="price-new">8.200.000đ</span>
+                        <span class="price-old">10.800.000đ</span>
+                    </div>
+                    <a href="#order" class="btn-buy">Liên Hệ Mua</a>
+                </div>
+            </div>
+
+            <!-- Sản phẩm 5 -->
+            <div class="product-card">
+                <div class="product-img">
+                    <img src="~/images/tulanhLG.jpg" alt="Tủ Lạnh LG Inverter" />
+                    <div class="product-badge sale">Giá Tốt</div>
+                </div>
+                <div class="product-info">
+                    <h3>Tủ Lạnh LG Inverter</h3>
+                    <p class="product-cat">Gia Dụng / Tủ Lạnh</p>
+                    <div class="product-price">
+                        <span class="price-new">6.400.000đ</span>
+                        <span class="price-old">8.400.000đ</span>
+                    </div>
+                    <a href="#order" class="btn-buy">Liên Hệ Mua</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- VÌ SAO CHỌN -->
+    <section class="why" id="why">
+        <div class="section-header">
+            <h2>Tại Sao Chọn <span>RetroLife?</span></h2>
+            <p>Giải pháp mua bán đồ cũ an tâm - tiết kiệm - nhanh chóng</p>
+        </div>
+        <div class="why-grid">
+            <div class="why-card">
+                <div class="why-icon">🔍</div>
+                <h3>Định Giá Minh Bạch</h3>
+                <p>Hỗ trợ kiểm định nghiêm ngặt, đảm bảo mức giá đúng với giá trị và độ mới thực tế của sản phẩm.</p>
+            </div>
+            <div class="why-card">
+                <div class="why-icon">💰</div>
+                <h3>Tiết Kiệm Tối Đa</h3>
+                <p>Sở hữu những món đồ hiệu, đồ chất lượng cao với chi phí tối ưu giảm tới 50% - 80% so với mua mới.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ĐẶT HÀNG / KÝ GỬI -->
+    <section class="order" id="order">
+        <div class="order-content">
+            <div class="section-header">
+                <h2>Đăng Ký <span>Mua Hàng / Ký Gửi</span></h2>
+                <p>Để lại thông tin chi tiết về sản phẩm để nhận phản hồi định giá nhanh nhất</p>
+            </div>
+            <div class="order-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label><i class="fa-solid fa-user"></i> Họ và Tên</label>
+                        <input type="text" id="name" placeholder="Nhập họ tên của bạn" />
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fa-solid fa-phone"></i> Số Điện Thoại</label>
+                        <input type="tel" id="phone" placeholder="Nhập số điện thoại" />
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label><i class="fa-solid fa-layer-group"></i> Bạn muốn?</label>
+                        <select id="request-type">
+                            <option value="kygui">Tôi muốn ký gửi thanh lý đồ cũ</option>
+                            <option value="muahang">Tôi muốn đặt mua sản phẩm</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fa-solid fa-list"></i> Danh mục sản phẩm</label>
+                        <select id="category">
+                            <option value="congnghe">Đồ Công Nghệ</option>
+                            <option value="thoitrang">Thời Trang & Phụ Kiện</option>
+                            <option value="giadung">Đồ Gia Dụng</option>
+                            <option value="noithat">Đồ Nội Thất</option>
+                            <option value="decor">Đồ Trang Trí Nhà</option>
+                            <option value="xecu">Các Loại Xe Cũ</option>
+                            <option value="nhaccu">Nhạc Cụ Lướt</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label><i class="fa-solid fa-pen-to-square"></i> Mô tả tình trạng món đồ</label>
+                    <textarea id="note" rows="4" placeholder="Ví dụ: Áo khoác Denim size L còn mới 95%, không rách, muốn ký gửi giá 200k..."></textarea>
+                </div>
+
+                <button class="btn-submit" onclick="submitOrder()">Gửi Yêu Cầu Hệ Thống</button>
+                <p id="form-message" class="form-message"></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p>© 2026 RetroLife. Hệ thống kết nối ký gửi và thanh lý hàng cũ chuyên nghiệp.</p>
+        </div>
+    </footer>
+    <script src="/Scripts/script.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const btnLeft = document.getElementById("btn-slide-left");
+            const btnRight = document.getElementById("btn-slide-right");
+            const carousel = document.getElementById("carousel-new-products");
+
+            if (btnLeft && btnRight && carousel)
+            {
+                const scrollAmount = 300;
+
+                btnLeft.addEventListener("click", function (e) {
+                    e.preventDefault();
+                    carousel.scrollBy({
+                        left: -scrollAmount,
+                        behavior: "smooth"
+                    });
+                });
+
+                btnRight.addEventListener("click", function (e) {
+                    e.preventDefault();
+                    carousel.scrollBy({
+                        left: scrollAmount,
+                        behavior: "smooth"
+                    });
+                });
+            } else {
+                console.error("Không tìm thấy các phần tử Slider, check lại ID!");
+            }
+        });
+    </script>
+</body>
+</html>

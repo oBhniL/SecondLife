@@ -85,6 +85,7 @@ namespace SecondLife.Controllers
 
                 if (result.Succeeded)
                 {
+                    UserManager.AddToRole(user.Id, "User");
                     await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
                     TempData["ThongBao"] = "Đăng ký thành công! Chào mừng bạn đến với SecondLife.";
                     return RedirectToAction("Index", "Home");
@@ -126,10 +127,14 @@ namespace SecondLife.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
-                    if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
-                        return Redirect(returnUrl);
+                    var nd = UserManager.FindByEmail(model.Email);
+                    if (nd != null && UserManager.IsInRole(nd.Id, "Admin"))
+                    {
+                        TempData["ThongBao"] = "Chào Admin!";
+                        return RedirectToAction("Index", "Admin");
+                    }
+                    TempData["ThongBao"] = "Đăng nhập thành công!";
                     return RedirectToAction("Index", "Home");
-
                 case SignInStatus.LockedOut:
                     ModelState.AddModelError("", "Tài khoản đã bị khóa do đăng nhập sai quá nhiều lần. Vui lòng thử lại sau.");
                     return View(model);

@@ -1,0 +1,481 @@
+﻿@model List<SecondLife.Models.ApplicationUser>
+@using SecondLife.Models
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    ViewBag.Title = "Duyệt xác thực";
+    ViewBag.Tab = "xt";
+    string loc = ViewBag.Loc as string ?? "DangCho";
+}
+
+<style>
+    .tab-loc {
+        display: flex;
+        gap: 8px;
+        margin-bottom: 20px;
+    }
+
+        .tab-loc a {
+            padding: 9px 18px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: .87rem;
+            font-weight: 600;
+            background: #132437;
+            border: 1px solid #1e3a52;
+            color: #8fa3b8;
+        }
+
+            .tab-loc a:hover {
+                border-color: #2ec4b6;
+                color: #2ec4b6;
+            }
+
+            .tab-loc a.on {
+                background: #2ec4b6;
+                border-color: #2ec4b6;
+                color: #0d1b2a;
+            }
+
+    .hs-item {
+        padding: 20px;
+        border-bottom: 1px solid #1a2f45;
+    }
+
+        .hs-item:last-child {
+            border-bottom: none;
+        }
+
+        .hs-item:hover {
+            background: #16283d;
+        }
+
+    .hs-top {
+        display: flex;
+        align-items: flex-start;
+        gap: 14px;
+        margin-bottom: 16px;
+    }
+
+    .hs-avatar {
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        background: #2ec4b6;
+        color: #0d1b2a;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 1.1rem;
+        flex-shrink: 0;
+        overflow: hidden;
+    }
+
+        .hs-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+    .hs-ten {
+        font-weight: 600;
+        font-size: 1rem;
+        color: #e0e6ed;
+    }
+
+    .hs-mail {
+        color: #8fa3b8;
+        font-size: .82rem;
+        margin-top: 3px;
+    }
+
+    .hs-info {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 16px;
+        font-size: .8rem;
+        color: #5c7086;
+        margin-top: 8px;
+    }
+
+        .hs-info span i {
+            color: #2ec4b6;
+            margin-right: 5px;
+        }
+
+    .cccd-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
+        margin-bottom: 16px;
+        max-width: 620px;
+    }
+
+    .cccd-box {
+        background: #0d1b2a;
+        border: 1px solid #1e3a52;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+        .cccd-box .lb {
+            padding: 8px 12px;
+            font-size: .75rem;
+            color: #8fa3b8;
+            border-bottom: 1px solid #1e3a52;
+        }
+
+        .cccd-box img {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+            display: block;
+            cursor: pointer;
+        }
+
+    .cccd-trong {
+        height: 160px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #5c7086;
+        font-size: .8rem;
+    }
+
+    .ly-do {
+        background: #3d1f1f;
+        border-left: 3px solid #ff6b6b;
+        padding: 12px 14px;
+        border-radius: 8px;
+        font-size: .85rem;
+        margin-bottom: 14px;
+        max-width: 620px;
+    }
+
+    .badge {
+        padding: 4px 11px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 600;
+    }
+
+    .modal-nen {
+        position: fixed;
+        inset: 0;
+        background: rgba(5,12,22,.8);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
+        backdrop-filter: blur(3px);
+    }
+
+        .modal-nen.hien {
+            display: flex;
+        }
+
+    .modal-hop {
+        background: #132437;
+        border: 1px solid #1e3a52;
+        border-radius: 14px;
+        padding: 28px;
+        width: 430px;
+        max-width: 92vw;
+        box-shadow: 0 20px 60px rgba(0,0,0,.55);
+        animation: hienLen .2s ease;
+    }
+
+    @@keyframes hienLen {
+        from {
+            opacity: 0;
+            transform: scale(.94);
+        }
+
+        to {
+            opacity: 1;
+            transform: scale(1);
+        }
+    }
+
+    .modal-icon {
+        width: 56px;
+        height: 56px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 24px;
+        margin: 0 auto 16px;
+    }
+
+    .modal-hop h3 {
+        margin: 0 0 10px;
+        text-align: center;
+        font-size: 1.15rem;
+        color: #e0e6ed;
+    }
+
+    .modal-hop p {
+        margin: 0 0 20px;
+        text-align: center;
+        color: #8fa3b8;
+        font-size: .9rem;
+        line-height: 1.55;
+    }
+
+        .modal-hop p strong {
+            color: #2ec4b6;
+        }
+
+    .modal-nut {
+        display: flex;
+        gap: 10px;
+        margin-top: 20px;
+    }
+
+        .modal-nut > * {
+            flex: 1;
+            text-align: center;
+            padding: 11px;
+        }
+
+    .modal-lb {
+        display: block;
+        margin-bottom: 7px;
+        color: #8fa3b8;
+        font-size: .83rem;
+    }
+
+    .anh-to-nen {
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,.92);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 10000;
+    }
+
+        .anh-to-nen.hien {
+            display: flex;
+        }
+
+        .anh-to-nen img {
+            max-width: 92vw;
+            max-height: 92vh;
+            border-radius: 8px;
+        }
+
+    @@media (max-width: 700px) {
+        .cccd-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+
+<h2>Duyệt xác thực người bán</h2>
+
+<div class="tab-loc">
+    <a href="@Url.Action("DuyetXacThuc", new { loc = "DangCho" })" class="@(loc == "DangCho" ? "on" : "")">Chờ duyệt</a>
+    <a href="@Url.Action("DuyetXacThuc", new { loc = "DaDuyet" })" class="@(loc == "DaDuyet" ? "on" : "")">Đã duyệt</a>
+    <a href="@Url.Action("DuyetXacThuc", new { loc = "TuChoi" })" class="@(loc == "TuChoi" ? "on" : "")">Từ chối</a>
+</div>
+
+<div class="card" style="padding:0; overflow:hidden;">
+    @if (Model.Any())
+    {
+        foreach (var nd in Model)
+        {
+            string mau, chu;
+            switch (nd.TinhTrangXacThuc)
+            {
+                case TrangThaiXacThuc.DaDuyet: mau = "#2ec4b6"; chu = "Đã duyệt"; break;
+                case TrangThaiXacThuc.DangCho: mau = "#f0b429"; chu = "Chờ duyệt"; break;
+                case TrangThaiXacThuc.TuChoi: mau = "#ff6b6b"; chu = "Từ chối"; break;
+                default: mau = "#4a5c6f"; chu = "Chưa nộp"; break;
+            }
+
+            <div class="hs-item">
+                <div class="hs-top">
+                    <div class="hs-avatar">
+                        @if (!string.IsNullOrEmpty(nd.AnhDaiDien))
+                        {
+                            <img src="@Url.Content(nd.AnhDaiDien)" alt="avatar" />
+                        }
+                        else
+                        {
+                            @(string.IsNullOrEmpty(nd.HoTen) ? "?" : nd.HoTen.Substring(0, 1).ToUpper())
+                        }
+                    </div>
+                    <div style="flex:1; min-width:0;">
+                        <div class="hs-ten">@nd.HoTen</div>
+                        <div class="hs-mail">@nd.Email</div>
+                        <div class="hs-info">
+                            <span><i class="fa-solid fa-id-card"></i>CCCD: @(string.IsNullOrEmpty(nd.SoCCCD) ? "—" : nd.SoCCCD)</span>
+                            <span><i class="fa-solid fa-phone"></i>@(string.IsNullOrEmpty(nd.PhoneNumber) ? "—" : nd.PhoneNumber)</span>
+                            @if (nd.NgayNopXacThuc.HasValue)
+                            {
+                                <span><i class="fa-solid fa-clock"></i>Nộp: @nd.NgayNopXacThuc.Value.ToString("dd/MM/yyyy HH:mm")</span>
+                            }
+                        </div>
+                    </div>
+                    <span class="badge" style="background:@mau; color:#0d1b2a;">@chu</span>
+                </div>
+
+                @if (nd.TinhTrangXacThuc == TrangThaiXacThuc.TuChoi && !string.IsNullOrEmpty(nd.LyDoTuChoi))
+                {
+                    <div class="ly-do">
+                        <strong style="color:#ff6b6b;">Lý do từ chối:</strong> @nd.LyDoTuChoi
+                    </div>
+                }
+
+                <div class="cccd-grid">
+                    <div class="cccd-box">
+                        <div class="lb">CCCD mặt trước</div>
+                        @if (!string.IsNullOrEmpty(nd.AnhCCCDMatTruoc))
+                        {
+                            <img src="@Url.Content(nd.AnhCCCDMatTruoc)" onclick="xemAnh(this.src)" alt="mặt trước" />
+                        }
+                        else
+                        {
+                            <div class="cccd-trong">Chưa có ảnh</div>
+                        }
+                    </div>
+                    <div class="cccd-box">
+                        <div class="lb">CCCD mặt sau</div>
+                        @if (!string.IsNullOrEmpty(nd.AnhCCCDMatSau))
+                        {
+                            <img src="@Url.Content(nd.AnhCCCDMatSau)" onclick="xemAnh(this.src)" alt="mặt sau" />
+                        }
+                        else
+                        {
+                            <div class="cccd-trong">Chưa có ảnh</div>
+                        }
+                    </div>
+                </div>
+
+                <div style="display:flex; gap:10px;">
+                    @if (nd.TinhTrangXacThuc == TrangThaiXacThuc.DangCho)
+                    {
+                        <button type="button" class="btn btn-xanh"
+                                onclick="moDuyet('@nd.Id', '@Html.Raw(nd.HoTen.Replace("'", "\\'"))')">
+                            <i class="fa-solid fa-check"></i> Duyệt hồ sơ
+                        </button>
+                        <button type="button" class="btn btn-do"
+                                onclick="moTuChoi('@nd.Id', '@Html.Raw(nd.HoTen.Replace("'", "\\'"))')">
+                            <i class="fa-solid fa-xmark"></i> Từ chối
+                        </button>
+                    }
+                    else if (nd.TinhTrangXacThuc == TrangThaiXacThuc.TuChoi)
+                    {
+                        <button type="button" class="btn btn-xanh"
+                                onclick="moDuyet('@nd.Id', '@Html.Raw(nd.HoTen.Replace("'", "\\'"))')">
+                            <i class="fa-solid fa-rotate-left"></i> Duyệt lại
+                        </button>
+                    }
+                    else if (nd.TinhTrangXacThuc == TrangThaiXacThuc.DaDuyet)
+                    {
+                        <button type="button" class="btn btn-do"
+                                onclick="moTuChoi('@nd.Id', '@Html.Raw(nd.HoTen.Replace("'", "\\'"))')">
+                            <i class="fa-solid fa-ban"></i> Thu hồi xác thực
+                        </button>
+                    }
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        <div class="rong">
+            <i class="fa-solid fa-id-card"></i>
+            @if (loc == "DangCho")
+            {
+                <text>Không có hồ sơ nào đang chờ duyệt.</text>
+            }
+            else
+            {
+                <text>Không có hồ sơ nào trong mục này.</text>
+            }
+        </div>
+    }
+</div>
+
+<!-- MODAL DUYỆT -->
+<div class="modal-nen" id="modalDuyet">
+    <div class="modal-hop">
+        <div class="modal-icon" style="background:rgba(46,196,182,.14); color:#2ec4b6;">
+            <i class="fa-solid fa-user-check"></i>
+        </div>
+        <h3>Xác nhận duyệt hồ sơ</h3>
+        <p id="duyetNoiDung"></p>
+        <form action="@Url.Action("DuyetCCCD", "Admin")" method="post">
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="id" id="duyetId" />
+            <div class="modal-nut">
+                <button type="button" class="btn btn-xam" onclick="dong('modalDuyet')">Hủy bỏ</button>
+                <button type="submit" class="btn btn-xanh">Duyệt hồ sơ</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- MODAL TỪ CHỐI -->
+<div class="modal-nen" id="modalTuChoi">
+    <div class="modal-hop">
+        <div class="modal-icon" style="background:rgba(255,107,107,.14); color:#ff6b6b;">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+        </div>
+        <h3>Từ chối hồ sơ</h3>
+        <p id="tuChoiNoiDung"></p>
+        <form action="@Url.Action("TuChoiCCCD", "Admin")" method="post">
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="id" id="tuChoiId" />
+            <label class="modal-lb">Lý do từ chối</label>
+            <input type="text" name="lyDo" class="inp" placeholder="VD: Ảnh CCCD bị mờ, không đọc được" maxlength="200" />
+            <div class="modal-nut">
+                <button type="button" class="btn btn-xam" onclick="dong('modalTuChoi')">Hủy bỏ</button>
+                <button type="submit" class="btn btn-do">Xác nhận</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- XEM ẢNH TO -->
+<div class="anh-to-nen" id="anhTo" onclick="this.classList.remove('hien')">
+    <img id="anhToSrc" src="" alt="" />
+</div>
+
+<script>
+    function moDuyet(id, ten) {
+        document.getElementById("duyetId").value = id;
+        document.getElementById("duyetNoiDung").innerHTML =
+            "Duyệt hồ sơ của <strong>" + ten + "</strong>? Người này sẽ được phép đăng bán sản phẩm.";
+        document.getElementById("modalDuyet").classList.add("hien");
+    }
+    function moTuChoi(id, ten) {
+        document.getElementById("tuChoiId").value = id;
+        document.getElementById("tuChoiNoiDung").innerHTML =
+            "Từ chối hồ sơ của <strong>" + ten + "</strong>? Người này sẽ không thể đăng bán.";
+        document.getElementById("modalTuChoi").classList.add("hien");
+    }
+    function dong(id) {
+        document.getElementById(id).classList.remove("hien");
+    }
+    function xemAnh(src) {
+        document.getElementById("anhToSrc").src = src;
+        document.getElementById("anhTo").classList.add("hien");
+    }
+
+    ["modalDuyet", "modalTuChoi"].forEach(function (id) {
+        document.getElementById(id).addEventListener("click", function (e) {
+            if (e.target === this) this.classList.remove("hien");
+        });
+    });
+    document.addEventListener("keydown", function (e) {
+        if (e.key === "Escape") {
+            document.querySelectorAll(".modal-nen, .anh-to-nen").forEach(function (m) {
+                m.classList.remove("hien");
+            });
+        }
+    });
+</script>

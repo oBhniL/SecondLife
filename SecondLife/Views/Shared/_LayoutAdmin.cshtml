@@ -1,0 +1,352 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewBag.Title - Quản trị RetroLife</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: #0d1b2a;
+            color: #e0e6ed;
+            font-family: 'Segoe UI',sans-serif;
+        }
+
+        .ad-header {
+            background: #132437;
+            padding: 14px 28px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #1e3a52;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .ad-logo {
+            color: #2ec4b6;
+            font-size: 20px;
+            font-weight: 700;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+            .ad-logo span {
+                background: #2ec4b6;
+                color: #0d1b2a;
+                font-size: 11px;
+                padding: 2px 8px;
+                border-radius: 4px;
+            }
+
+        .ad-user {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            font-size: 14px;
+        }
+
+            .ad-user a {
+                color: #8fa3b8;
+                text-decoration: none;
+            }
+
+                .ad-user a:hover {
+                    color: #2ec4b6;
+                }
+
+        .ad-wrap {
+            display: flex;
+            gap: 0;
+            min-height: calc(100vh - 57px);
+        }
+
+        .ad-side {
+            width: 230px;
+            background: #132437;
+            padding: 18px 12px;
+            border-right: 1px solid #1e3a52;
+            flex-shrink: 0;
+        }
+
+        .ad-menu a {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            padding: 11px 14px;
+            margin-bottom: 4px;
+            color: #c5d1de;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+            .ad-menu a:hover {
+                background: #1b3350;
+                color: #2ec4b6;
+            }
+
+            .ad-menu a.active {
+                background: #2ec4b6;
+                color: #0d1b2a;
+                font-weight: 600;
+            }
+
+            .ad-menu a i {
+                width: 17px;
+                text-align: center;
+            }
+
+        .ad-menu-title {
+            font-size: 11px;
+            color: #5c7086;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 14px 14px 8px;
+        }
+
+        .ad-count {
+            margin-left: auto;
+            background: #ff6b6b;
+            color: #fff;
+            font-size: 11px;
+            padding: 2px 7px;
+            border-radius: 10px;
+            font-weight: 600;
+        }
+
+        .ad-menu a.active .ad-count {
+            background: #0d1b2a;
+            color: #2ec4b6;
+        }
+
+        .ad-main {
+            flex: 1;
+            padding: 26px 32px;
+            min-width: 0;
+        }
+
+            .ad-main h2 {
+                margin: 0 0 22px;
+                color: #2ec4b6;
+                font-size: 1.5rem;
+            }
+
+        .toast-thongbao {
+            position: fixed;
+            top: 75px;
+            right: 24px;
+            z-index: 9999;
+            background: #2ec4b6;
+            color: #0d1b2a;
+            padding: 14px 22px;
+            border-radius: 10px;
+            font-weight: 600;
+            box-shadow: 0 8px 24px rgba(0,0,0,.3);
+        }
+
+        .toast-loi {
+            position: fixed;
+            top: 75px;
+            right: 24px;
+            z-index: 9999;
+            background: #ff6b6b;
+            color: #fff;
+            padding: 14px 22px;
+            border-radius: 10px;
+            font-weight: 600;
+            box-shadow: 0 8px 24px rgba(0,0,0,.3);
+        }
+
+        .card {
+            background: #132437;
+            border: 1px solid #1e3a52;
+            border-radius: 12px;
+            padding: 22px;
+            margin-bottom: 20px;
+        }
+
+        .tbl {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+            .tbl th {
+                text-align: left;
+                padding: 12px 14px;
+                color: #8fa3b8;
+                font-size: 12px;
+                text-transform: uppercase;
+                letter-spacing: .5px;
+                border-bottom: 1px solid #1e3a52;
+                font-weight: 600;
+            }
+
+            .tbl td {
+                padding: 14px;
+                border-bottom: 1px solid #1a2f45;
+                font-size: 14px;
+            }
+
+            .tbl tr:last-child td {
+                border-bottom: none;
+            }
+
+            .tbl tr:hover td {
+                background: #16283d;
+            }
+
+        .btn {
+            border: none;
+            padding: 8px 16px;
+            border-radius: 7px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 13px;
+            font-family: inherit;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-xanh {
+            background: #2ec4b6;
+            color: #0d1b2a;
+        }
+
+            .btn-xanh:hover {
+                background: #25a99d;
+            }
+
+        .btn-do {
+            background: #ff6b6b;
+            color: #fff;
+        }
+
+            .btn-do:hover {
+                background: #e55c5c;
+            }
+
+        .btn-xam {
+            background: transparent;
+            color: #8fa3b8;
+            border: 1px solid #1e3a52;
+        }
+
+            .btn-xam:hover {
+                color: #2ec4b6;
+                border-color: #2ec4b6;
+            }
+
+        .btn-nho {
+            padding: 6px 12px;
+            font-size: 12px;
+        }
+
+        .inp {
+            width: 100%;
+            padding: 10px 14px;
+            background: #0d1b2a;
+            border: 1px solid #1e3a52;
+            border-radius: 8px;
+            color: #e0e6ed;
+            font-size: 14px;
+            font-family: inherit;
+        }
+
+            .inp:focus {
+                outline: none;
+                border-color: #2ec4b6;
+            }
+
+        .rong {
+            text-align: center;
+            padding: 50px 20px;
+            color: #8fa3b8;
+        }
+
+            .rong i {
+                font-size: 2.4rem;
+                color: #2ec4b6;
+                display: block;
+                margin-bottom: 14px;
+            }
+    </style>
+</head>
+<body>
+    @if (TempData["ThongBao"] != null)
+    {
+        <div class="toast-thongbao" id="toastOk">@TempData["ThongBao"]</div>
+    }
+    @if (TempData["Loi"] != null)
+    {
+        <div class="toast-loi" id="toastLoi">@TempData["Loi"]</div>
+    }
+
+    <div class="ad-header">
+        <a href="@Url.Action("Index", "Admin")" class="ad-logo">
+            RetroLife <span>ADMIN</span>
+        </a>
+        <div class="ad-user">
+            <span>@User.Identity.Name</span>
+            <a href="@Url.Action("Index", "Home")"><i class="fa-solid fa-house"></i> Trang chủ</a>
+            <a href="@Url.Action("LogOut", "Home")" style="color:#ff6b6b;"><i class="fa-solid fa-right-from-bracket"></i> Đăng xuất</a>
+        </div>
+    </div>
+
+    <div class="ad-wrap">
+        <div class="ad-side">
+            <div class="ad-menu">
+                <a href="@Url.Action("Index", "Admin")" class="@(ViewBag.Tab == "dash" ? "active" : "")">
+                    <i class="fa-solid fa-gauge"></i> Tổng quan
+                </a>
+
+                <div class="ad-menu-title">Kiểm duyệt</div>
+                <a href="@Url.Action("DuyetTin", "Admin")" class="@(ViewBag.Tab == "tin" ? "active" : "")">
+                    <i class="fa-solid fa-clipboard-check"></i> Duyệt tin đăng
+                    @if (ViewBag.SoTinCho != null && ViewBag.SoTinCho > 0)
+                    {
+                        <span class="ad-count">@ViewBag.SoTinCho</span>
+                    }
+                </a>
+                <a href="@Url.Action("DuyetXacThuc", "Admin")" class="@(ViewBag.Tab == "xt" ? "active" : "")">
+                    <i class="fa-solid fa-id-card"></i> Duyệt xác thực
+                    @if (ViewBag.SoXacThucCho != null && ViewBag.SoXacThucCho > 0)
+                    {
+                        <span class="ad-count">@ViewBag.SoXacThucCho</span>
+                    }
+                </a>
+
+                <div class="ad-menu-title">Quản lý</div>
+                <a href="@Url.Action("DanhMuc", "Admin")" class="@(ViewBag.Tab == "dm" ? "active" : "")">
+                    <i class="fa-solid fa-layer-group"></i> Danh mục
+                </a>
+                <a href="@Url.Action("NguoiDung", "Admin")" class="@(ViewBag.Tab == "nd" ? "active" : "")">
+                    <i class="fa-solid fa-users"></i> Người dùng
+                </a>
+                <a href="@Url.Action("DonHang", "Admin")" class="@(ViewBag.Tab == "dh" ? "active" : "")">
+                    <i class="fa-solid fa-receipt"></i> Đơn hàng
+                </a>
+            </div>
+        </div>
+
+        <div class="ad-main">
+            @RenderBody()
+        </div>
+    </div>
+
+    <script>
+        ["toastOk", "toastLoi"].forEach(function (id) {
+            var t = document.getElementById(id);
+            if (t) setTimeout(function () { t.style.display = "none"; }, 3000);
+        });
+    </script>
+</body>
+</html>

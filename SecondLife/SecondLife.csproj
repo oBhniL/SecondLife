@@ -155,6 +155,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ProfileController.cs" />
     <Compile Include="Global.asax.cs">
@@ -263,6 +264,13 @@
     <Content Include="Views\Shared\_LayoutProfile.cshtml" />
     <Content Include="Views\Profile\ChinhSua.cshtml" />
     <Content Include="Views\Profile\DoiMatKhau.cshtml" />
+    <Content Include="Views\Shared\_LayoutAdmin.cshtml" />
+    <Content Include="Views\Admin\DanhMuc.cshtml" />
+    <Content Include="Views\Admin\Index.cshtml" />
+    <Content Include="Views\Admin\DuyetTin.cshtml" />
+    <Content Include="Views\Admin\DuyetXacThuc.cshtml" />
+    <Content Include="Views\Admin\NguoiDung.cshtml" />
+    <Content Include="Views\Admin\DonHang.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

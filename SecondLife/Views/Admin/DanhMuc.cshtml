@@ -1,0 +1,138 @@
+﻿@model List<SecondLife.Models.Category>
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    ViewBag.Title = "Quản lý danh mục";
+    ViewBag.Tab = "dm";
+    var demSP = ViewBag.DemSP as Dictionary<int, int> ?? new Dictionary<int, int>();
+}
+
+<style>
+    .dm-form {
+        display: flex;
+        gap: 12px;
+        align-items: flex-end;
+    }
+
+        .dm-form .inp {
+            flex: 1;
+        }
+
+    .form-lb {
+        display: block;
+        margin-bottom: 6px;
+        color: #8fa3b8;
+        font-size: 13px;
+    }
+
+    .dm-ten-inp {
+        background: #0d1b2a;
+        border: 1px solid #2ec4b6;
+        border-radius: 6px;
+        color: #e0e6ed;
+        padding: 6px 10px;
+        font-size: 14px;
+        width: 100%;
+        font-family: inherit;
+    }
+
+    .so-sp {
+        background: #1b3350;
+        color: #2ec4b6;
+        padding: 3px 10px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 600;
+    }
+</style>
+
+<h2>Quản lý danh mục</h2>
+
+<div class="card">
+    @using (Html.BeginForm("ThemDanhMuc", "Admin", FormMethod.Post, new { @class = "dm-form" }))
+    {
+        @Html.AntiForgeryToken()
+        <div style="flex:1;">
+            <label class="form-lb">Tên danh mục mới</label>
+            <input type="text" name="TenDanhMuc" class="inp" placeholder="VD: Đồ công nghệ" required maxlength="100" />
+        </div>
+        <button type="submit" class="btn btn-xanh" style="padding:11px 22px;">
+            <i class="fa-solid fa-plus"></i> Thêm danh mục
+        </button>
+    }
+</div>
+
+<div class="card" style="padding:0;">
+    @if (Model.Any())
+    {
+        <table class="tbl">
+            <thead>
+                <tr>
+                    <th style="width:70px;">Mã</th>
+                    <th>Tên danh mục</th>
+                    <th style="width:130px;">Số sản phẩm</th>
+                    <th style="width:210px;">Thao tác</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var dm in Model)
+                {
+                    <tr id="row-@dm.MaDanhMuc">
+                        <td style="color:#5c7086;">#@dm.MaDanhMuc</td>
+                        <td>
+                            <span id="ten-@dm.MaDanhMuc">@dm.TenDanhMuc</span>
+                            <form action="@Url.Action("SuaDanhMuc", "Admin")" method="post" id="frm-@dm.MaDanhMuc" style="display:none;">
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="MaDanhMuc" value="@dm.MaDanhMuc" />
+                                <input type="text" name="TenDanhMuc" value="@dm.TenDanhMuc" class="dm-ten-inp" required />
+                            </form>
+                        </td>
+                        <td>
+                            <span class="so-sp">@(demSP.ContainsKey(dm.MaDanhMuc) ? demSP[dm.MaDanhMuc] : 0)</span>
+                        </td>
+                        <td>
+                            <div id="nut-xem-@dm.MaDanhMuc" style="display:flex; gap:8px;">
+                                <button type="button" class="btn btn-xam btn-nho" onclick="batSua(@dm.MaDanhMuc)">
+                                    <i class="fa-solid fa-pen"></i> Sửa
+                                </button>
+                                <form action="@Url.Action("XoaDanhMuc", "Admin")" method="post"
+                                      onsubmit="return confirm('Xóa danh mục &quot;@dm.TenDanhMuc&quot;?');" style="display:inline;">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="id" value="@dm.MaDanhMuc" />
+                                    <button type="submit" class="btn btn-do btn-nho">
+                                        <i class="fa-solid fa-trash"></i> Xóa
+                                    </button>
+                                </form>
+                            </div>
+                            <div id="nut-sua-@dm.MaDanhMuc" style="display:none; gap:8px;">
+                                <button type="submit" form="frm-@dm.MaDanhMuc" class="btn btn-xanh btn-nho">Lưu</button>
+                                <button type="button" class="btn btn-xam btn-nho" onclick="huySua(@dm.MaDanhMuc)">Hủy</button>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <div class="rong">
+            <i class="fa-solid fa-layer-group"></i>
+            Chưa có danh mục nào. Thêm danh mục đầu tiên ở trên.
+        </div>
+    }
+</div>
+
+<script>
+    function batSua(id) {
+        document.getElementById("ten-" + id).style.display = "none";
+        document.getElementById("frm-" + id).style.display = "block";
+        document.getElementById("nut-xem-" + id).style.display = "none";
+        document.getElementById("nut-sua-" + id).style.display = "flex";
+    }
+    function huySua(id) {
+        document.getElementById("ten-" + id).style.display = "inline";
+        document.getElementById("frm-" + id).style.display = "none";
+        document.getElementById("nut-xem-" + id).style.display = "flex";
+        document.getElementById("nut-sua-" + id).style.display = "none";
+    }
+</script>

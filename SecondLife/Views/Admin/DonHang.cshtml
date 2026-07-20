@@ -1,0 +1,129 @@
+﻿@model List<SecondLife.Models.Order>
+@using SecondLife.Models
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    ViewBag.Title = "Quản lý đơn hàng";
+    ViewBag.Tab = "dh";
+}
+
+<style>
+    .tk-grid {
+        display: grid;
+        grid-template-columns: repeat(4,1fr);
+        gap: 14px;
+        margin-bottom: 20px;
+    }
+
+    .tk-box {
+        background: #132437;
+        border: 1px solid #1e3a52;
+        border-radius: 11px;
+        padding: 16px 18px;
+    }
+
+        .tk-box .num {
+            font-size: 1.5rem;
+            font-weight: 700;
+            line-height: 1;
+        }
+
+        .tk-box .lb {
+            color: #8fa3b8;
+            font-size: .78rem;
+            margin-top: 6px;
+        }
+
+    .badge {
+        padding: 4px 11px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 600;
+        white-space: nowrap;
+    }
+
+    @@media (max-width: 900px) {
+        .tk-grid {
+            grid-template-columns: repeat(2,1fr);
+        }
+    }
+</style>
+
+<h2>Quản lý đơn hàng</h2>
+
+@{
+    int soChoXacNhan = Model.Count(o => o.TrangThai == TrangThaiDonHang.ChoXacNhan);
+    int soDangGiao = Model.Count(o => o.TrangThai == TrangThaiDonHang.DangGiao);
+    int soHoanTat = Model.Count(o => o.TrangThai == TrangThaiDonHang.HoanTat);
+    decimal doanhThu = Model.Where(o => o.TrangThai == TrangThaiDonHang.HoanTat).Sum(o => (decimal?)o.TongTien) ?? 0;
+}
+
+<div class="tk-grid">
+    <div class="tk-box">
+        <div class="num" style="color:#f0b429;">@soChoXacNhan</div>
+        <div class="lb">Chờ xác nhận</div>
+    </div>
+    <div class="tk-box">
+        <div class="num" style="color:#6c8ebf;">@soDangGiao</div>
+        <div class="lb">Đang giao</div>
+    </div>
+    <div class="tk-box">
+        <div class="num" style="color:#2ec4b6;">@soHoanTat</div>
+        <div class="lb">Hoàn tất</div>
+    </div>
+    <div class="tk-box">
+        <div class="num" style="color:#2ec4b6; font-size:1.15rem;">@doanhThu.ToString("N0")đ</div>
+        <div class="lb">Doanh thu</div>
+    </div>
+</div>
+
+<div class="card" style="padding:0; overflow:hidden;">
+    @if (Model.Any())
+    {
+        <table class="tbl">
+            <thead>
+                <tr>
+                    <th style="width:80px;">Mã đơn</th>
+                    <th style="width:170px;">Người mua</th>
+                    <th>Địa chỉ giao</th>
+                    <th style="width:130px;">Tổng tiền</th>
+                    <th style="width:130px;">Trạng thái</th>
+                    <th style="width:125px;">Ngày đặt</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var dh in Model)
+                {
+                    string mau, chu;
+                    switch (dh.TrangThai)
+                    {
+                        case TrangThaiDonHang.HoanTat: mau = "#2ec4b6"; chu = "Hoàn tất"; break;
+                        case TrangThaiDonHang.DangGiao: mau = "#6c8ebf"; chu = "Đang giao"; break;
+                        case TrangThaiDonHang.ChoXacNhan: mau = "#f0b429"; chu = "Chờ xác nhận"; break;
+                        default: mau = "#ff6b6b"; chu = "Đã hủy"; break;
+                    }
+
+                    <tr>
+                        <td style="color:#5c7086; font-weight:600;">#@dh.MaDonHang</td>
+                        <td>
+                            <div style="color:#e0e6ed;">@(dh.NguoiMua != null ? dh.NguoiMua.HoTen : "—")</div>
+                            <div style="color:#5c7086; font-size:.76rem; margin-top:2px;">@dh.SoDienThoaiLienHe</div>
+                        </td>
+                        <td style="color:#8fa3b8; font-size:13px; max-width:250px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">
+                            @dh.DiaChiGiaoHang
+                        </td>
+                        <td style="color:#2ec4b6; font-weight:700;">@dh.TongTien.ToString("N0")đ</td>
+                        <td><span class="badge" style="background:@mau; color:#0d1b2a;">@chu</span></td>
+                        <td style="color:#5c7086; font-size:13px;">@dh.NgayDatHang.ToString("dd/MM/yyyy HH:mm")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <div class="rong">
+            <i class="fa-solid fa-receipt"></i>
+            Chưa có đơn hàng nào trong hệ thống.
+        </div>
+    }
+</div>

@@ -1,0 +1,161 @@
+﻿@model List<SecondLife.Models.ApplicationUser>
+@using SecondLife.Models
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    ViewBag.Title = "Quản lý người dùng";
+    ViewBag.Tab = "nd";
+    string tuKhoa = ViewBag.TuKhoa as string ?? "";
+}
+
+<style>
+    .tim-form {
+        display: flex;
+        gap: 12px;
+        align-items: flex-end;
+    }
+
+    .form-lb {
+        display: block;
+        margin-bottom: 6px;
+        color: #8fa3b8;
+        font-size: 13px;
+    }
+
+    .nd-avatar {
+        width: 38px;
+        height: 38px;
+        border-radius: 50%;
+        background: #2ec4b6;
+        color: #0d1b2a;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: .95rem;
+        overflow: hidden;
+        flex-shrink: 0;
+    }
+
+        .nd-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+    .nd-o {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .nd-ten {
+        font-weight: 600;
+        color: #e0e6ed;
+    }
+
+    .nd-mail {
+        color: #8fa3b8;
+        font-size: .78rem;
+        margin-top: 2px;
+    }
+
+    .badge {
+        padding: 4px 11px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 600;
+        white-space: nowrap;
+    }
+</style>
+
+<h2>Quản lý người dùng</h2>
+
+<div class="card">
+    @using (Html.BeginForm("NguoiDung", "Admin", FormMethod.Get, new { @class = "tim-form" }))
+    {
+        <div style="flex:1;">
+            <label class="form-lb">Tìm theo tên hoặc email</label>
+            <input type="text" name="tuKhoa" value="@tuKhoa" class="inp" placeholder="Nhập tên hoặc email..." />
+        </div>
+        <button type="submit" class="btn btn-xanh" style="padding:11px 22px;">
+            <i class="fa-solid fa-magnifying-glass"></i> Tìm kiếm
+        </button>
+        @if (!string.IsNullOrEmpty(tuKhoa))
+        {
+            <a href="@Url.Action("NguoiDung", "Admin")" class="btn btn-xam" style="padding:11px 22px;">Xóa lọc</a>
+        }
+    }
+</div>
+
+<div class="card" style="padding:0; overflow:hidden;">
+    <div style="padding:16px 20px; border-bottom:1px solid #1e3a52; color:#8fa3b8; font-size:.85rem;">
+        Tìm thấy <strong style="color:#2ec4b6;">@Model.Count</strong> người dùng
+    </div>
+
+    @if (Model.Any())
+    {
+        <table class="tbl">
+            <thead>
+                <tr>
+                    <th>Người dùng</th>
+                    <th style="width:130px;">Số điện thoại</th>
+                    <th style="width:145px;">Số CCCD</th>
+                    <th style="width:130px;">Xác thực</th>
+                    <th style="width:110px;">Ngày tham gia</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var nd in Model)
+                {
+                    string mau, chu;
+                    switch (nd.TinhTrangXacThuc)
+                    {
+                        case TrangThaiXacThuc.DaDuyet: mau = "#2ec4b6"; chu = "Đã xác thực"; break;
+                        case TrangThaiXacThuc.DangCho: mau = "#f0b429"; chu = "Chờ duyệt"; break;
+                        case TrangThaiXacThuc.TuChoi: mau = "#ff6b6b"; chu = "Từ chối"; break;
+                        default: mau = "#4a5c6f"; chu = "Chưa nộp"; break;
+                    }
+
+                    <tr>
+                        <td>
+                            <div class="nd-o">
+                                <div class="nd-avatar">
+                                    @if (!string.IsNullOrEmpty(nd.AnhDaiDien))
+                                    {
+                                        <img src="@Url.Content(nd.AnhDaiDien)" alt="avatar" />
+                                    }
+                                    else
+                                    {
+                                        @(string.IsNullOrEmpty(nd.HoTen) ? "?" : nd.HoTen.Substring(0, 1).ToUpper())
+                                    }
+                                </div>
+                                <div style="min-width:0;">
+                                    <div class="nd-ten">@nd.HoTen</div>
+                                    <div class="nd-mail">@nd.Email</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td style="color:#8fa3b8;">@(string.IsNullOrEmpty(nd.PhoneNumber) ? "—" : nd.PhoneNumber)</td>
+                        <td style="color:#8fa3b8;">@(string.IsNullOrEmpty(nd.SoCCCD) ? "—" : nd.SoCCCD)</td>
+                        <td><span class="badge" style="background:@mau; color:#0d1b2a;">@chu</span></td>
+                        <td style="color:#5c7086; font-size:13px;">@nd.NgayTao.ToString("dd/MM/yyyy")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <div class="rong">
+            <i class="fa-solid fa-users-slash"></i>
+            @if (!string.IsNullOrEmpty(tuKhoa))
+            {
+                <text>Không tìm thấy người dùng nào khớp với "@tuKhoa".</text>
+            }
+            else
+            {
+                <text>Chưa có người dùng nào.</text>
+            }
+        </div>
+    }
+</div>

@@ -40,7 +40,7 @@
         <div class="nav-menu">
             <a href="#home" class="active">Trang Chủ</a>
             <a href="#categories">Bộ Sưu Tập</a>
-            <a href="#products">Sản Phẩm</a>
+            <a href="#new-products">Sản Phẩm</a>
             <a href="#why">Vì Sao Chọn</a>
             <a href="#order">Ký Gửi / Đặt Hàng</a>
         </div>
@@ -60,7 +60,7 @@
             <h1>Cũ Với Người<br><span>Mới Với Bạn</span></h1>
             <p>Nền tảng mua bán, ký gửi đồ Second Hand uy tín hàng đầu. Nơi giữ lại giá trị của thời gian và mở ra không gian mua sắm tiết kiệm, chất lượng nhất.</p>
             <div class="hero-actions">
-                <a href="#products" class="btn-hero-primary">Khám Phá Ngay</a>
+                <a href="#new-products" class="btn-hero-primary">Khám Phá Ngay</a>
                 <a href="#order" class="btn-hero-secondary">Gửi Đồ Ký Gửi</a>
             </div>
         </div>
@@ -94,18 +94,17 @@
         </div>
     </section>
 
-    <!-- PHẦN DANH MỤC SẢN PHẨM ĐÃ FIX MÀU XANH LÁ VÀ TAG Ô VUÔNG -->
+    <!-- PHẦN DANH MỤC SẢN PHẨM ĐÃ BỌC LINK CHO TOÀN BỘ Ô -->
     <section class="products" id="categories" style="font-family: sans-serif;">
         <div class="section-header">
             <h2>Danh Mục <span>Sản Phẩm Nổi Bật</span></h2>
             <p>Khám phá thế giới đồ cũ được phân loại khoa học, dễ dàng tìm kiếm</p>
         </div>
 
-        <!-- Thêm style ép chia thành 4 cột đều nhau -->
         <div class="products-grid" style="display: grid !important; grid-template-columns: repeat(4, 1fr) !important; gap: 20px !important;">
 
             <!-- 1. Đồ Công Nghệ -->
-            <div class="product-card">
+            <a href="/Product/Category?type=congnghe" class="product-card" style="text-decoration: none; color: inherit; cursor: pointer; display: block;">
                 <div class="product-img">
                     <img src="/images/anh3.jpg" alt="Đồ Công Nghệ" />
                     <div class="product-badge" style="background: #2ec4b6; color: #000; width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center; position: absolute; top: 10px; left: 10px; z-index: 2;">
@@ -119,14 +118,14 @@
                         <span style="background: #f1f3f5; color: #495057; font-size: 0.75rem; padding: 4px 8px; border-radius: 4px;">Máy tính & Laptop</span>
                         <span style="background: #f1f3f5; color: #495057; font-size: 0.75rem; padding: 4px 8px; border-radius: 4px;">Tai nghe</span>
                     </div>
-                    <a href="#" style="color: #2ec4b6; background: #fff; text-decoration: none; font-weight: 600; font-size: 0.85rem; display: inline-flex; align-items: center; border: none; padding: 0;">
+                    <span style="color: #2ec4b6; background: transparent; font-weight: 600; font-size: 0.85rem; display: inline-flex; align-items: center; border: none; padding: 0;">
                         Xem phân loại này <i class="fa-solid fa-arrow-right" style="margin-left: 5px;"></i>
-                    </a>
+                    </span>
                 </div>
-            </div>
+            </a>
 
             <!-- 2. Thời Trang & Phụ Kiện -->
-            <div class="product-card">
+            <a href="/Product/Category?type=thoitrang" class="product-card" style="text-decoration: none; color: inherit; cursor: pointer; display: block;">
                 <div class="product-img">
                     <img src="/images/anh1.jpg" alt="Thời Trang & Phụ Kiện" />
                     <div class="product-badge" style="background: #2ec4b6; color: #000; width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center; position: absolute; top: 10px; left: 10px; z-index: 2;">
@@ -143,14 +142,14 @@
                         <span style="background: #f1f3f5; color: #495057; font-size: 0.75rem; padding: 4px 8px; border-radius: 4px;">Giày dép</span>
                         <span style="background: #f1f3f5; color: #495057; font-size: 0.75rem; padding: 4px 8px; border-radius: 4px;">Trang sức</span>
                     </div>
-                    <a href="#" style="color: #2ec4b6; background: #fff; text-decoration: none; font-weight: 600; font-size: 0.85rem; display: inline-flex; align-items: center; border: none; padding: 0;">
+                    <span style="color: #2ec4b6; background: transparent; font-weight: 600; font-size: 0.85rem; display: inline-flex; align-items: center; border: none; padding: 0;">
                         Xem phân loại này <i class="fa-solid fa-arrow-right" style="margin-left: 5px;"></i>
-                    </a>
+                    </span>
                 </div>
-            </div>
+            </a>
 
             <!-- 3. Đồ Gia Dụng -->
-            <div class="product-card">
+            <a href="/Product/Category?type=giadung" class="product-card" style="text-decoration: none; color: inherit; cursor: pointer; display: block;">
                 <div class="product-img">
                     <img src="/images/anh14.jpg" alt="Đồ Gia Dụng" />
                     <div class="product-badge" style="background: #2ec4b6; color: #000; width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center; position: absolute; top: 10px; left: 10px; z-index: 2;">
@@ -164,14 +163,14 @@
                         <span style="background: #f1f3f5; color: #495057; font-size: 0.75rem; padding: 4px 8px; border-radius: 4px;">Bếp từ</span>
                         <span style="background: #f1f3f5; color: #495057; font-size: 0.75rem; padding: 4px 8px; border-radius: 4px;">Quạt gia đình</span>
                     </div>
-                    <a href="#" style="color: #2ec4b6; background: #fff; text-decoration: none; font-weight: 600; font-size: 0.85rem; display: inline-flex; align-items: center; border: none; padding: 0;">
+                    <span style="color: #2ec4b6; background: transparent; font-weight: 600; font-size: 0.85rem; display: inline-flex; align-items: center; border: none; padding: 0;">
                         Xem phân loại này <i class="fa-solid fa-arrow-right" style="margin-left: 5px;"></i>
-                    </a>
+                    </span>
                 </div>
-            </div>
+            </a>
 
             <!-- 4. Đồ Nội Thất -->
-            <div class="product-card">
+            <a href="/Product/Category?type=noithat" class="product-card" style="text-decoration: none; color: inherit; cursor: pointer; display: block;">
                 <div class="product-img">
                     <img src="/images/anh10.jpg" alt="Đồ Nội Thất" />
                     <div class="product-badge" style="background: #2ec4b6; color: #000; width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center; position: absolute; top: 10px; left: 10px; z-index: 2;">
@@ -185,14 +184,14 @@
                         <span style="background: #f1f3f5; color: #495057; font-size: 0.75rem; padding: 4px 8px; border-radius: 4px;">Bàn làm việc</span>
                         <span style="background: #f1f3f5; color: #495057; font-size: 0.75rem; padding: 4px 8px; border-radius: 4px;">Tủ kệ gỗ</span>
                     </div>
-                    <a href="#" style="color: #2ec4b6; background: #fff; text-decoration: none; font-weight: 600; font-size: 0.85rem; display: inline-flex; align-items: center; border: none; padding: 0;">
+                    <span style="color: #2ec4b6; background: transparent; font-weight: 600; font-size: 0.85rem; display: inline-flex; align-items: center; border: none; padding: 0;">
                         Xem phân loại này <i class="fa-solid fa-arrow-right" style="margin-left: 5px;"></i>
-                    </a>
+                    </span>
                 </div>
-            </div>
+            </a>
 
             <!-- 5. Đồ Trang Trí Nhà -->
-            <div class="product-card">
+            <a href="/Product/Category?type=decor" class="product-card" style="text-decoration: none; color: inherit; cursor: pointer; display: block;">
                 <div class="product-img">
                     <img src="/images/anh9.jpg" alt="Đồ Trang Trí Nhà" />
                     <div class="product-badge" style="background: #2ec4b6; color: #000; width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center; position: absolute; top: 10px; left: 10px; z-index: 2;">
@@ -206,14 +205,14 @@
                         <span style="background: #f1f3f5; color: #495057; font-size: 0.75rem; padding: 4px 8px; border-radius: 4px;">Tranh cổ</span>
                         <span style="background: #f1f3f5; color: #495057; font-size: 0.75rem; padding: 4px 8px; border-radius: 4px;">Đồ sưu tầm</span>
                     </div>
-                    <a href="#" style="color: #2ec4b6; background: #fff; text-decoration: none; font-weight: 600; font-size: 0.85rem; display: inline-flex; align-items: center; border: none; padding: 0;">
+                    <span style="color: #2ec4b6; background: transparent; font-weight: 600; font-size: 0.85rem; display: inline-flex; align-items: center; border: none; padding: 0;">
                         Xem phân loại này <i class="fa-solid fa-arrow-right" style="margin-left: 5px;"></i>
-                    </a>
+                    </span>
                 </div>
-            </div>
+            </a>
 
             <!-- 6. Các Loại Xe Cũ -->
-            <div class="product-card">
+            <a href="/Product/Category?type=xecu" class="product-card" style="text-decoration: none; color: inherit; cursor: pointer; display: block;">
                 <div class="product-img">
                     <img src="/images/anh13.jpg" alt="Các Loại Xe Cũ" />
                     <div class="product-badge" style="background: #2ec4b6; color: #000; width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center; position: absolute; top: 10px; left: 10px; z-index: 2;">
@@ -227,14 +226,14 @@
                         <span style="background: #f1f3f5; color: #495057; font-size: 0.75rem; padding: 4px 8px; border-radius: 4px;">Xe máy</span>
                         <span style="background: #f1f3f5; color: #495057; font-size: 0.75rem; padding: 4px 8px; border-radius: 4px;">Xe đạp thể thao</span>
                     </div>
-                    <a href="#" style="color: #2ec4b6; background: #fff; text-decoration: none; font-weight: 600; font-size: 0.85rem; display: inline-flex; align-items: center; border: none; padding: 0;">
+                    <span style="color: #2ec4b6; background: transparent; font-weight: 600; font-size: 0.85rem; display: inline-flex; align-items: center; border: none; padding: 0;">
                         Xem phân loại này <i class="fa-solid fa-arrow-right" style="margin-left: 5px;"></i>
-                    </a>
+                    </span>
                 </div>
-            </div>
+            </a>
 
             <!-- 7. Nhạc Cụ Lướt -->
-            <div class="product-card">
+            <a href="/Product/Category?type=nhaccu" class="product-card" style="text-decoration: none; color: inherit; cursor: pointer; display: block;">
                 <div class="product-img">
                     <img src="/images/anh12.jpg" alt="Nhạc Cụ Cũ" />
                     <div class="product-badge" style="background: #2ec4b6; color: #000; width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center; position: absolute; top: 10px; left: 10px; z-index: 2;">
@@ -248,14 +247,14 @@
                         <span style="background: #f1f3f5; color: #495057; font-size: 0.75rem; padding: 4px 8px; border-radius: 4px;">Piano cổ điển</span>
                         <span style="background: #f1f3f5; color: #495057; font-size: 0.75rem; padding: 4px 8px; border-radius: 4px;">Dàn trống</span>
                     </div>
-                    <a href="#" style="color: #2ec4b6; background: #fff; text-decoration: none; font-weight: 600; font-size: 0.85rem; display: inline-flex; align-items: center; border: none; padding: 0;">
+                    <span style="color: #2ec4b6; background: transparent; font-weight: 600; font-size: 0.85rem; display: inline-flex; align-items: center; border: none; padding: 0;">
                         Xem phân loại này <i class="fa-solid fa-arrow-right" style="margin-left: 5px;"></i>
-                    </a>
+                    </span>
                 </div>
-            </div>
+            </a>
 
             <!-- 8. Dụng Cụ Thể Thao -->
-            <div class="product-card">
+            <a href="/Product/Category?type=thethao" class="product-card" style="text-decoration: none; color: inherit; cursor: pointer; display: block;">
                 <div class="product-img">
                     <img src="/images/anh15.jpg" alt="Dụng Cụ Thể Thao" />
                     <div class="product-badge" style="background: #2ec4b6; color: #000; width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center; position: absolute; top: 10px; left: 10px; z-index: 2;">
@@ -269,11 +268,11 @@
                         <span style="background: #f1f3f5; color: #495057; font-size: 0.75rem; padding: 4px 8px; border-radius: 4px;">Vợt cầu lông/Tennis</span>
                         <span style="background: #f1f3f5; color: #495057; font-size: 0.75rem; padding: 4px 8px; border-radius: 4px;">Đồ tập Gym</span>
                     </div>
-                    <a href="#" style="color: #2ec4b6; background: #fff; text-decoration: none; font-weight: 600; font-size: 0.85rem; display: inline-flex; align-items: center; border: none; padding: 0;">
+                    <span style="color: #2ec4b6; background: transparent; font-weight: 600; font-size: 0.85rem; display: inline-flex; align-items: center; border: none; padding: 0;">
                         Xem phân loại này <i class="fa-solid fa-arrow-right" style="margin-left: 5px;"></i>
-                    </a>
+                    </span>
                 </div>
-            </div>
+            </a>
         </div>
     </section>
 
@@ -504,6 +503,10 @@
                 console.error("Không tìm thấy các phần tử Slider, check lại ID!");
             }
         });
+
+        function submitOrder() {
+            alert("Đã nhận yêu cầu gửi hệ thống của bạn!");
+        }
     </script>
 </body>
 </html>

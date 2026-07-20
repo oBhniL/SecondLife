@@ -156,6 +156,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ProfileController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -163,10 +164,16 @@
     <Compile Include="Migrations\202607200431579_InitialCreate.Designer.cs">
       <DependentUpon>202607200431579_InitialCreate.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202607201039594_ThemNgaySinh.cs" />
+    <Compile Include="Migrations\202607201039594_ThemNgaySinh.Designer.cs">
+      <DependentUpon>202607201039594_ThemNgaySinh.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ApplicationDbContext.cs" />
     <Compile Include="Models\ApplicationUser.cs" />
     <Compile Include="Models\Category.cs" />
+    <Compile Include="Models\IdentityConfig.cs" />
     <Compile Include="Models\Order.cs" />
     <Compile Include="Models\Product.cs" />
     <Compile Include="Models\Review.cs" />
@@ -249,9 +256,17 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\Login.cshtml" />
     <Content Include="Views\Home\Register.cshtml" />
+    <Content Include="Views\Profile\Index.cshtml" />
+    <Content Include="Views\Profile\TinDaDang.cshtml" />
+    <Content Include="Views\Profile\DonHang.cshtml" />
+    <Content Include="Views\Profile\XacThuc.cshtml" />
+    <Content Include="Views\Shared\_LayoutProfile.cshtml" />
+    <Content Include="Views\Profile\ChinhSua.cshtml" />
+    <Content Include="Views\Profile\DoiMatKhau.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="NewFolder1\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />
@@ -283,6 +298,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202607200431579_InitialCreate.resx">
       <DependentUpon>202607200431579_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202607201039594_ThemNgaySinh.resx">
+      <DependentUpon>202607201039594_ThemNgaySinh.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

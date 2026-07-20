@@ -1,0 +1,63 @@
+﻿@model SecondLife.Models.ApplicationUser
+@using SecondLife.Models
+@{
+    Layout = "~/Views/Shared/_LayoutProfile.cshtml";
+    ViewBag.Title = "Xác thực người bán";
+    ViewBag.Tab = "xt";
+    ViewBag.HoTen = Model.HoTen;
+}
+
+<h2>Xác thực người bán</h2>
+
+@switch (Model.TinhTrangXacThuc)
+{
+    case TrangThaiXacThuc.DaDuyet:
+        <div style="background:#0d3b35;border-left:4px solid #2dd4bf;padding:16px;border-radius:8px;">
+            Tài khoản đã được xác thực. Bạn có thể đăng bán sản phẩm.
+        </div>
+        break;
+
+    case TrangThaiXacThuc.DangCho:
+        <div style="background:#3d3418;border-left:4px solid #f0b429;padding:16px;border-radius:8px;">
+            Hồ sơ đang chờ admin duyệt. Nộp lúc @Model.NgayNopXacThuc?.ToString("dd/MM/yyyy HH:mm").
+        </div>
+        break;
+
+    case TrangThaiXacThuc.TuChoi:
+        <div style="background:#3d1f1f;border-left:4px solid #ff6b6b;padding:16px;border-radius:8px;margin-bottom:20px;">
+            Hồ sơ bị từ chối. Lý do: @Model.LyDoTuChoi
+        </div>
+        <p style="color:#8fa3b8;">Vui lòng nộp lại hồ sơ.</p>
+        break;
+
+    default:
+        <p style="color:#8fa3b8;margin-bottom:20px;">
+            Để đăng bán sản phẩm, bạn cần nộp ảnh CCCD 2 mặt để admin xác minh.
+        </p>
+        break;
+}
+
+@if (Model.TinhTrangXacThuc == TrangThaiXacThuc.ChuaNop || Model.TinhTrangXacThuc == TrangThaiXacThuc.TuChoi)
+{
+    using (Html.BeginForm("NopXacThuc", "Profile", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+        <div style="margin-bottom:16px;">
+            <label style="display:block;margin-bottom:6px;color:#8fa3b8;font-size:14px;">Số CCCD</label>
+            <input type="text" name="SoCCCD" required
+                   style="width:100%;padding:10px;background:#0d1b2a;border:1px solid #1e3a52;border-radius:8px;color:#e0e6ed;" />
+        </div>
+        <div style="margin-bottom:16px;">
+            <label style="display:block;margin-bottom:6px;color:#8fa3b8;font-size:14px;">Ảnh CCCD mặt trước</label>
+            <input type="file" name="AnhTruoc" accept="image/*" required style="color:#e0e6ed;" />
+        </div>
+        <div style="margin-bottom:22px;">
+            <label style="display:block;margin-bottom:6px;color:#8fa3b8;font-size:14px;">Ảnh CCCD mặt sau</label>
+            <input type="file" name="AnhSau" accept="image/*" required style="color:#e0e6ed;" />
+        </div>
+        <button type="submit"
+                style="background:#2dd4bf;color:#0d1b2a;border:none;padding:12px 28px;border-radius:8px;font-weight:600;cursor:pointer;">
+            Nộp hồ sơ
+        </button>
+    }
+}

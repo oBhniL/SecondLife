@@ -44,5 +44,7 @@ namespace SecondLife.Models
             var userIdentity = manager.CreateIdentity(this, DefaultAuthenticationTypes.ApplicationCookie);
             return userIdentity;
         }
+        public DateTime? NgaySinh { get; set; }
+        public string AnhDaiDien { get; set; }
     }
 }

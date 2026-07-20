@@ -1,0 +1,188 @@
+﻿@model SecondLife.Models.ApplicationUser
+@{
+    Layout = "~/Views/Shared/_LayoutProfile.cshtml";
+    ViewBag.Title = "Chỉnh sửa thông tin";
+    ViewBag.Tab = "info";
+    ViewBag.HoTen = Model.HoTen;
+    ViewBag.AnhDaiDien = Model.AnhDaiDien;
+}
+
+<style>
+    .form-group {
+        margin-bottom: 18px;
+    }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            color: #8fa3b8;
+            font-size: 14px;
+        }
+
+    .form-control {
+        width: 100%;
+        padding: 11px 14px;
+        background: #0d1b2a;
+        border: 1px solid #1e3a52;
+        border-radius: 8px;
+        color: #e0e6ed;
+        font-size: 14px;
+        font-family: inherit;
+    }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #2ec4b6;
+        }
+
+    .form-row {
+        display: flex;
+        gap: 16px;
+    }
+
+        .form-row .form-group {
+            flex: 1;
+        }
+
+    .avatar-edit {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        margin-bottom: 26px;
+    }
+
+    .avatar-preview {
+        width: 96px;
+        height: 96px;
+        border-radius: 50%;
+        background: #2ec4b6;
+        color: #0d1b2a;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 36px;
+        font-weight: 700;
+        overflow: hidden;
+        flex-shrink: 0;
+    }
+
+        .avatar-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+    .btn-xanh {
+        background: #2ec4b6;
+        color: #0d1b2a;
+        border: none;
+        padding: 12px 28px;
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+        font-size: 14px;
+    }
+
+    .btn-xam {
+        background: transparent;
+        color: #8fa3b8;
+        border: 1px solid #1e3a52;
+        padding: 12px 28px;
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+        font-size: 14px;
+        text-decoration: none;
+        display: inline-block;
+    }
+
+    .canh-bao {
+        background: #3d1f1f;
+        border-left: 4px solid #ff6b6b;
+        padding: 14px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        font-size: 14px;
+    }
+</style>
+
+<h2>Chỉnh sửa thông tin</h2>
+
+@if (TempData["Loi"] != null)
+{
+    <div class="canh-bao">@TempData["Loi"]</div>
+}
+
+@using (Html.BeginForm("ChinhSua", "Profile", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="avatar-edit">
+        <div class="avatar-preview" id="anhXemTruoc">
+            @if (!string.IsNullOrEmpty(Model.AnhDaiDien))
+            {
+                <img src="@Url.Content(Model.AnhDaiDien)" alt="avatar" />
+            }
+            else
+            {
+                @Model.HoTen.Substring(0, 1).ToUpper()
+            }
+        </div>
+        <div>
+            <label style="color:#8fa3b8;font-size:14px;display:block;margin-bottom:8px;">Ảnh đại diện</label>
+            <input type="file" name="AnhMoi" id="inputAnh" accept=".jpg,.jpeg,.png" style="color:#e0e6ed;font-size:13px;" />
+            <div style="color:#5c7086;font-size:12px;margin-top:6px;">JPG hoặc PNG, tối đa 2MB</div>
+        </div>
+    </div>
+
+    <div class="form-row">
+        <div class="form-group">
+            <label>Họ và tên</label>
+            <input type="text" name="HoTen" value="@Model.HoTen" class="form-control" required maxlength="100" />
+        </div>
+        <div class="form-group">
+            <label>Ngày sinh</label>
+            <input type="date" name="NgaySinh" class="form-control"
+                   value="@(Model.NgaySinh.HasValue ? Model.NgaySinh.Value.ToString("yyyy-MM-dd") : "")" />
+        </div>
+    </div>
+
+    <div class="form-row">
+        <div class="form-group">
+            <label>Email</label>
+            <input type="email" name="Email" value="@Model.Email" class="form-control" required />
+        </div>
+        <div class="form-group">
+            <label>Số điện thoại</label>
+            <input type="tel" name="PhoneNumber" value="@Model.PhoneNumber" class="form-control" maxlength="15" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>Số CCCD</label>
+        <input type="text" value="@(string.IsNullOrEmpty(Model.SoCCCD) ? "Chưa cập nhật" : Model.SoCCCD)"
+               class="form-control" disabled style="opacity:.55;" />
+        <div style="color:#5c7086;font-size:12px;margin-top:6px;">
+            CCCD chỉ thay đổi được qua trang Xác thực người bán
+        </div>
+    </div>
+
+    <div style="margin-top:28px;display:flex;gap:12px;">
+        <button type="submit" class="btn-xanh">Lưu thay đổi</button>
+        <a href="@Url.Action("Index", "Profile")" class="btn-xam">Hủy</a>
+        <a href="@Url.Action("DoiMatKhau", "Profile")" class="btn-xam" style="margin-left:auto;">Đổi mật khẩu</a>
+    </div>
+}
+
+<script>
+    document.getElementById("inputAnh").addEventListener("change", function (e) {
+        var file = e.target.files[0];
+        if (!file) return;
+        var reader = new FileReader();
+        reader.onload = function (ev) {
+            document.getElementById("anhXemTruoc").innerHTML =
+                '<img src="' + ev.target.result + '" alt="preview" />';
+        };
+        reader.readAsDataURL(file);
+    });
+</script>

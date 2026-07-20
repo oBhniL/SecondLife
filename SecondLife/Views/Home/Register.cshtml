@@ -1,77 +1,178 @@
-﻿@{
+﻿@model SecondLife.Models.DangKyViewModel
+@{
+    ViewBag.Title = "Đăng Ký";
     Layout = null;
 }
-
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Đăng ký thành viên - RetroLife</title>
-    <link rel="stylesheet" href="~/Content/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta charset="utf-8" />
+    <title>Đăng Ký - SecondLife</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Arial, sans-serif;
+        }
+
+        body {
+            background: #0d1b2a;
+            color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+        }
+
+        .auth-container {
+            background: #13263c;
+            border: 1px solid #1f3a54;
+            border-radius: 16px;
+            padding: 40px;
+            width: 100%;
+            max-width: 440px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 24px;
+            font-size: 22px;
+            font-weight: 800;
+        }
+
+            .logo span {
+                color: #2dd4bf;
+            }
+
+        h2 {
+            text-align: center;
+            font-size: 26px;
+            margin-bottom: 6px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #9fb3c8;
+            font-size: 14px;
+            margin-bottom: 28px;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+            font-size: 13px;
+            color: #9fb3c8;
+            margin-bottom: 6px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px 14px;
+            border-radius: 8px;
+            border: 1px solid #1f3a54;
+            background: #0d1b2a;
+            color: #fff;
+            font-size: 14px;
+            outline: none;
+        }
+
+            input:focus {
+                border-color: #2dd4bf;
+            }
+
+        .text-danger {
+            color: #ff6b6b;
+            font-size: 12px;
+            margin-top: 4px;
+            display: block;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 13px;
+            border: none;
+            border-radius: 999px;
+            background: #2dd4bf;
+            color: #0d1b2a;
+            font-weight: 700;
+            font-size: 15px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: 0.2s;
+        }
+
+            .btn-submit:hover {
+                background: #25b8a5;
+            }
+
+        .switch-link {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #9fb3c8;
+        }
+
+            .switch-link a {
+                color: #2dd4bf;
+                text-decoration: none;
+                font-weight: 600;
+            }
+    </style>
 </head>
-<body class="auth-body">
-
+<body>
     <div class="auth-container">
-        <a href="/" class="back-to-home"><i class="fa-solid fa-arrow-left"></i> Quay lại trang chủ</a>
+        <div class="logo">2HAND <span>RetroLife</span></div>
+        <h2>Tạo Tài Khoản</h2>
+        <p class="subtitle">Tham gia cộng đồng mua bán đồ cũ uy tín</p>
 
-        <div class="auth-box">
-            <div class="auth-header">
-                <h2>Tạo tài khoản mới</h2>
-                <p>Trở thành thành viên của gia đình RetroLife ngay hôm nay</p>
+        @using (Html.BeginForm("Register", "Home", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.HoTen)
+                @Html.TextBoxFor(m => m.HoTen)
+                @Html.ValidationMessageFor(m => m.HoTen, "", new { @class = "text-danger" })
             </div>
 
-            <!-- Form Đăng ký -->
-            <form id="registerForm" onsubmit="handleRegister(event)">
-                <div class="form-group-auth">
-                    <label for="regName"><i class="fa-solid fa-user"></i> Họ và Tên</label>
-                    <input type="text" id="regName" placeholder="Nhập họ và tên của bạn..." required>
-                </div>
-
-                <div class="form-group-auth">
-                    <label for="regEmail"><i class="fa-solid fa-envelope"></i> Địa chỉ Email</label>
-                    <input type="email" id="regEmail" placeholder="example@gmail.com..." required>
-                </div>
-
-                <div class="form-group-auth">
-                    <label for="regPhone"><i class="fa-solid fa-phone"></i> Số điện thoại</label>
-                    <input type="tel" id="regPhone" placeholder="Nhập số điện thoại..." required>
-                </div>
-
-                <div class="form-group-auth">
-                    <label for="regPassword"><i class="fa-solid fa-lock"></i> Mật khẩu</label>
-                    <div class="password-wrapper">
-                        <input type="password" id="regPassword" placeholder="Tối thiểu 6 ký tự..." required>
-                        <i class="fa-solid fa-eye toggle-password" onclick="togglePasswordVisibility('regPassword', this)"></i>
-                    </div>
-                </div>
-
-                <div class="form-group-auth">
-                    <label for="regConfirmPassword"><i class="fa-solid fa-shield-halved"></i> Xác nhận mật khẩu</label>
-                    <div class="password-wrapper">
-                        <input type="password" id="regConfirmPassword" placeholder="Nhập lại mật khẩu..." required>
-                        <i class="fa-solid fa-eye toggle-password" onclick="togglePasswordVisibility('regConfirmPassword', this)"></i>
-                    </div>
-                </div>
-
-                <div class="auth-actions">
-                    <label class="remember-me">
-                        <input type="checkbox" id="agreeTerms" required> Tôi đồng ý với các điều khoản dịch vụ
-                    </label>
-                </div>
-
-                <div id="register-message" class="auth-message"></div>
-
-                <button type="submit" class="btn-auth-submit-reg">Đăng Ký Tài Khoản</button>
-            </form>
-
-            <div class="auth-footer">
-                <p>Đã có tài khoản rồi? <a href="/Home/Login">Đăng nhập tại đây</a></p>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Email)
+                @Html.TextBoxFor(m => m.Email)
+                @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
             </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.SoDienThoai)
+                @Html.TextBoxFor(m => m.SoDienThoai)
+                @Html.ValidationMessageFor(m => m.SoDienThoai, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.MatKhau)
+                @Html.PasswordFor(m => m.MatKhau)
+                @Html.ValidationMessageFor(m => m.MatKhau, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.XacNhanMatKhau)
+                @Html.PasswordFor(m => m.XacNhanMatKhau)
+                @Html.ValidationMessageFor(m => m.XacNhanMatKhau, "", new { @class = "text-danger" })
+            </div>
+
+            <button type="submit" class="btn-submit">Đăng Ký</button>
+        }
+
+        <div class="switch-link">
+            Đã có tài khoản? <a href="@Url.Action("Login", "Home")">Đăng nhập ngay</a>
         </div>
     </div>
-
-    <script src="~/Scripts/script.js"></script>
 </body>
 </html>

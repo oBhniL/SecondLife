@@ -1,0 +1,44 @@
+﻿@model List<SecondLife.Models.Product>
+@using SecondLife.Models
+@{
+    Layout = "~/Views/Shared/_LayoutProfile.cshtml";
+    ViewBag.Title = "Tin đã đăng";
+    ViewBag.Tab = "tin";
+    ViewBag.HoTen = User.Identity.Name;
+}
+
+<h2>Tin đã đăng (@Model.Count)</h2>
+
+@if (!Model.Any())
+{
+    <p style="color:#8fa3b8;">Bạn chưa đăng tin nào.</p>
+}
+else
+{
+    foreach (var sp in Model)
+    {
+        <div style="display:flex;gap:16px;background:#0d1b2a;border-radius:10px;padding:14px;margin-bottom:12px;">
+            <img src="@(sp.DanhSachAnh != null && sp.DanhSachAnh.Any() ? Url.Content(sp.DanhSachAnh.First().DuongDanAnh) : Url.Content("~/Images/second-hand.png"))"
+                 style="width:88px;height:88px;object-fit:cover;border-radius:8px;" />
+            <div style="flex:1;">
+                <div style="font-weight:600;margin-bottom:6px;">@sp.TieuDe</div>
+                <div style="color:#2dd4bf;font-weight:600;">@sp.Gia.ToString("N0") đ</div>
+                <div style="font-size:12px;color:#8fa3b8;margin-top:6px;">
+                    @sp.NgayDang.ToString("dd/MM/yyyy") · Tình trạng @sp.TinhTrangPhanTram%
+                </div>
+            </div>
+            <div style="text-align:right;">
+                @{
+                    string mau = sp.TrangThai == TrangThaiSanPham.DaDuyet ? "#2dd4bf"
+                               : sp.TrangThai == TrangThaiSanPham.ChoDuyet ? "#f0b429"
+                               : sp.TrangThai == TrangThaiSanPham.DaBan ? "#6c8ebf" : "#ff6b6b";
+                    string chu = sp.TrangThai == TrangThaiSanPham.DaDuyet ? "Đang bán"
+                               : sp.TrangThai == TrangThaiSanPham.ChoDuyet ? "Chờ duyệt"
+                               : sp.TrangThai == TrangThaiSanPham.DaBan ? "Đã bán"
+                               : sp.TrangThai == TrangThaiSanPham.TuChoi ? "Bị từ chối" : "Đã gỡ";
+                }
+                <span style="background:@mau;color:#0d1b2a;padding:4px 10px;border-radius:20px;font-size:12px;">@chu</span>
+            </div>
+        </div>
+    }
+}

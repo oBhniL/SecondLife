@@ -1,0 +1,39 @@
+﻿@model List<SecondLife.Models.Order>
+@using SecondLife.Models
+@{
+    Layout = "~/Views/Shared/_LayoutProfile.cshtml";
+    ViewBag.Title = "Đơn hàng của tôi";
+    ViewBag.Tab = "don";
+    ViewBag.HoTen = User.Identity.Name;
+}
+
+<h2>Đơn hàng của tôi (@Model.Count)</h2>
+
+@if (!Model.Any())
+{
+    <p style="color:#8fa3b8;">Bạn chưa có đơn hàng nào.</p>
+}
+else
+{
+    foreach (var dh in Model)
+    {
+        <div style="background:#0d1b2a;border-radius:10px;padding:16px;margin-bottom:12px;">
+            <div style="display:flex;justify-content:space-between;">
+                <div style="font-weight:600;">Đơn #@dh.MaDonHang</div>
+                @{
+                    string mau = dh.TrangThai == TrangThaiDonHang.HoanTat ? "#2dd4bf"
+                               : dh.TrangThai == TrangThaiDonHang.DangGiao ? "#6c8ebf"
+                               : dh.TrangThai == TrangThaiDonHang.ChoXacNhan ? "#f0b429" : "#ff6b6b";
+                    string chu = dh.TrangThai == TrangThaiDonHang.HoanTat ? "Hoàn tất"
+                               : dh.TrangThai == TrangThaiDonHang.DangGiao ? "Đang giao"
+                               : dh.TrangThai == TrangThaiDonHang.ChoXacNhan ? "Chờ xác nhận" : "Đã hủy";
+                }
+                <span style="background:@mau;color:#0d1b2a;padding:4px 10px;border-radius:20px;font-size:12px;">@chu</span>
+            </div>
+            <div style="font-size:13px;color:#8fa3b8;margin-top:8px;">
+                @dh.NgayDatHang.ToString("dd/MM/yyyy HH:mm") · @dh.DiaChiGiaoHang
+            </div>
+            <div style="color:#2dd4bf;font-weight:600;margin-top:8px;">Tổng: @dh.TongTien.ToString("N0") đ</div>
+        </div>
+    }
+}

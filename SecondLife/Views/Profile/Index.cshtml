@@ -1,0 +1,233 @@
+﻿@model SecondLife.Models.ApplicationUser
+@using SecondLife.Models
+@{
+    Layout = "~/Views/Shared/_LayoutProfile.cshtml";
+    ViewBag.Title = "Thông tin cá nhân";
+    ViewBag.Tab = "info";
+    ViewBag.HoTen = Model.HoTen;
+    var tinCuaToi = ViewBag.TinCuaToi as List<Product> ?? new List<Product>();
+    int tongTin = ViewBag.TongTin ?? 0;
+    ViewBag.AnhDaiDien = Model.AnhDaiDien;
+}
+
+<style>
+    .info-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+        .info-table td {
+            padding: 12px 0;
+        }
+
+    .info-label {
+        color: #8fa3b8;
+        width: 180px;
+    }
+
+    .pf-section {
+        margin-top: 38px;
+        padding-top: 26px;
+        border-top: 1px solid #1e3a52;
+    }
+
+    .pf-section-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 18px;
+    }
+
+        .pf-section-head h3 {
+            margin: 0;
+            color: #2ec4b6;
+            font-size: 1.15rem;
+        }
+
+        .pf-section-head a {
+            color: #8fa3b8;
+            text-decoration: none;
+            font-size: .85rem;
+        }
+
+            .pf-section-head a:hover {
+                color: #2ec4b6;
+            }
+
+    .tin-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(220px,1fr));
+        gap: 16px;
+    }
+
+    .tin-card {
+        background: #0d1b2a;
+        border: 1px solid #1e3a52;
+        border-radius: 10px;
+        overflow: hidden;
+        transition: .2s;
+    }
+
+        .tin-card:hover {
+            border-color: #2ec4b6;
+            transform: translateY(-3px);
+        }
+
+        .tin-card img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            display: block;
+        }
+
+    .tin-body {
+        padding: 12px;
+    }
+
+    .tin-ten {
+        font-weight: 600;
+        font-size: .9rem;
+        margin-bottom: 6px;
+        color: #e0e6ed;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        min-height: 38px;
+    }
+
+    .tin-gia {
+        color: #2ec4b6;
+        font-weight: 700;
+        font-size: 1rem;
+    }
+
+    .tin-meta {
+        font-size: .72rem;
+        color: #8fa3b8;
+        margin-top: 6px;
+    }
+
+    .tin-badge {
+        display: inline-block;
+        padding: 3px 9px;
+        border-radius: 20px;
+        font-size: .7rem;
+        font-weight: 600;
+        margin-top: 8px;
+    }
+
+    .rong {
+        text-align: center;
+        padding: 40px 20px;
+        color: #8fa3b8;
+    }
+
+        .rong i {
+            font-size: 2.2rem;
+            color: #2ec4b6;
+            display: block;
+            margin-bottom: 12px;
+        }
+
+    .btn-xanh {
+        display: inline-block;
+        background: #2ec4b6;
+        color: #0d1b2a;
+        padding: 10px 22px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: .87rem;
+        margin-top: 12px;
+    }
+</style>
+
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+    <h2 style="margin:0;">Thông tin cá nhân</h2>
+    <a href="@Url.Action("ChinhSua", "Profile")"
+       style="background:#2ec4b6;color:#0d1b2a;padding:9px 20px;border-radius:8px;text-decoration:none;font-weight:600;font-size:.85rem;">
+        <i class="fa-solid fa-pen"></i> Chỉnh sửa
+    </a>
+</div>
+
+<table class="info-table">
+    <tr><td class="info-label">Họ tên</td><td>@Model.HoTen</td></tr>
+    <tr><td class="info-label">Email</td><td>@Model.Email</td></tr>
+    <tr><td class="info-label">Số điện thoại</td><td>@(string.IsNullOrEmpty(Model.PhoneNumber) ? "Chưa cập nhật" : Model.PhoneNumber)</td></tr>
+    <tr><td class="info-label">Số CCCD</td><td>@(string.IsNullOrEmpty(Model.SoCCCD) ? "Chưa cập nhật" : Model.SoCCCD)</td></tr>
+    <tr><td class="info-label">Ngày sinh</td><td>@(Model.NgaySinh.HasValue ? Model.NgaySinh.Value.ToString("dd/MM/yyyy") : "Chưa cập nhật")</td></tr>
+    <tr><td class="info-label">Ngày tham gia</td><td>@Model.NgayTao.ToString("dd/MM/yyyy")</td></tr>
+    <tr>
+        <td class="info-label">Trạng thái bán hàng</td>
+        <td>
+            @switch (Model.TinhTrangXacThuc)
+            {
+                case TrangThaiXacThuc.DaDuyet:
+                    <span style="background:#2ec4b6;color:#0d1b2a;padding:4px 12px;border-radius:20px;font-size:13px;">Đã xác thực</span>
+                    break;
+                case TrangThaiXacThuc.DangCho:
+                    <span style="background:#f0b429;color:#0d1b2a;padding:4px 12px;border-radius:20px;font-size:13px;">Đang chờ duyệt</span>
+                    break;
+                case TrangThaiXacThuc.TuChoi:
+                    <span style="background:#ff6b6b;color:#fff;padding:4px 12px;border-radius:20px;font-size:13px;">Bị từ chối</span>
+                    break;
+                default:
+                    <span style="background:#4a5c6f;color:#fff;padding:4px 12px;border-radius:20px;font-size:13px;">Chưa nộp hồ sơ</span>
+                    break;
+            }
+        </td>
+    </tr>
+</table>
+
+<div class="pf-section">
+    <div class="pf-section-head">
+        <h3>Tin đã đăng (@tongTin)</h3>
+        @if (tongTin > 6)
+        {
+            <a href="@Url.Action("TinDaDang", "Profile")">Xem tất cả →</a>
+        }
+    </div>
+
+    @if (tinCuaToi.Any())
+    {
+        <div class="tin-grid">
+            @foreach (var sp in tinCuaToi)
+            {
+                var anh = (sp.DanhSachAnh != null && sp.DanhSachAnh.Any())
+                          ? Url.Content(sp.DanhSachAnh.First().DuongDanAnh)
+                          : "/images/second-hand.png";
+                string mau, chu;
+                switch (sp.TrangThai)
+                {
+                    case TrangThaiSanPham.DaDuyet: mau = "#2ec4b6"; chu = "Đang bán"; break;
+                    case TrangThaiSanPham.ChoDuyet: mau = "#f0b429"; chu = "Chờ duyệt"; break;
+                    case TrangThaiSanPham.DaBan: mau = "#6c8ebf"; chu = "Đã bán"; break;
+                    case TrangThaiSanPham.TuChoi: mau = "#ff6b6b"; chu = "Bị từ chối"; break;
+                    default: mau = "#4a5c6f"; chu = "Đã gỡ"; break;
+                }
+
+                <div class="tin-card">
+                    <img src="@anh" alt="@sp.TieuDe" />
+                    <div class="tin-body">
+                        <div class="tin-ten">@sp.TieuDe</div>
+                        <div class="tin-gia">@sp.Gia.ToString("N0")đ</div>
+                        <div class="tin-meta">
+                            @(sp.DanhMuc != null ? sp.DanhMuc.TenDanhMuc : "Chưa phân loại") · @sp.NgayDang.ToString("dd/MM/yyyy")
+                        </div>
+                        <span class="tin-badge" style="background:@mau;color:#0d1b2a;">@chu</span>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="rong">
+            <i class="fa-solid fa-box-open"></i>
+            Bạn chưa đăng tin nào.
+            <br />
+            <a href="@Url.Action("Create", "Product")" class="btn-xanh">Đăng tin đầu tiên</a>
+        </div>
+    }
+</div>

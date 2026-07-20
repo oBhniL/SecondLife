@@ -1,61 +1,173 @@
-﻿@{
-    Layout = null; // Hoặc dùng Layout chung của bro nếu muốn giữ Header/Footer
+﻿@model SecondLife.Models.DangNhapViewModel
+@{
+    ViewBag.Title = "Đăng Nhập";
+    Layout = null;
 }
-
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Đăng nhập - RetroLife</title>
-    <link rel="stylesheet" href="~/Content/style.css"> <!-- Đường dẫn file CSS của bro -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta charset="utf-8" />
+    <title>Đăng Nhập - SecondLife</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Arial, sans-serif;
+        }
+
+        body {
+            background: #0d1b2a;
+            color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+        }
+
+        .auth-container {
+            background: #13263c;
+            border: 1px solid #1f3a54;
+            border-radius: 16px;
+            padding: 40px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 24px;
+            font-size: 22px;
+            font-weight: 800;
+        }
+
+            .logo span {
+                color: #2dd4bf;
+            }
+
+        h2 {
+            text-align: center;
+            font-size: 26px;
+            margin-bottom: 6px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #9fb3c8;
+            font-size: 14px;
+            margin-bottom: 28px;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+            font-size: 13px;
+            color: #9fb3c8;
+            margin-bottom: 6px;
+        }
+
+        input[type="text"], input[type="password"], input[type="email"] {
+            width: 100%;
+            padding: 12px 14px;
+            border-radius: 8px;
+            border: 1px solid #1f3a54;
+            background: #0d1b2a;
+            color: #fff;
+            font-size: 14px;
+            outline: none;
+        }
+
+        input:focus {
+            border-color: #2dd4bf;
+        }
+
+        .text-danger {
+            color: #ff6b6b;
+            font-size: 12px;
+            margin-top: 4px;
+            display: block;
+        }
+
+        .row-option {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 13px;
+            color: #9fb3c8;
+            margin-bottom: 20px;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 13px;
+            border: none;
+            border-radius: 999px;
+            background: #2dd4bf;
+            color: #0d1b2a;
+            font-weight: 700;
+            font-size: 15px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+            .btn-submit:hover {
+                background: #25b8a5;
+            }
+
+        .switch-link {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #9fb3c8;
+        }
+
+            .switch-link a {
+                color: #2dd4bf;
+                text-decoration: none;
+                font-weight: 600;
+            }
+    </style>
 </head>
-<body class="auth-body">
-
+<body>
     <div class="auth-container">
-        <!-- Nút quay lại trang chủ -->
-        <a href="/" class="back-to-home"><i class="fa-solid fa-arrow-left"></i> Quay lại trang chủ</a>
+        <div class="logo">2HAND <span>RetroLife</span></div>
+        <h2>Đăng Nhập</h2>
+        <p class="subtitle">Chào mừng quay lại RetroLife</p>
 
-        <div class="auth-box">
-            <div class="auth-header">
-                <h2>Chào mừng trở lại!</h2>
-                <p>Đăng nhập để khám phá kho đồ cũ chất lượng cùng RetroLife</p>
+        @using (Html.BeginForm("Login", "Home", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.Email)
+                @Html.TextBoxFor(m => m.Email)
+                @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
             </div>
 
-            <!-- Form Đăng nhập -->
-            <form id="loginForm" onsubmit="handleLogin(event)">
-                <div class="form-group-auth">
-                    <label for="loginEmail"><i class="fa-solid fa-envelope"></i> Email hoặc Số điện thoại</label>
-                    <input type="text" id="loginEmail" placeholder="Nhập email hoặc số điện thoại..." required>
-                </div>
-
-                <div class="form-group-auth">
-                    <label for="loginPassword"><i class="fa-solid fa-lock"></i> Mật khẩu</label>
-                    <div class="password-wrapper">
-                        <input type="password" id="loginPassword" placeholder="Nhập mật khẩu..." required>
-                        <i class="fa-solid fa-eye toggle-password" onclick="togglePasswordVisibility('loginPassword', this)"></i>
-                    </div>
-                </div>
-
-                <div class="auth-actions">
-                    <label class="remember-me">
-                        <input type="checkbox" id="rememberMe"> Tự động đăng nhập
-                    </label>
-                    <a href="#" class="forgot-password">Quên mật khẩu?</a>
-                </div>
-
-                <div id="login-message" class="auth-message"></div>
-
-                <button type="submit" class="btn-auth-submit">Đăng Nhập Ngay</button>
-            </form>
-
-            <div class="auth-footer">
-                <p>Chưa có tài khoản? <a href="/Home/Register">Đăng ký thành viên mới</a></p>
+            <div class="form-group">
+                @Html.LabelFor(m => m.MatKhau)
+                @Html.PasswordFor(m => m.MatKhau)
+                @Html.ValidationMessageFor(m => m.MatKhau, "", new { @class = "text-danger" })
             </div>
+
+            <div class="row-option">
+                <label>@Html.CheckBoxFor(m => m.GhiNho) Ghi nhớ đăng nhập</label>
+                <a href="#" style="color:#2dd4bf; text-decoration:none;">Quên mật khẩu?</a>
+            </div>
+
+            <button type="submit" class="btn-submit">Đăng Nhập</button>
+        }
+
+        <div class="switch-link">
+            Chưa có tài khoản? <a href="@Url.Action("Register", "Home")">Đăng ký ngay</a>
         </div>
     </div>
-
-    <script src="~/Scripts/script.js"></script>
 </body>
 </html>

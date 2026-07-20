@@ -23,6 +23,8 @@ namespace SecondLife
                 LoginPath = new PathString("/Home/Login"),
                 ExpireTimeSpan = System.TimeSpan.FromDays(7)
             });
+            app.CreatePerOwinContext<ApplicationUserManager>(ApplicationUserManager.Create);
+            app.CreatePerOwinContext<ApplicationSignInManager>(ApplicationSignInManager.Create);
         }
 
         public static UserManager<ApplicationUser> CreateUserManager(IdentityFactoryOptions<UserManager<ApplicationUser>> options, IOwinContext context)

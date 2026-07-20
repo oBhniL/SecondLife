@@ -1,0 +1,265 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewBag.Title - RetroLife</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: #0d1b2a;
+            color: #e0e6ed;
+            font-family: 'Segoe UI',sans-serif;
+        }
+
+        .pf-header {
+            background: #132437;
+            padding: 16px 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #1e3a52;
+        }
+
+        .pf-logo {
+            color: #2ec4b6;
+            font-size: 22px;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .pf-back {
+            color: #8fa3b8;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+            .pf-back:hover {
+                color: #2ec4b6;
+            }
+
+        .pf-wrap {
+            display: flex;
+            max-width: 1200px;
+            margin: 28px auto;
+            gap: 24px;
+            padding: 0 20px;
+            align-items: flex-start;
+        }
+
+        .pf-side {
+            width: 250px;
+            background: #132437;
+            border-radius: 12px;
+            padding: 22px;
+            flex-shrink: 0;
+            position: sticky;
+            top: 20px;
+        }
+
+        .pf-avatar {
+            width: 76px;
+            height: 76px;
+            border-radius: 50%;
+            background: #2ec4b6;
+            color: #0d1b2a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            font-weight: 700;
+            margin: 0 auto 12px;
+            overflow: hidden;
+        }
+
+            .pf-avatar img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+
+        .pf-name {
+            text-align: center;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .pf-mail {
+            text-align: center;
+            font-size: 12px;
+            color: #8fa3b8;
+            margin-bottom: 18px;
+            word-break: break-all;
+        }
+
+        .pf-menu a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 11px 14px;
+            margin-bottom: 6px;
+            color: #c5d1de;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+            .pf-menu a:hover {
+                background: #1b3350;
+                color: #2ec4b6;
+            }
+
+            .pf-menu a.active {
+                background: #2ec4b6;
+                color: #0d1b2a;
+                font-weight: 600;
+            }
+
+            .pf-menu a i {
+                width: 16px;
+                text-align: center;
+            }
+
+        .pf-divider {
+            height: 1px;
+            background: #1e3a52;
+            margin: 10px 4px;
+        }
+
+        .pf-logout {
+            color: #ff6b6b !important;
+        }
+
+            .pf-logout:hover {
+                background: rgba(255,107,107,.12) !important;
+                color: #ff6b6b !important;
+            }
+
+        .pf-main {
+            flex: 1;
+            background: #132437;
+            border-radius: 12px;
+            padding: 28px;
+            min-height: 420px;
+            min-width: 0;
+        }
+
+            .pf-main h2 {
+                margin-top: 0;
+                color: #2ec4b6;
+            }
+
+        .toast-thongbao {
+            position: fixed;
+            top: 80px;
+            right: 24px;
+            z-index: 9999;
+            background: #2ec4b6;
+            color: #0d1b2a;
+            padding: 14px 22px;
+            border-radius: 10px;
+            font-weight: 600;
+            box-shadow: 0 8px 24px rgba(0,0,0,.3);
+            animation: slideIn .3s ease;
+        }
+
+        @@keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(40px);
+            }
+
+            to {
+                opacity: 1;
+                transform: none;
+            }
+        }
+
+        @@media (max-width: 860px) {
+            .pf-wrap {
+                flex-direction: column;
+            }
+
+            .pf-side {
+                width: 100%;
+                position: static;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    @if (TempData["ThongBao"] != null)
+    {
+        <div class="toast-thongbao" id="toastThongBao">@TempData["ThongBao"]</div>
+    }
+
+    <div class="pf-header">
+        <a href="@Url.Action("Index", "Home")" class="pf-logo">RetroLife</a>
+        <a href="@Url.Action("Index", "Home")" class="pf-back">← Về trang chủ</a>
+    </div>
+
+    <div class="pf-wrap">
+        <div class="pf-side">
+            @{
+                var ten = ViewBag.HoTen as string ?? User.Identity.Name;
+                var anhDD = ViewBag.AnhDaiDien as string;
+            }
+            <div class="pf-avatar">
+                @if (!string.IsNullOrEmpty(anhDD))
+                {
+                    <img src="@(Url.Content(anhDD))?v=@DateTime.Now.Ticks" alt="avatar" />
+                }
+                else
+                {
+                    @ten.Substring(0, 1).ToUpper()
+                }
+            </div>
+            <div class="pf-name">@ten</div>
+            <div class="pf-mail">@User.Identity.Name</div>
+
+            <div class="pf-menu">
+                <a href="@Url.Action("Index", "Profile")" class="@(ViewBag.Tab == "info" ? "active" : "")">
+                    <i class="fa-solid fa-user"></i> Thông tin cá nhân
+                </a>
+                <a href="@Url.Action("TinDaDang", "Profile")" class="@(ViewBag.Tab == "tin" ? "active" : "")">
+                    <i class="fa-solid fa-tag"></i> Tin đã đăng
+                </a>
+                <a href="@Url.Action("DonHang", "Profile")" class="@(ViewBag.Tab == "don" ? "active" : "")">
+                    <i class="fa-solid fa-box"></i> Đơn hàng của tôi
+                </a>
+                <a href="@Url.Action("XacThuc", "Profile")" class="@(ViewBag.Tab == "xt" ? "active" : "")">
+                    <i class="fa-solid fa-id-card"></i> Xác thực người bán
+                </a>
+
+                @if (User.IsInRole("Admin"))
+                {
+                    <div class="pf-divider"></div>
+                    <a href="@Url.Action("Index", "Admin")">
+                        <i class="fa-solid fa-gauge"></i> Trang quản trị
+                    </a>
+                }
+
+                <div class="pf-divider"></div>
+                <a href="@Url.Action("LogOut", "Home")" class="pf-logout">
+                    <i class="fa-solid fa-right-from-bracket"></i> Đăng xuất
+                </a>
+            </div>
+        </div>
+
+        <div class="pf-main">
+            @RenderBody()
+        </div>
+    </div>
+
+    <script>
+        var t = document.getElementById("toastThongBao");
+        if (t) setTimeout(function () { t.style.display = "none"; }, 3000);
+    </script>
+</body>
+</html>

@@ -1,14 +1,13 @@
 ﻿@{
-    Layout = null; // Hoặc dùng Layout chung của bro nếu muốn giữ Header/Footer
+    Layout = null; // Giữ nguyên cấu hình không dùng layout chung
 }
-
 <!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Đăng nhập - RetroLife</title>
-    <link rel="stylesheet" href="~/Content/style.css"> <!-- Đường dẫn file CSS của bro -->
+    <link rel="stylesheet" href="~/Content/style.css"> <!-- Đường dẫn file CSS của nhóm -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body class="auth-body">
@@ -23,24 +22,24 @@
                 <p>Đăng nhập để khám phá kho đồ cũ chất lượng cùng RetroLife</p>
             </div>
 
-            <!-- Form Đăng nhập -->
-            <form id="loginForm" onsubmit="handleLogin(event)">
+            <!-- Form Đăng nhập đã được nâng cấp kết nối với C# -->
+            <form id="loginForm" method="post" action="/Home/Login">
                 <div class="form-group-auth">
                     <label for="loginEmail"><i class="fa-solid fa-envelope"></i> Email hoặc Số điện thoại</label>
-                    <input type="text" id="loginEmail" placeholder="Nhập email hoặc số điện thoại..." required>
+                    <input type="text" name="email" id="loginEmail" placeholder="Nhập email hoặc số điện thoại..." required>
                 </div>
 
                 <div class="form-group-auth">
                     <label for="loginPassword"><i class="fa-solid fa-lock"></i> Mật khẩu</label>
                     <div class="password-wrapper">
-                        <input type="password" id="loginPassword" placeholder="Nhập mật khẩu..." required>
-                        <i class="fa-solid fa-eye toggle-password" onclick="togglePasswordVisibility('loginPassword', this)"></i>
+                        <input type="password" name="password" id="loginPassword" placeholder="Nhập mật khẩu..." required>
+                        <i class="fa-solid fa-eye toggle-password"></i>
                     </div>
                 </div>
 
                 <div class="auth-actions">
                     <label class="remember-me">
-                        <input type="checkbox" id="rememberMe"> Tự động đăng nhập
+                        <input type="checkbox" name="rememberMe" id="rememberMe"> Tự động đăng nhập
                     </label>
                     <a href="#" class="forgot-password">Quên mật khẩu?</a>
                 </div>
@@ -56,6 +55,7 @@
         </div>
     </div>
 
+    <!-- Vẫn giữ file JS của giao diện để xử lý các hiệu ứng khác -->
     <script src="~/Scripts/script.js"></script>
 </body>
 </html>

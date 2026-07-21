@@ -1,0 +1,131 @@
+﻿@{
+    Layout = null; // Tắt layout mặc định của trang khách
+}
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trang Quản Trị Hệ Thống - RetroLife</title>
+    <!-- Thêm icon từ FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Cột menu bên trái */
+        .sidebar {
+            width: 250px;
+            background-color: #343a40;
+            color: white;
+            position: fixed;
+            height: 100%;
+            padding-top: 20px;
+        }
+
+            .sidebar h2 {
+                text-align: center;
+                color: #2ec4b6;
+                margin-bottom: 30px;
+                font-weight: 900;
+            }
+
+            .sidebar a {
+                padding: 15px 25px;
+                text-decoration: none;
+                font-size: 16px;
+                color: #c2c7d0;
+                display: block;
+                transition: 0.3s;
+            }
+
+                .sidebar a:hover, .sidebar a.active {
+                    background-color: #494e53;
+                    color: white;
+                    border-left: 4px solid #2ec4b6;
+                }
+
+            .sidebar i {
+                margin-right: 10px;
+                width: 20px;
+                text-align: center;
+            }
+
+        /* Phần nội dung bên phải */
+        .content {
+            margin-left: 250px;
+            padding: 20px;
+        }
+
+        .header {
+            background-color: white;
+            padding: 15px 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 5px;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .btn-home {
+            padding: 10px 15px;
+            background-color: #2ec4b6;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+            .btn-home:hover {
+                background-color: #25a196;
+            }
+    </style>
+</head>
+<body>
+
+    <!-- THANH ĐIỀU HƯỚNG BÊN TRÁI -->
+    <div class="sidebar">
+        <h2>RetroLife Admin</h2>
+        <a href="/Admin/Index" class="active"><i class="fa-solid fa-gauge"></i> Tổng quan</a>
+        <a href="#"><i class="fa-solid fa-box"></i> Quản lý Sản phẩm</a>
+        <a href="#"><i class="fa-solid fa-list"></i> Quản lý Danh mục</a>
+        <a href="#"><i class="fa-solid fa-users"></i> Quản lý Khách hàng</a>
+        <a href="#"><i class="fa-solid fa-cart-shopping"></i> Quản lý Đơn hàng</a>
+    </div>
+
+    <!-- NỘI DUNG CHÍNH -->
+    <div class="content">
+        <!-- Header -->
+        <div class="header">
+            <h2 style="margin: 0; color: #333;">Bảng Điều Khiển (Dashboard)</h2>
+            <div>
+                <span style="margin-right: 15px; color: #555;">Xin chào, <b>@User.Identity.Name</b></span>
+                <a href="/" class="btn-home"><i class="fa-solid fa-house"></i> Về trang chủ web</a>
+            </div>
+        </div>
+
+        <!-- Khung hiển thị nội dung -->
+        <div class="card">
+            <h3 style="color: #333; margin-top: 0;">Chào mừng Admin đã quay trở lại!</h3>
+            <p style="color: #666; line-height: 1.6;">Giao diện quản trị hệ thống đã được kết nối thành công. Khu vực này được bảo mật và chỉ tài khoản Admin mới có thể truy cập.</p>
+            <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
+            <p style="color: #666;">Từ đây, bạn và team có thể bắt đầu lập trình gắn link cho các chức năng <strong>CRUD (Thêm, Sửa, Xóa, Xem)</strong> ở thanh menu bên trái.</p>
+        </div>
+    </div>
+
+</body>
+</html>

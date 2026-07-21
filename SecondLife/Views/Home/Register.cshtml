@@ -1,7 +1,6 @@
 ﻿@{
     Layout = null;
 }
-
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -22,42 +21,44 @@
                 <p>Trở thành thành viên của gia đình RetroLife ngay hôm nay</p>
             </div>
 
-            <!-- Form Đăng ký -->
-            <form id="registerForm" onsubmit="handleRegister(event)">
+            <!-- Form Đăng ký đã sửa thành Gửi POST về Controller -->
+            <form id="registerForm" method="post" action="/Home/Register">
                 <div class="form-group-auth">
                     <label for="regName"><i class="fa-solid fa-user"></i> Họ và Tên</label>
-                    <input type="text" id="regName" placeholder="Nhập họ và tên của bạn..." required>
+                    <input type="text" name="FullName" id="regName" placeholder="Nhập họ và tên của bạn..." required>
                 </div>
 
                 <div class="form-group-auth">
                     <label for="regEmail"><i class="fa-solid fa-envelope"></i> Địa chỉ Email</label>
-                    <input type="email" id="regEmail" placeholder="example@gmail.com..." required>
+                    <input type="email" name="Email" id="regEmail" placeholder="example@gmail.com..." required>
                 </div>
 
                 <div class="form-group-auth">
                     <label for="regPhone"><i class="fa-solid fa-phone"></i> Số điện thoại</label>
-                    <input type="tel" id="regPhone" placeholder="Nhập số điện thoại..." required>
+                    <input type="tel" name="Phone" id="regPhone" placeholder="Nhập số điện thoại..." required>
                 </div>
 
                 <div class="form-group-auth">
                     <label for="regPassword"><i class="fa-solid fa-lock"></i> Mật khẩu</label>
                     <div class="password-wrapper">
-                        <input type="password" id="regPassword" placeholder="Tối thiểu 6 ký tự..." required>
-                        <i class="fa-solid fa-eye toggle-password" onclick="togglePasswordVisibility('regPassword', this)"></i>
+                        <input type="password" name="Password" id="regPassword" placeholder="Tối thiểu 6 ký tự..." required>
+                        <!-- Đã gỡ onclick gây lỗi đỏ -->
+                        <i class="fa-solid fa-eye toggle-password"></i>
                     </div>
                 </div>
 
                 <div class="form-group-auth">
                     <label for="regConfirmPassword"><i class="fa-solid fa-shield-halved"></i> Xác nhận mật khẩu</label>
                     <div class="password-wrapper">
-                        <input type="password" id="regConfirmPassword" placeholder="Nhập lại mật khẩu..." required>
-                        <i class="fa-solid fa-eye toggle-password" onclick="togglePasswordVisibility('regConfirmPassword', this)"></i>
+                        <input type="password" name="ConfirmPassword" id="regConfirmPassword" placeholder="Nhập lại mật khẩu..." required>
+                        <!-- Đã gỡ onclick gây lỗi đỏ -->
+                        <i class="fa-solid fa-eye toggle-password"></i>
                     </div>
                 </div>
 
                 <div class="auth-actions">
                     <label class="remember-me">
-                        <input type="checkbox" id="agreeTerms" required> Tôi đồng ý với các điều khoản dịch vụ
+                        <input type="checkbox" name="AgreeTerms" id="agreeTerms" required> Tôi đồng ý với các điều khoản dịch vụ
                     </label>
                 </div>
 

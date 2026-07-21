@@ -30,10 +30,38 @@ namespace SecondLife.Controllers
         {
             return View();
         }
+        // Hàm này dùng để nhận dữ liệu khi người dùng bấm nút Đăng Nhập
+        [HttpPost]
+        public ActionResult Login(string email, string password)
+        {
+            // Kiểm tra đúng tài khoản Admin Linh giao chưa
+            if (email == "admin@secondlife.vn" && password == "Admin@123")
+            {
+                // 1. Tạo chứng minh thư (Identity) xác nhận người này là Admin
+                var identity = new System.Security.Claims.ClaimsIdentity(new[] {
+            new System.Security.Claims.Claim(System.Security.Claims.ClaimTypes.Name, email)
+        }, Microsoft.AspNet.Identity.DefaultAuthenticationTypes.ApplicationCookie);
+
+                // 2. Ép hệ thống cấp thẻ Cookie đăng nhập
+                Request.GetOwinContext().Authentication.SignIn(identity);
+
+                // 3. Đẩy thẳng vào trang Admin luôn cho ngầu
+                return RedirectToAction("Index", "Admin");
+            }
+
+            // Nếu sai tài khoản thì bắt nhập lại
+            return View();
+        }
 
         public ActionResult Register()
         {
             return View();
+        }
+        public ActionResult Logout()
+        {
+            
+            Request.GetOwinContext().Authentication.SignOut(Microsoft.AspNet.Identity.DefaultAuthenticationTypes.ApplicationCookie);
+            return RedirectToAction("Index", "Home");
         }
     }
 }

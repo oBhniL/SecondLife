@@ -46,8 +46,30 @@
         </div>
 
         <div class="nav-auth">
-    <a href="/Home/Login" class="btn-login">Đăng Nhập</a>
-    <a href="/Home/Register" class="btn-register">Đăng Ký</a>
+    @if (Request.IsAuthenticated)
+    {
+        <!-- Nếu đã đăng nhập thì hiện chữ Xin chào và nút Đăng xuất -->
+        <span style="color: white; margin-right: 15px; font-weight: bold;">
+            Xin chào, @User.Identity.Name!
+        </span>
+        
+        // Nút dành riêng cho Admin
+        if (User.Identity.Name == "admin@secondlife.vn")
+        {
+            <a href="/Admin/Index" class="btn-register" style="margin-right: 10px; background-color: #ff9800; border-color: #ff9800;">
+                <i class="fa-solid fa-gear"></i> Trang Admin
+            </a>
+        }
+        
+        <a href="/Home/Logout" class="btn-login" style="background-color: #dc3545; color: white;">Đăng Xuất</a>
+    }
+    else
+    {
+        <!-- Nếu chưa đăng nhập thì hiện 2 nút bình thường -->
+        <a href="/Home/Login" class="btn-login">Đăng Nhập</a>
+        <a href="/Home/Register" class="btn-register">Đăng Ký</a>
+    }
+</div>
 </div>
     </nav>
 

@@ -1,0 +1,55 @@
+﻿@model List<SecondLife.Models.CartItem>
+@{
+    ViewBag.Title = "Giỏ hàng";
+    decimal tongTien = Model.Sum(g => g.SanPham.Gia);
+}
+
+<div class="sl-title">
+    <h1>Giỏ hàng của bạn (@Model.Count)</h1>
+</div>
+
+@if (TempData["Loi"] != null)
+{
+    <div class="sl-alert sl-alert-err">@TempData["Loi"]</div>
+}
+
+@if (!Model.Any())
+{
+    <div style="text-align:center; padding:50px 20px; color:#9ca3af;">
+        <i class="fa-solid fa-cart-shopping" style="font-size:40px; color:#14a89c; display:block; margin-bottom:14px;"></i>
+        Giỏ hàng đang trống.<br />
+        <a href="@Url.Action("Index", "Product")" class="btn btn-primary" style="margin-top:14px;">Mua sắm ngay</a>
+    </div>
+}
+else
+{
+    foreach (var g in Model)
+    {
+        var anh = (g.SanPham.DanhSachAnh != null && g.SanPham.DanhSachAnh.Any())
+                  ? Url.Content(g.SanPham.DanhSachAnh.First().DuongDanAnh) : Url.Content("~/Images/second-hand.png");
+
+        <div style="display:flex; gap:16px; align-items:center; background:#fff; border:1px solid #eceff1; border-radius:10px; padding:14px; margin-bottom:12px;">
+            <img src="@anh" style="width:90px; height:90px; object-fit:cover; border-radius:8px;" />
+            <div style="flex:1;">
+                <a href="@Url.Action("ChiTiet", "Product", new { id = g.MaSanPham })" style="font-weight:600; color:#222;">@g.SanPham.TieuDe</a>
+                <div style="color:#ef4444; font-weight:700; margin-top:6px;">@g.SanPham.Gia.ToString("#,##0")đ</div>
+            </div>
+            @using (Html.BeginForm("Xoa", "Cart", FormMethod.Post))
+            {
+                <input type="hidden" name="id" value="@g.MaGioHang" />
+                <button type="submit" class="btn btn-danger" style="padding:6px 14px; font-size:13px;">
+                    <i class="fa-solid fa-trash"></i> Xóa
+                </button>
+            }
+        </div>
+    }
+
+    <div style="background:#fff; border:1px solid #eceff1; border-radius:12px; padding:20px; margin-top:16px; display:flex; justify-content:space-between; align-items:center;">
+        <div style="font-size:18px;">
+            Tổng cộng: <strong style="color:#ef4444; font-size:24px;">@tongTien.ToString("#,##0")đ</strong>
+        </div>
+        <a href="@Url.Action("ThanhToan", "Order")" class="btn btn-primary" style="padding:12px 40px;">
+            <i class="fa-solid fa-credit-card"></i> Thanh toán
+        </a>
+    </div>
+}

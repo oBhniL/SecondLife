@@ -14,6 +14,7 @@ namespace SecondLife.Models
         public DbSet<OrderDetail> ChiTietDonHangs { get; set; }
         public DbSet<Review> DanhGias { get; set; }
 
+        public DbSet<CartItem> GioHangs { get; set; }
         public static ApplicationDbContext Create()
         {
             return new ApplicationDbContext();

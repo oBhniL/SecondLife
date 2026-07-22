@@ -73,6 +73,78 @@ namespace SecondLife.Controllers
             TempData["ThongBao"] = "Đặt hàng thành công!";
             return RedirectToAction("DonHang", "Profile");
         }
+        // ===== TRANG THANH TOÁN GIỎ HÀNG (GET) =====
+        public ActionResult ThanhToan()
+        {
+            string id = User.Identity.GetUserId();
+            var gio = db.GioHangs
+                        .Include(g => g.SanPham)
+                        .Where(g => g.MaNguoiMua == id)
+                        .ToList();
+
+            if (!gio.Any())
+            {
+                TempData["Loi"] = "Giỏ hàng đang trống.";
+                return RedirectToAction("Index", "Cart");
+            }
+
+            return View(gio);
+        }
+
+        // ===== XÁC NHẬN THANH TOÁN (POST) =====
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ThanhToan(string DiaChiGiaoHang, string SoDienThoaiLienHe)
+        {
+            string id = User.Identity.GetUserId();
+
+            var gio = db.GioHangs
+                        .Include(g => g.SanPham)
+                        .Where(g => g.MaNguoiMua == id)
+                        .ToList();
+
+            if (!gio.Any())
+            {
+                TempData["Loi"] = "Giỏ hàng đang trống.";
+                return RedirectToAction("Index", "Cart");
+            }
+
+            if (string.IsNullOrWhiteSpace(DiaChiGiaoHang) || string.IsNullOrWhiteSpace(SoDienThoaiLienHe))
+            {
+                TempData["Loi"] = "Vui lòng nhập địa chỉ và số điện thoại.";
+                return RedirectToAction("ThanhToan", "Order");
+            }
+
+            // Tạo 1 đơn hàng cho cả giỏ
+            var dh = new Order();
+            dh.MaNguoiMua = id;
+            dh.TongTien = gio.Sum(g => g.SanPham.Gia);
+            dh.DiaChiGiaoHang = DiaChiGiaoHang;
+            dh.SoDienThoaiLienHe = SoDienThoaiLienHe;
+            dh.NgayDatHang = System.DateTime.Now;
+            dh.TrangThai = TrangThaiDonHang.ChoXacNhan;
+            db.DonHangs.Add(dh);
+            db.SaveChanges();
+
+            // Tạo chi tiết đơn + đánh dấu sản phẩm đã bán
+            foreach (var g in gio)
+            {
+                var ct = new OrderDetail();
+                ct.MaDonHang = dh.MaDonHang;
+                ct.MaSanPham = g.MaSanPham;
+                ct.GiaLucMua = g.SanPham.Gia;
+                db.ChiTietDonHangs.Add(ct);
+
+                g.SanPham.TrangThai = TrangThaiSanPham.DaBan;
+            }
+
+            // Xóa sạch giỏ hàng
+            db.GioHangs.RemoveRange(gio);
+            db.SaveChanges();
+
+            TempData["ThongBao"] = "Đặt hàng thành công!";
+            return RedirectToAction("DonHang", "Profile");
+        }
 
         protected override void Dispose(bool disposing)
         {

@@ -1,0 +1,48 @@
+﻿@model List<SecondLife.Models.CartItem>
+@{
+    ViewBag.Title = "Thanh toán";
+    decimal tongTien = Model.Sum(g => g.SanPham.Gia);
+}
+
+<div class="sl-title">
+    <h1>Thanh toán</h1>
+</div>
+
+@if (TempData["Loi"] != null)
+{
+    <div class="sl-alert sl-alert-err" style="max-width:640px; margin:0 auto 16px;">@TempData["Loi"]</div>
+}
+
+<div class="sl-form">
+    <!-- Danh sách món -->
+    <div style="margin-bottom:20px;">
+        @foreach (var g in Model)
+        {
+            <div style="display:flex; justify-content:space-between; padding:8px 0; border-bottom:1px solid #eceff1;">
+                <span>@g.SanPham.TieuDe</span>
+                <strong style="color:#ef4444;">@g.SanPham.Gia.ToString("#,##0")đ</strong>
+            </div>
+        }
+        <div style="display:flex; justify-content:space-between; padding:12px 0; font-size:18px;">
+            <span>Tổng cộng</span>
+            <strong style="color:#ef4444;">@tongTien.ToString("#,##0")đ</strong>
+        </div>
+    </div>
+
+    @using (Html.BeginForm("ThanhToan", "Order", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="group">
+            <label>Địa chỉ giao hàng</label>
+            <input type="text" name="DiaChiGiaoHang" placeholder="Số nhà, đường, phường, quận, tỉnh/thành" required />
+        </div>
+
+        <div class="group">
+            <label>Số điện thoại liên hệ</label>
+            <input type="tel" name="SoDienThoaiLienHe" placeholder="Nhập số điện thoại" required />
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-block"><i class="fa-solid fa-check"></i> Xác nhận đặt hàng</button>
+    }
+</div>

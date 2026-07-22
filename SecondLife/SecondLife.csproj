@@ -156,6 +156,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\CartController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
@@ -171,10 +172,15 @@
     <Compile Include="Migrations\202607201039594_ThemNgaySinh.Designer.cs">
       <DependentUpon>202607201039594_ThemNgaySinh.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202607221609533_ThemGioHang.cs" />
+    <Compile Include="Migrations\202607221609533_ThemGioHang.Designer.cs">
+      <DependentUpon>202607221609533_ThemGioHang.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ApplicationDbContext.cs" />
     <Compile Include="Models\ApplicationUser.cs" />
+    <Compile Include="Models\CartItem.cs" />
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\IdentityConfig.cs" />
     <Compile Include="Models\Order.cs" />
@@ -221,6 +227,9 @@
     <Content Include="Images\anh8.jpg" />
     <Content Include="Images\anh9.jpg" />
     <Content Include="Images\aosomiVintage.jpg" />
+    <Content Include="Images\Banner1.png" />
+    <Content Include="Images\Banner2.png" />
+    <Content Include="Images\Banner3.png" />
     <Content Include="Images\guitarYamaha.jpg" />
     <Content Include="Images\iphone16.jpg" />
     <Content Include="Images\second-hand.png" />
@@ -278,6 +287,8 @@
     <Content Include="Views\Product\ChiTiet.cshtml" />
     <Content Include="Views\Product\DangTin.cshtml" />
     <Content Include="Views\Order\DatHang.cshtml" />
+    <Content Include="Views\Cart\Index.cshtml" />
+    <Content Include="Views\Order\ThanhToan.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -316,6 +327,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202607201039594_ThemNgaySinh.resx">
       <DependentUpon>202607201039594_ThemNgaySinh.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202607221609533_ThemGioHang.resx">
+      <DependentUpon>202607221609533_ThemGioHang.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -19,16 +19,13 @@
                 <img src="~/images/second-hand.png" alt="Logo" /> SecondLife
             </a>
 
-            <form class="sl-search" method="get" action="@Url.Action("Index", "Product")">
-                <input type="text" name="tuKhoa" placeholder="Tìm sản phẩm..." />
-                <button type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
-            </form>
-
-            <nav class="sl-nav">
+            <nav class="sl-nav" style="margin-left:auto;">
                 <a href="@Url.Action("Index", "Home")">Trang chủ</a>
                 <a href="@Url.Action("Index", "Product")">Sản phẩm</a>
+
                 @if (Request.IsAuthenticated)
                 {
+                    <a href="@Url.Action("Index", "Cart")"><i class="fa-solid fa-cart-shopping"></i> Giỏ hàng</a>
                     <a href="@Url.Action("Index", "Profile")"><i class="fa-solid fa-user"></i> Tài khoản</a>
                     <a href="@Url.Action("DangTin", "Product")" class="btn-post"><i class="fa-solid fa-plus"></i> Đăng tin</a>
                 }

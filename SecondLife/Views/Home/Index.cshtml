@@ -4,186 +4,117 @@
     var danhMucs = ViewBag.DanhMucs as List<SecondLife.Models.Category> ?? new List<SecondLife.Models.Category>();
 }
 
-<!-- BANNER -->
-<!-- SLIDER BANNER -->
-<section class="slider" style="margin:24px 0;">
-    <div class="slides">
-        <div class="slide active" style="background:linear-gradient(135deg,#14a89c,#0f8a80);">
-            <div class="slide-text">
-                <span class="slide-tag"><i class="fa-solid fa-leaf"></i> Mua sắm thông minh</span>
-                <h1>Cũ với người,<br>mới với bạn</h1>
-                <p>Khám phá hàng ngàn món đồ chất lượng với giá cực kỳ ưu đãi.</p>
-                <a href="@Url.Action("Index", "Product")" class="btn" style="background:#fff; color:#14a89c;">Khám phá ngay</a>
-            </div>
-        </div>
+<!-- BANNER KIỂU CHỢ TỐT -->
+<section class="hero-banner">
+    <img src="~/Images/banner-trai.png" alt="" class="hero-img hero-left" />
+    <img src="~/Images/banner-phai.png" alt="" class="hero-img hero-right" />
 
-        <div class="slides">
-            <div class="slide active">
-                <img src="~/Images/Banner1.jpg" alt="Banner 1" />
-            </div>
-            <div class="slide">
-                <img src="~/Images/Banner2.jpg" alt="Banner 2" />
-            </div>
-            <div class="slide">
-                <img src="~/Images/Banner3.jpg" alt="Banner 3" />
-            </div>
-        </div>
+    <div class="hero-content">
+        <h1>Cũ với người, mới với bạn</h1>
+        <p>Mua bán đồ cũ an toàn, tiết kiệm, chốt nhanh!</p>
 
-        <div class="slide" style="background:linear-gradient(135deg,#0891b2,#075985);">
-            <div class="slide-text">
-                <span class="slide-tag"><i class="fa-solid fa-shield-halved"></i> Giao dịch an toàn</span>
-                <h1>Bán đồ cũ,<br>thêm thu nhập</h1>
-                <p>Đăng tin miễn phí, người bán được xác thực CCCD.</p>
-                <a href="@Url.Action("DangTin", "Product")" class="btn" style="background:#fff; color:#0891b2;">Đăng tin bán</a>
-            </div>
-        </div>
-    </div>
-
-    <button class="slider-btn prev" onclick="chuyenSlide(-1)"><i class="fa-solid fa-chevron-left"></i></button>
-    <button class="slider-btn next" onclick="chuyenSlide(1)"><i class="fa-solid fa-chevron-right"></i></button>
-
-    <div class="slider-dots">
-        <span class="dot active" onclick="chonSlide(0)"></span>
-        <span class="dot" onclick="chonSlide(1)"></span>
-        <span class="dot" onclick="chonSlide(2)"></span>
+        <form class="hero-search" method="get" action="@Url.Action("Index", "Product")">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" name="tuKhoa" placeholder="Tìm sản phẩm..." />
+            <button type="submit">Tìm kiếm</button>
+        </form>
     </div>
 </section>
 
 <style>
-    .slider {
+    .hero-banner {
         position: relative;
+        background: linear-gradient(135deg, #14a89c, #0f8a80);
         border-radius: 16px;
+        margin: 24px 0;
+        padding: 48px 24px 56px;
         overflow: hidden;
+        text-align: center;
     }
 
-    .slides {
+    .hero-content {
         position: relative;
-        height: 320px;
+        z-index: 2;
     }
 
-    .slide {
-        position: absolute;
-        inset: 0;
-        padding: 48px 40px;
-        color: #fff;
+        .hero-content h1 {
+            color: #fff;
+            font-size: 34px;
+            margin-bottom: 8px;
+        }
+
+        .hero-content p {
+            color: rgba(255,255,255,.92);
+            font-size: 16px;
+            margin-bottom: 24px;
+        }
+
+    .hero-search {
         display: flex;
         align-items: center;
-        opacity: 0;
-        transition: opacity .6s ease;
+        background: #fff;
+        border-radius: 12px;
+        max-width: 620px;
+        margin: 0 auto;
+        padding: 6px 6px 6px 16px;
+        box-shadow: 0 8px 24px rgba(0,0,0,.15);
     }
 
-        .slide.active {
-            opacity: 1;
+        .hero-search i {
+            color: #9ca3af;
+            font-size: 16px;
         }
 
-    .slide-text {
-        max-width: 560px;
-    }
+        .hero-search input {
+            flex: 1;
+            border: none;
+            outline: none;
+            padding: 12px;
+            font-size: 15px;
+        }
 
-    .slide-tag {
-        background: rgba(255,255,255,.2);
-        padding: 5px 14px;
-        border-radius: 20px;
-        font-size: 13px;
-    }
+        .hero-search button {
+            background: #14a89c;
+            color: #fff;
+            border: none;
+            padding: 12px 26px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 15px;
+            cursor: pointer;
+        }
 
-    .slide-text h1 {
-        font-size: 38px;
-        margin: 16px 0 12px;
-        line-height: 1.2;
-    }
+            .hero-search button:hover {
+                background: #0f8a80;
+            }
 
-    .slide-text p {
-        font-size: 16px;
+    /* Ảnh minh họa 2 bên */
+    .hero-img {
+        position: absolute;
+        bottom: 0;
+        height: 90%;
+        z-index: 1;
         opacity: .95;
-        margin-bottom: 24px;
     }
 
-    .slider-btn {
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        background: rgba(255,255,255,.25);
-        color: #fff;
-        border: none;
-        width: 42px;
-        height: 42px;
-        border-radius: 50%;
-        cursor: pointer;
-        font-size: 16px;
+    .hero-left {
+        left: 20px;
     }
 
-        .slider-btn:hover {
-            background: rgba(255,255,255,.4);
-        }
-
-        .slider-btn.prev {
-            left: 16px;
-        }
-
-        .slider-btn.next {
-            right: 16px;
-        }
-
-    .slider-dots {
-        position: absolute;
-        bottom: 16px;
-        left: 50%;
-        transform: translateX(-50%);
-        display: flex;
-        gap: 8px;
+    .hero-right {
+        right: 20px;
     }
 
-    .dot {
-        width: 10px;
-        height: 10px;
-        border-radius: 50%;
-        background: rgba(255,255,255,.5);
-        cursor: pointer;
-    }
-
-        .dot.active {
-            background: #fff;
-            width: 26px;
-            border-radius: 6px;
+    @@media (max-width: 800px) {
+        .hero-img {
+            display: none;
         }
 
-    @@media (max-width: 700px) {
-        .slides {
-            height: 280px;
-        }
-
-        .slide-text h1 {
-            font-size: 28px;
+        .hero-content h1 {
+            font-size: 26px;
         }
     }
 </style>
-
-<script>
-    var slideHienTai = 0;
-    var cacSlide = document.querySelectorAll(".slide");
-    var cacDot = document.querySelectorAll(".dot");
-
-    function hienThi(n) {
-        cacSlide.forEach(function (s) { s.classList.remove("active"); });
-        cacDot.forEach(function (d) { d.classList.remove("active"); });
-        cacSlide[n].classList.add("active");
-        cacDot[n].classList.add("active");
-    }
-
-    function chuyenSlide(huong) {
-        slideHienTai = (slideHienTai + huong + cacSlide.length) % cacSlide.length;
-        hienThi(slideHienTai);
-    }
-
-    function chonSlide(n) {
-        slideHienTai = n;
-        hienThi(slideHienTai);
-    }
-
-    // Tự chạy mỗi 4 giây
-    setInterval(function () { chuyenSlide(1); }, 4000);
-</script>
 
 <!-- THỐNG KÊ -->
 <section style="display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-bottom:36px;">

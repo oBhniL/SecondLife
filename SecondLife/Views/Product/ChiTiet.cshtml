@@ -63,10 +63,19 @@
 
         @if (Model.TrangThai == SecondLife.Models.TrangThaiSanPham.DaDuyet)
         {
-            <a href="@Url.Action("DatHang", "Order", new { id = Model.MaSanPham })"
-               class="btn btn-primary" style="margin-top:20px; padding:12px 40px;">
-                <i class="fa-solid fa-cart-shopping"></i> Mua ngay
-            </a>
+            <div style="display:flex; gap:12px; margin-top:20px;">
+                @using (Html.BeginForm("Them", "Cart", FormMethod.Post))
+                {
+                    <input type="hidden" name="id" value="@Model.MaSanPham" />
+                    <button type="submit" class="btn btn-outline" style="padding:12px 30px;">
+                        <i class="fa-solid fa-cart-plus"></i> Thêm vào giỏ
+                    </button>
+                }
+                <a href="@Url.Action("DatHang", "Order", new { id = Model.MaSanPham })"
+                   class="btn btn-primary" style="padding:12px 40px;">
+                    <i class="fa-solid fa-bolt"></i> Mua ngay
+                </a>
+            </div>
         }
         else
         {

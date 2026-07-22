@@ -1,0 +1,76 @@
+﻿@model SecondLife.Models.Product
+@{
+    ViewBag.Title = Model.TieuDe;
+}
+
+<a href="@Url.Action("Index", "Product")" style="display:inline-block; margin:20px 0; color:#2ec4b6;">
+    <i class="fa-solid fa-arrow-left"></i> Quay lại danh sách
+</a>
+
+<div style="display:flex; gap:28px; flex-wrap:wrap; background:#fff; padding:24px; border-radius:12px; border:1px solid #eceff1;">
+
+    <!-- Ảnh -->
+    <div style="flex:1; min-width:300px;">
+        @if (Model.DanhSachAnh != null && Model.DanhSachAnh.Count > 0)
+        {
+            <img src="@Url.Content(Model.DanhSachAnh.First().DuongDanAnh)" alt="@Model.TieuDe"
+                 style="width:100%; border-radius:10px; aspect-ratio:1/1; object-fit:cover;" />
+            <div style="display:flex; gap:8px; margin-top:10px; flex-wrap:wrap;">
+                @foreach (var anh in Model.DanhSachAnh)
+                {
+                    <img src="@Url.Content(anh.DuongDanAnh)" alt="anh"
+                         style="width:64px; height:64px; object-fit:cover; border-radius:6px; border:1px solid #eee;" />
+                }
+            </div>
+        }
+        else
+        {
+            <img src="~/images/second-hand.png" alt="No image" style="width:100%; border-radius:10px;" />
+        }
+    </div>
+
+    <!-- Thông tin -->
+    <div style="flex:1; min-width:300px;">
+        <h1 style="font-size:22px; color:#111;">@Model.TieuDe</h1>
+        <p style="color:#ef4444; font-size:26px; font-weight:700; margin:14px 0;">
+            @Model.Gia.ToString("#,##0")đ
+        </p>
+
+        <p style="color:#555; margin:6px 0;">
+            <i class="fa-solid fa-tag"></i> Danh mục:
+            <strong>@(Model.DanhMuc != null ? Model.DanhMuc.TenDanhMuc : "")</strong>
+        </p>
+        <p style="color:#555; margin:6px 0;">
+            <i class="fa-solid fa-star"></i> Tình trạng:
+            <strong>@Model.TinhTrangPhanTram% mới</strong>
+        </p>
+        <p style="color:#555; margin:6px 0;">
+            <i class="fa-solid fa-user"></i> Người bán:
+            <strong>
+                @(Model.NguoiBan == null ? "Ẩn danh"
+          : !string.IsNullOrEmpty(Model.NguoiBan.HoTen) ? Model.NguoiBan.HoTen
+          : Model.NguoiBan.Email)
+            </strong>
+        </p>
+        <p style="color:#555; margin:6px 0;">
+            <i class="fa-solid fa-clock"></i>
+            Đăng ngày: @Model.NgayDang.ToString("dd/MM/yyyy")
+        </p>
+
+        <hr style="margin:18px 0; border:none; border-top:1px solid #eceff1;" />
+        <h3 style="color:#111; margin-bottom:8px;">Mô tả</h3>
+        <p style="color:#444; white-space:pre-line;">@Model.MoTa</p>
+
+        @if (Model.TrangThai == SecondLife.Models.TrangThaiSanPham.DaDuyet)
+        {
+            <a href="@Url.Action("DatHang", "Order", new { id = Model.MaSanPham })"
+               class="btn btn-primary" style="margin-top:20px; padding:12px 40px;">
+                <i class="fa-solid fa-cart-shopping"></i> Mua ngay
+            </a>
+        }
+        else
+        {
+            <p style="color:#ef4444; margin-top:20px;">Sản phẩm này hiện không còn bán.</p>
+        }
+    </div>
+</div>

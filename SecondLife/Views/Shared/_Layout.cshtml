@@ -1,39 +1,58 @@
 ﻿<!DOCTYPE html>
-<html>
+<html lang="vi">
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
-    @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewBag.Title - SecondLife</title>
+    <link rel="stylesheet" href="~/Content/secondlife.css?v=3" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 </head>
 <body>
-    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark">
-        <div class="container">
-            @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" title="Toggle navigation" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse d-sm-inline-flex justify-content-between">
-                <ul class="navbar-nav flex-grow-1">
-                    <li>@Html.ActionLink("Home", "Index", "Home", new { area = "" }, new { @class = "nav-link" })</li>
-                    <li>@Html.ActionLink("About", "About", "Home", new { area = "" }, new { @class = "nav-link" })</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home", new { area = "" }, new { @class = "nav-link" })</li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
-        </footer>
-    </div>
+    @if (TempData["ThongBao"] != null)
+    {
+        <div class="toast" id="toast">@TempData["ThongBao"]</div>
+    }
 
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
+    <header class="sl-header">
+        <div class="sl-header-inner">
+            <a href="@Url.Action("Index", "Home")" class="sl-logo">
+                <img src="~/images/second-hand.png" alt="Logo" /> SecondLife
+            </a>
+
+            <form class="sl-search" method="get" action="@Url.Action("Index", "Product")">
+                <input type="text" name="tuKhoa" placeholder="Tìm sản phẩm..." />
+                <button type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+            </form>
+
+            <nav class="sl-nav">
+                <a href="@Url.Action("Index", "Home")">Trang chủ</a>
+                <a href="@Url.Action("Index", "Product")">Sản phẩm</a>
+                @if (Request.IsAuthenticated)
+                {
+                    <a href="@Url.Action("Index", "Profile")"><i class="fa-solid fa-user"></i> Tài khoản</a>
+                    <a href="@Url.Action("DangTin", "Product")" class="btn-post"><i class="fa-solid fa-plus"></i> Đăng tin</a>
+                }
+                else
+                {
+                    <a href="@Url.Action("Login", "Home")">Đăng nhập</a>
+                    <a href="@Url.Action("DangTin", "Product")" class="btn-post"><i class="fa-solid fa-plus"></i> Đăng tin</a>
+                }
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        @RenderBody()
+    </main>
+
+    <footer class="sl-footer">
+        © @DateTime.Now.Year SecondLife - Mua bán đồ cũ an toàn, tiết kiệm.
+    </footer>
+
+    <script>
+        var t = document.getElementById("toast");
+        if (t) setTimeout(function () { t.style.display = "none"; }, 3000);
+    </script>
     @RenderSection("scripts", required: false)
 </body>
 </html>

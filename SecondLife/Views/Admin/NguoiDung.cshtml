@@ -80,7 +80,7 @@
         <button type="submit" class="btn btn-xanh" style="padding:11px 22px;">
             <i class="fa-solid fa-magnifying-glass"></i> Tìm kiếm
         </button>
-        @if (!string.IsNullOrEmpty(tuKhoa))
+        if (!string.IsNullOrEmpty(tuKhoa))
         {
             <a href="@Url.Action("NguoiDung", "Admin")" class="btn btn-xam" style="padding:11px 22px;">Xóa lọc</a>
         }

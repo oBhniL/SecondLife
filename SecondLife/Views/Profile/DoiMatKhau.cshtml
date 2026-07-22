@@ -4,94 +4,32 @@
     ViewBag.Tab = "info";
 }
 
-<style>
-    .form-group {
-        margin-bottom: 18px;
-        max-width: 420px;
-    }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 6px;
-            color: #8fa3b8;
-            font-size: 14px;
-        }
-
-    .form-control {
-        width: 100%;
-        padding: 11px 14px;
-        background: #0d1b2a;
-        border: 1px solid #1e3a52;
-        border-radius: 8px;
-        color: #e0e6ed;
-        font-size: 14px;
-    }
-
-        .form-control:focus {
-            outline: none;
-            border-color: #2ec4b6;
-        }
-
-    .btn-xanh {
-        background: #2ec4b6;
-        color: #0d1b2a;
-        border: none;
-        padding: 12px 28px;
-        border-radius: 8px;
-        font-weight: 600;
-        cursor: pointer;
-        font-size: 14px;
-    }
-
-    .btn-xam {
-        background: transparent;
-        color: #8fa3b8;
-        border: 1px solid #1e3a52;
-        padding: 12px 28px;
-        border-radius: 8px;
-        font-weight: 600;
-        text-decoration: none;
-        display: inline-block;
-        font-size: 14px;
-    }
-
-    .canh-bao {
-        background: #3d1f1f;
-        border-left: 4px solid #ff6b6b;
-        padding: 14px;
-        border-radius: 8px;
-        margin-bottom: 20px;
-        font-size: 14px;
-        max-width: 420px;
-    }
-</style>
-
-<h2>Đổi mật khẩu</h2>
+<h2 style="color:#2ec4b6;">Đổi mật khẩu</h2>
 
 @if (TempData["Loi"] != null)
 {
-    <div class="canh-bao">@TempData["Loi"]</div>
+    <div class="sl-alert sl-alert-err" style="max-width:420px;">@TempData["Loi"]</div>
 }
 
 @using (Html.BeginForm("DoiMatKhau", "Profile", FormMethod.Post))
 {
     @Html.AntiForgeryToken()
 
-    <div class="form-group">
-        <label>Mật khẩu hiện tại</label>
-        <input type="password" name="MatKhauCu" class="form-control" required />
+    <div class="group" style="max-width:420px;">
+        <label style="font-weight:600;">Mật khẩu hiện tại</label>
+        <input type="password" name="MatKhauCu" required style="width:100%; padding:10px 12px; border:1px solid #d1d5db; border-radius:8px;" />
     </div>
-    <div class="form-group">
-        <label>Mật khẩu mới</label>
-        <input type="password" name="MatKhauMoi" class="form-control" required minlength="6" />
+    <div class="group" style="max-width:420px;">
+        <label style="font-weight:600;">Mật khẩu mới</label>
+        <input type="password" name="MatKhauMoi" required minlength="6" style="width:100%; padding:10px 12px; border:1px solid #d1d5db; border-radius:8px;" />
     </div>
-    <div class="form-group">
-        <label>Xác nhận mật khẩu mới</label>
-        <input type="password" name="XacNhanMatKhau" class="form-control" required minlength="6" />
+    <div class="group" style="max-width:420px;">
+        <label style="font-weight:600;">Xác nhận mật khẩu mới</label>
+        <input type="password" name="XacNhanMatKhau" required minlength="6" style="width:100%; padding:10px 12px; border:1px solid #d1d5db; border-radius:8px;" />
     </div>
 
-    <div style="margin-top:24px;display:flex;gap:12px;">
-        <button type="submit" class="btn-xanh">Đổi mật khẩu</button>
-        <a href="@Url.Action("Index", "Profile")" class="btn-xam">Hủy</a>
+    <div style="margin-top:20px; display:flex; gap:12px;">
+        <button type="submit" class="btn btn-primary">Đổi mật khẩu</button>
+        <a href="@Url.Action("Index", "Profile")" class="btn btn-outline">Hủy</a>
     </div>
 }

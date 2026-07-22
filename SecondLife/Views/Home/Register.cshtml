@@ -1,176 +1,129 @@
 ﻿@model SecondLife.Models.DangKyViewModel
 @{
-    ViewBag.Title = "Đăng Ký";
+    ViewBag.Title = "Đăng ký";
     Layout = null;
 }
 <!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="utf-8" />
-    <title>Đăng Ký - SecondLife</title>
+    <title>Đăng ký - SecondLife</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="~/Content/secondlife.css?v=3" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Arial, sans-serif;
-        }
-
         body {
-            background: #0d1b2a;
-            color: #ffffff;
-            min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
+            min-height: 100vh;
             padding: 40px 20px;
         }
 
-        .auth-container {
-            background: #13263c;
-            border: 1px solid #1f3a54;
+        .auth-box {
+            background: #fff;
+            border: 1px solid #eceff1;
             border-radius: 16px;
             padding: 40px;
             width: 100%;
             max-width: 440px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+            box-shadow: 0 10px 40px rgba(0,0,0,.08);
         }
 
-        .logo {
+        .auth-logo {
             text-align: center;
-            margin-bottom: 24px;
             font-size: 22px;
             font-weight: 800;
+            color: #2ec4b6;
+            margin-bottom: 8px;
         }
 
-            .logo span {
-                color: #2dd4bf;
-            }
-
-        h2 {
+        .auth-box h2 {
             text-align: center;
-            font-size: 26px;
-            margin-bottom: 6px;
+            font-size: 24px;
+            color: #111;
+            margin-bottom: 4px;
         }
 
-        .subtitle {
+        .auth-sub {
             text-align: center;
-            color: #9fb3c8;
+            color: #9ca3af;
             font-size: 14px;
-            margin-bottom: 28px;
+            margin-bottom: 26px;
         }
-
-        .form-group {
-            margin-bottom: 18px;
-        }
-
-        label {
-            display: block;
-            font-size: 13px;
-            color: #9fb3c8;
-            margin-bottom: 6px;
-        }
-
-        input {
-            width: 100%;
-            padding: 12px 14px;
-            border-radius: 8px;
-            border: 1px solid #1f3a54;
-            background: #0d1b2a;
-            color: #fff;
-            font-size: 14px;
-            outline: none;
-        }
-
-            input:focus {
-                border-color: #2dd4bf;
-            }
 
         .text-danger {
-            color: #ff6b6b;
+            color: #ef4444;
             font-size: 12px;
             margin-top: 4px;
             display: block;
         }
 
-        .btn-submit {
-            width: 100%;
-            padding: 13px;
-            border: none;
-            border-radius: 999px;
-            background: #2dd4bf;
-            color: #0d1b2a;
-            font-weight: 700;
-            font-size: 15px;
-            cursor: pointer;
-            margin-top: 10px;
-            transition: 0.2s;
-        }
-
-            .btn-submit:hover {
-                background: #25b8a5;
-            }
-
-        .switch-link {
+        .switch {
             text-align: center;
             margin-top: 20px;
             font-size: 14px;
-            color: #9fb3c8;
+            color: #6b7280;
         }
 
-            .switch-link a {
-                color: #2dd4bf;
-                text-decoration: none;
+            .switch a {
+                color: #2ec4b6;
                 font-weight: 600;
             }
+
+        .auth-box input {
+            width: 100%;
+            padding: 11px 14px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+        }
     </style>
 </head>
 <body>
-    <div class="auth-container">
-        <div class="logo">2HAND <span>SecondLife</span></div>
-        <h2>Tạo Tài Khoản</h2>
-        <p class="subtitle">Tham gia cộng đồng mua bán đồ cũ uy tín</p>
+    <div class="auth-box">
+        <div class="auth-logo"><i class="fa-solid fa-recycle"></i> SecondLife</div>
+        <h2>Tạo tài khoản</h2>
+        <p class="auth-sub">Tham gia cộng đồng mua bán đồ cũ uy tín</p>
 
         @using (Html.BeginForm("Register", "Home", FormMethod.Post))
         {
             @Html.AntiForgeryToken()
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-            <div class="form-group">
+            <div class="group">
                 @Html.LabelFor(m => m.HoTen)
                 @Html.TextBoxFor(m => m.HoTen)
                 @Html.ValidationMessageFor(m => m.HoTen, "", new { @class = "text-danger" })
             </div>
 
-            <div class="form-group">
+            <div class="group">
                 @Html.LabelFor(m => m.Email)
                 @Html.TextBoxFor(m => m.Email)
                 @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
             </div>
 
-            <div class="form-group">
+            <div class="group">
                 @Html.LabelFor(m => m.SoDienThoai)
                 @Html.TextBoxFor(m => m.SoDienThoai)
                 @Html.ValidationMessageFor(m => m.SoDienThoai, "", new { @class = "text-danger" })
             </div>
 
-            <div class="form-group">
+            <div class="group">
                 @Html.LabelFor(m => m.MatKhau)
                 @Html.PasswordFor(m => m.MatKhau)
                 @Html.ValidationMessageFor(m => m.MatKhau, "", new { @class = "text-danger" })
             </div>
 
-            <div class="form-group">
+            <div class="group">
                 @Html.LabelFor(m => m.XacNhanMatKhau)
                 @Html.PasswordFor(m => m.XacNhanMatKhau)
                 @Html.ValidationMessageFor(m => m.XacNhanMatKhau, "", new { @class = "text-danger" })
             </div>
 
-            <button type="submit" class="btn-submit">Đăng Ký</button>
+            <button type="submit" class="btn btn-primary btn-block" style="margin-top:8px;">Đăng ký</button>
         }
 
-        <div class="switch-link">
+        <div class="switch">
             Đã có tài khoản? <a href="@Url.Action("Login", "Home")">Đăng nhập ngay</a>
         </div>
     </div>

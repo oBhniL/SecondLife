@@ -1,0 +1,63 @@
+﻿@model List<SecondLife.Models.Product>
+@{
+    ViewBag.Title = "Danh sách sản phẩm";
+}
+
+<div class="sl-title">
+    <h1>Tất cả sản phẩm</h1>
+    <p>Tìm món đồ ưng ý với mức giá tốt nhất</p>
+</div>
+
+<!-- Lọc danh mục -->
+<form method="get" action="@Url.Action("Index", "Product")" style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:20px;">
+    <input type="text" name="tuKhoa" value="@ViewBag.TuKhoa" placeholder="Tìm theo tên..."
+           style="flex:1; min-width:220px; padding:10px 12px; border:1px solid #d1d5db; border-radius:8px;" />
+
+    <select name="danhMuc" style="padding:10px 12px; border:1px solid #d1d5db; border-radius:8px;">
+        <option value="">-- Tất cả danh mục --</option>
+        @foreach (var dm in (List<SecondLife.Models.Category>)ViewBag.DanhMucs)
+        {
+            if (ViewBag.DanhMucChon != null && (int)ViewBag.DanhMucChon == dm.MaDanhMuc)
+            {
+                <option value="@dm.MaDanhMuc" selected>@dm.TenDanhMuc</option>
+            }
+            else
+            {
+                <option value="@dm.MaDanhMuc">@dm.TenDanhMuc</option>
+            }
+        }
+    </select>
+
+    <button type="submit" class="btn btn-primary"><i class="fa-solid fa-magnifying-glass"></i> Tìm</button>
+</form>
+
+@if (Model.Count == 0)
+{
+    <p style="text-align:center; color:#888; padding:40px 0;">Không tìm thấy sản phẩm nào.</p>
+}
+else
+{
+    <div class="sl-grid">
+        @foreach (var sp in Model)
+        {
+            <a href="@Url.Action("ChiTiet", "Product", new { id = sp.MaSanPham })" class="sl-card">
+                <div class="sl-card-img">
+                    @if (sp.DanhSachAnh != null && sp.DanhSachAnh.Count > 0)
+                    {
+                        <img src="@Url.Content(sp.DanhSachAnh.First().DuongDanAnh)" alt="@sp.TieuDe" />
+                    }
+                    else
+                    {
+                        <img src="~/images/second-hand.png" alt="No image" />
+                    }
+                    <span class="sl-badge">@sp.TinhTrangPhanTram% New</span>
+                </div>
+                <div class="sl-card-body">
+                    <h3>@sp.TieuDe</h3>
+                    <span class="sl-cat">@(sp.DanhMuc != null ? sp.DanhMuc.TenDanhMuc : "")</span>
+                    <span class="sl-price">@sp.Gia.ToString("#,##0")đ</span>
+                </div>
+            </a>
+        }
+    </div>
+}

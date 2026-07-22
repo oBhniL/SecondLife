@@ -7,33 +7,24 @@
     ViewBag.HoTen = Model.HoTen;
 }
 
-<h2>Xác thực người bán</h2>
+<h2 style="color:#2ec4b6;">Xác thực người bán</h2>
 
 @switch (Model.TinhTrangXacThuc)
 {
     case TrangThaiXacThuc.DaDuyet:
-        <div style="background:#0d3b35;border-left:4px solid #2dd4bf;padding:16px;border-radius:8px;">
-            Tài khoản đã được xác thực. Bạn có thể đăng bán sản phẩm.
-        </div>
+        <div class="sl-alert sl-alert-ok">Tài khoản đã được xác thực. Bạn có thể đăng bán sản phẩm.</div>
         break;
-
     case TrangThaiXacThuc.DangCho:
-        <div style="background:#3d3418;border-left:4px solid #f0b429;padding:16px;border-radius:8px;">
+        <div class="sl-alert" style="background:#fef3c7; color:#b45309; border:1px solid #fde68a;">
             Hồ sơ đang chờ admin duyệt. Nộp lúc @Model.NgayNopXacThuc?.ToString("dd/MM/yyyy HH:mm").
         </div>
         break;
-
     case TrangThaiXacThuc.TuChoi:
-        <div style="background:#3d1f1f;border-left:4px solid #ff6b6b;padding:16px;border-radius:8px;margin-bottom:20px;">
-            Hồ sơ bị từ chối. Lý do: @Model.LyDoTuChoi
-        </div>
-        <p style="color:#8fa3b8;">Vui lòng nộp lại hồ sơ.</p>
+        <div class="sl-alert sl-alert-err">Hồ sơ bị từ chối. Lý do: @Model.LyDoTuChoi</div>
+        <p style="color:#6b7280;">Vui lòng nộp lại hồ sơ.</p>
         break;
-
     default:
-        <p style="color:#8fa3b8;margin-bottom:20px;">
-            Để đăng bán sản phẩm, bạn cần nộp ảnh CCCD 2 mặt để admin xác minh.
-        </p>
+        <p style="color:#6b7280; margin-bottom:20px;">Để đăng bán sản phẩm, bạn cần nộp ảnh CCCD 2 mặt để admin xác minh.</p>
         break;
 }
 
@@ -42,22 +33,18 @@
     using (Html.BeginForm("NopXacThuc", "Profile", FormMethod.Post, new { enctype = "multipart/form-data" }))
     {
         @Html.AntiForgeryToken()
-        <div style="margin-bottom:16px;">
-            <label style="display:block;margin-bottom:6px;color:#8fa3b8;font-size:14px;">Số CCCD</label>
-            <input type="text" name="SoCCCD" required
-                   style="width:100%;padding:10px;background:#0d1b2a;border:1px solid #1e3a52;border-radius:8px;color:#e0e6ed;" />
+        <div class="group" style="max-width:480px;">
+            <label style="font-weight:600;">Số CCCD</label>
+            <input type="text" name="SoCCCD" required style="width:100%; padding:10px 12px; border:1px solid #d1d5db; border-radius:8px;" />
         </div>
-        <div style="margin-bottom:16px;">
-            <label style="display:block;margin-bottom:6px;color:#8fa3b8;font-size:14px;">Ảnh CCCD mặt trước</label>
-            <input type="file" name="AnhTruoc" accept="image/*" required style="color:#e0e6ed;" />
+        <div class="group" style="max-width:480px;">
+            <label style="font-weight:600;">Ảnh CCCD mặt trước</label>
+            <input type="file" name="AnhTruoc" accept="image/*" required />
         </div>
-        <div style="margin-bottom:22px;">
-            <label style="display:block;margin-bottom:6px;color:#8fa3b8;font-size:14px;">Ảnh CCCD mặt sau</label>
-            <input type="file" name="AnhSau" accept="image/*" required style="color:#e0e6ed;" />
+        <div class="group" style="max-width:480px;">
+            <label style="font-weight:600;">Ảnh CCCD mặt sau</label>
+            <input type="file" name="AnhSau" accept="image/*" required />
         </div>
-        <button type="submit"
-                style="background:#2dd4bf;color:#0d1b2a;border:none;padding:12px 28px;border-radius:8px;font-weight:600;cursor:pointer;">
-            Nộp hồ sơ
-        </button>
+        <button type="submit" class="btn btn-primary">Nộp hồ sơ</button>
     }
 }

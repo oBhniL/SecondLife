@@ -1,0 +1,58 @@
+﻿@{
+    ViewBag.Title = "Đăng tin bán";
+}
+
+<div class="sl-title">
+    <h1>Đăng tin bán sản phẩm</h1>
+    <p>Điền thông tin món đồ bạn muốn bán. Tin sẽ được duyệt trước khi hiển thị.</p>
+</div>
+
+@if (TempData["Loi"] != null)
+{
+    <div class="sl-alert sl-alert-err" style="max-width:640px; margin:0 auto 16px;">@TempData["Loi"]</div>
+}
+
+<div class="sl-form">
+    @using (Html.BeginForm("DangTin", "Product", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="group">
+            <label>Tiêu đề</label>
+            <input type="text" name="TieuDe" placeholder="Ví dụ: Áo khoác denim size L còn mới 95%" required />
+        </div>
+
+        <div class="sl-row">
+            <div class="group">
+                <label>Giá bán (đ)</label>
+                <input type="number" name="Gia" min="0" placeholder="Nhập giá" required />
+            </div>
+            <div class="group">
+                <label>Tình trạng (% mới)</label>
+                <input type="number" name="TinhTrangPhanTram" min="0" max="100" value="90" required />
+            </div>
+        </div>
+
+        <div class="group">
+            <label>Danh mục</label>
+            <select name="MaDanhMuc" required>
+                @foreach (var dm in (List<SecondLife.Models.Category>)ViewBag.DanhMucs)
+                {
+                    <option value="@dm.MaDanhMuc">@dm.TenDanhMuc</option>
+                }
+            </select>
+        </div>
+
+        <div class="group">
+            <label>Mô tả chi tiết</label>
+            <textarea name="MoTa" rows="5" placeholder="Mô tả tình trạng, lý do bán, phụ kiện kèm theo..." required></textarea>
+        </div>
+
+        <div class="group">
+            <label>Hình ảnh (chọn nhiều được)</label>
+            <input type="file" name="DanhSachAnh" multiple accept="image/*" />
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-block">Đăng tin ngay</button>
+    }
+</div>

@@ -4,40 +4,48 @@
     Layout = "~/Views/Shared/_LayoutProfile.cshtml";
     ViewBag.Title = "Tin đã đăng";
     ViewBag.Tab = "tin";
-    ViewBag.HoTen = User.Identity.Name;
+    ViewBag.HoTen = Model.HoTen;
 }
 
-<h2>Tin đã đăng (@Model.Count)</h2>
+<h2 style="color:#2ec4b6;">Tin đã đăng (@Model.Count)</h2>
 
 @if (!Model.Any())
 {
-    <p style="color:#8fa3b8;">Bạn chưa đăng tin nào.</p>
+    <p style="color:#9ca3af;">Bạn chưa đăng tin nào.</p>
 }
 else
 {
     foreach (var sp in Model)
     {
-        <div style="display:flex;gap:16px;background:#0d1b2a;border-radius:10px;padding:14px;margin-bottom:12px;">
+        string mau = sp.TrangThai == TrangThaiSanPham.DaDuyet ? "#2ec4b6"
+                   : sp.TrangThai == TrangThaiSanPham.ChoDuyet ? "#f0b429"
+                   : sp.TrangThai == TrangThaiSanPham.DaBan ? "#6c8ebf" : "#ef4444";
+        string chu = sp.TrangThai == TrangThaiSanPham.DaDuyet ? "Đang bán"
+                   : sp.TrangThai == TrangThaiSanPham.ChoDuyet ? "Chờ duyệt"
+                   : sp.TrangThai == TrangThaiSanPham.DaBan ? "Đã bán"
+                   : sp.TrangThai == TrangThaiSanPham.TuChoi ? "Bị từ chối" : "Đã gỡ";
+
+        <div style="display:flex; gap:16px; background:#f8f9fa; border-radius:10px; padding:14px; margin-bottom:12px; align-items:center;">
             <img src="@(sp.DanhSachAnh != null && sp.DanhSachAnh.Any() ? Url.Content(sp.DanhSachAnh.First().DuongDanAnh) : Url.Content("~/Images/second-hand.png"))"
-                 style="width:88px;height:88px;object-fit:cover;border-radius:8px;" />
+                 style="width:88px; height:88px; object-fit:cover; border-radius:8px;" />
             <div style="flex:1;">
-                <div style="font-weight:600;margin-bottom:6px;">@sp.TieuDe</div>
-                <div style="color:#2dd4bf;font-weight:600;">@sp.Gia.ToString("N0") đ</div>
-                <div style="font-size:12px;color:#8fa3b8;margin-top:6px;">
-                    @sp.NgayDang.ToString("dd/MM/yyyy") · Tình trạng @sp.TinhTrangPhanTram%
-                </div>
+                <a href="@Url.Action("ChiTiet", "Product", new { id = sp.MaSanPham })" style="font-weight:600; color:#222;">@sp.TieuDe</a>
+                <div style="color:#ef4444; font-weight:700; margin-top:4px;">@sp.Gia.ToString("N0") đ</div>
+                <div style="font-size:12px; color:#9ca3af; margin-top:6px;">@sp.NgayDang.ToString("dd/MM/yyyy") · Tình trạng @sp.TinhTrangPhanTram%</div>
             </div>
-            <div style="text-align:right;">
-                @{
-                    string mau = sp.TrangThai == TrangThaiSanPham.DaDuyet ? "#2dd4bf"
-                               : sp.TrangThai == TrangThaiSanPham.ChoDuyet ? "#f0b429"
-                               : sp.TrangThai == TrangThaiSanPham.DaBan ? "#6c8ebf" : "#ff6b6b";
-                    string chu = sp.TrangThai == TrangThaiSanPham.DaDuyet ? "Đang bán"
-                               : sp.TrangThai == TrangThaiSanPham.ChoDuyet ? "Chờ duyệt"
-                               : sp.TrangThai == TrangThaiSanPham.DaBan ? "Đã bán"
-                               : sp.TrangThai == TrangThaiSanPham.TuChoi ? "Bị từ chối" : "Đã gỡ";
+            <div style="text-align:right; display:flex; flex-direction:column; gap:8px; align-items:flex-end;">
+                <span style="background:@mau; color:#fff; padding:4px 12px; border-radius:20px; font-size:12px;">@chu</span>
+                @if (sp.TrangThai != TrangThaiSanPham.DaBan && sp.TrangThai != TrangThaiSanPham.DaGo)
+                {
+                    using (Html.BeginForm("XoaTin", "Product", FormMethod.Post))
+                    {
+                        <input type="hidden" name="id" value="@sp.MaSanPham" />
+                        <button type="submit" class="btn btn-danger" style="padding:5px 14px; font-size:12px;"
+                                onclick="return confirm('Gỡ tin này?');">
+                            Gỡ tin
+                        </button>
+                    }
                 }
-                <span style="background:@mau;color:#0d1b2a;padding:4px 10px;border-radius:20px;font-size:12px;">@chu</span>
             </div>
         </div>
     }

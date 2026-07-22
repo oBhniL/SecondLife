@@ -271,6 +271,7 @@
     <Content Include="Views\Admin\DuyetXacThuc.cshtml" />
     <Content Include="Views\Admin\NguoiDung.cshtml" />
     <Content Include="Views\Admin\DonHang.cshtml" />
+    <Content Include="Views\Profile\test.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

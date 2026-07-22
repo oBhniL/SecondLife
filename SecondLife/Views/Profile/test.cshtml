@@ -1,0 +1,264 @@
+﻿@* Giả sử bạn đang truyền một Model chứa thông tin sản phẩm từ Controller sang *@
+@* Thay đổi namespace "YourProjectName.Models.Product" cho đúng với project của bạn *@
+@model dynamic
+
+@{
+    ViewData["Title"] = "Chi tiết sản phẩm";
+    // Layout = "~/Views/Shared/_Layout.cshtml"; // Bỏ comment dòng này nếu bạn đang dùng Layout chung
+}
+
+<!-- NHÚNG CSS TRỰC TIẾP VÀO VIEW -->
+<style>
+    :root {
+        /* Các mã màu chủ đạo của hệ thống SecondLife */
+        --sl-bg-main: #0B1320;
+        --sl-bg-card: #16202D;
+        --sl-accent: #26C6DA;
+        --sl-accent-hover: #1FA3B5;
+        --sl-text-main: #FFFFFF;
+        --sl-text-muted: #94A3B8;
+        --sl-border: #2D3748;
+    }
+
+    body {
+        background-color: var(--sl-bg-main);
+        color: var(--sl-text-main);
+    }
+
+    .product-detail-card {
+        background-color: var(--sl-bg-card);
+        border-radius: 12px;
+        padding: 24px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    }
+
+    .text-accent {
+        color: var(--sl-accent) !important;
+    }
+
+    .text-muted-custom {
+        color: var(--sl-text-muted) !important;
+    }
+
+    .btn-accent {
+        background-color: var(--sl-accent);
+        color: #fff;
+        border: none;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+
+        .btn-accent:hover {
+            background-color: var(--sl-accent-hover);
+            color: #fff;
+        }
+
+    .btn-outline-accent {
+        background-color: transparent;
+        color: var(--sl-accent);
+        border: 1px solid var(--sl-accent);
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+
+        .btn-outline-accent:hover {
+            background-color: var(--sl-accent);
+            color: #fff;
+        }
+
+    .border-custom {
+        border-color: var(--sl-border) !important;
+    }
+
+    .img-main-view {
+        width: 100%;
+        height: 450px;
+        object-fit: cover;
+        border-radius: 8px;
+    }
+
+    .thumbnail-img {
+        width: 80px;
+        height: 80px;
+        object-fit: cover;
+        border-radius: 6px;
+        cursor: pointer;
+        border: 2px solid transparent;
+        transition: all 0.2s ease;
+    }
+
+        .thumbnail-img:hover, .thumbnail-img.active {
+            border-color: var(--sl-accent);
+        }
+
+    .input-custom {
+        background-color: #0F1722;
+        border: 1px solid var(--sl-border);
+        color: var(--sl-text-main);
+    }
+
+        .input-custom:focus {
+            background-color: #0F1722;
+            border-color: var(--sl-accent);
+            color: var(--sl-text-main);
+            box-shadow: 0 0 0 0.25rem rgba(38, 198, 218, 0.25);
+        }
+
+    /* Ẩn mũi tên tăng giảm số trong thẻ input type="number" */
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+</style>
+
+<!-- Yêu cầu có thư viện Bootstrap Icons. Nếu bạn chưa có, hãy thêm dòng link này vào thẻ <head> trong _Layout.cshtml -->
+<!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"> -->
+
+<div class="container mt-4 mb-5">
+    <!-- HÀNG 1: ẢNH VÀ THÔNG TIN CƠ BẢN -->
+    <div class="row g-4">
+        <!-- Cột trái: Thư viện ảnh -->
+        <div class="col-lg-5">
+            <div class="product-detail-card h-100">
+                <!-- Ảnh chính -->
+                <div class="position-relative mb-3">
+                    @* Code thực tế: <img src="~/images/products/@Model.MainImage" class="img-main-view" /> *@
+                    <img src="https://via.placeholder.com/600x800/16202D/FFFFFF?text=Anh+Chinh+San+Pham" alt="Sản phẩm" class="img-main-view" id="mainImage" />
+                </div>
+                <!-- Các ảnh nhỏ (Thumbnails) -->
+                <div class="d-flex gap-2 overflow-auto">
+                    <img src="https://via.placeholder.com/80x80/16202D/FFFFFF?text=1" class="thumbnail-img active" onclick="changeImage(this)" />
+                    <img src="https://via.placeholder.com/80x80/16202D/FFFFFF?text=2" class="thumbnail-img" onclick="changeImage(this)" />
+                    <img src="https://via.placeholder.com/80x80/16202D/FFFFFF?text=3" class="thumbnail-img" onclick="changeImage(this)" />
+                </div>
+            </div>
+        </div>
+
+        <!-- Cột phải: Chi tiết và Hành động -->
+        <div class="col-lg-7">
+            <div class="product-detail-card h-100">
+                <!-- Tiêu đề và nút Lưu -->
+                <div class="d-flex justify-content-between align-items-start mb-2">
+                    @* Code thực tế: <h3 class="fw-bold">@Model.ProductName</h3> *@
+                    <h3 class="fw-bold">Thanh lý 6 bộ máy tính như hình</h3>
+
+                    <button class="btn btn-outline-light rounded-pill btn-sm d-flex align-items-center gap-1">
+                        <i class="bi bi-heart"></i> Lưu
+                    </button>
+                </div>
+
+                @* Code thực tế: <p class="text-muted-custom mb-3">@Model.ShortDescription</p> *@
+                <p class="text-muted-custom mb-3">Intel Core i5 • 16 GB • 256 GB • SSD</p>
+
+                <!-- Giá tiền -->
+                @* Code thực tế: <h2 class="text-accent fw-bold mb-3">@Model.Price.ToString("N0") đ</h2> *@
+                <h2 class="text-accent fw-bold mb-3">8.000.000 đ</h2>
+
+                <!-- Địa điểm và Thời gian -->
+                <div class="text-muted-custom mb-4">
+                    @* Code thực tế: <p class="mb-1"><i class="bi bi-geo-alt me-2"></i>@Model.Address</p> *@
+                    <p class="mb-1"><i class="bi bi-geo-alt me-2"></i>Đường Phạm Tu (Phường An Hải, TP Đà Nẵng)</p>
+
+                    @* Code thực tế: <p class="mb-1"><i class="bi bi-clock me-2"></i>@Model.CreatedDate.ToString("dd/MM/yyyy")</p> *@
+                    <p class="mb-1"><i class="bi bi-clock me-2"></i>Cập nhật 1 ngày trước</p>
+                </div>
+
+                <!-- Nút liên hệ -->
+                <div class="row g-3 mb-4">
+                    <div class="col-6">
+                        @* Code thực tế sẽ gọi JS để lấy SĐT thật *@
+                        <button class="btn btn-outline-accent w-100 py-2 rounded-pill" onclick="this.innerText='0905189999'">Hiện số 090518****</button>
+                    </div>
+                    <div class="col-6">
+                        <button class="btn btn-accent w-100 py-2 rounded-pill">
+                            <i class="bi bi-chat-dots me-2"></i> Chat
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Thông tin người bán -->
+                <div class="d-flex align-items-center border-top border-bottom border-custom py-3 mb-4">
+                    <div class="rounded-circle bg-warning text-dark d-flex justify-content-center align-items-center fw-bold me-3" style="width: 50px; height: 50px; font-size: 1.2rem;">
+                        @* Lấy chữ cái đầu của tên người bán *@
+                        C
+                    </div>
+                    <div class="flex-grow-1">
+                        @* Code thực tế: <h6 class="mb-0 fw-bold">@Model.Seller.Username</h6> *@
+                        <h6 class="mb-0 fw-bold">chivas 25</h6>
+                        <small class="text-muted-custom">Hoạt động 1 ngày trước</small>
+                    </div>
+                    <div class="text-center me-4">
+                        <div class="fw-bold">6</div>
+                        <small class="text-muted-custom">Đã bán</small>
+                    </div>
+                    <button class="btn btn-outline-light btn-sm rounded-pill px-3">Xem trang</button>
+                </div>
+
+                <!-- Nhắn tin nhanh -->
+                <div class="d-flex gap-2 mb-4">
+                    <input type="text" class="form-control input-custom rounded-pill px-4" placeholder="Nhắn hỏi mua hàng...">
+                    <button class="btn btn-accent rounded-pill px-4">Gửi</button>
+                </div>
+
+                <!-- Mặc cả (Deal giá) -->
+                <div>
+                    <h6 class="fw-bold mb-3">Deal giá</h6>
+                    <form action="#" method="post">
+                        <div class="input-group">
+                            <input type="number" class="form-control input-custom" placeholder="Nhập giá bạn mong muốn *" required>
+                            <span class="input-group-text bg-transparent text-muted-custom border-custom">đ</span>
+                            <button type="submit" class="btn btn-outline-accent">Trả giá</button>
+                        </div>
+                    </form>
+                    <small class="text-muted-custom mt-2 d-block">Giá gốc: 8.000.000 đ</small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- HÀNG 2: MÔ TẢ VÀ BÌNH LUẬN -->
+    <div class="row g-4 mt-1">
+        <!-- Cột trái: Mô tả chi tiết -->
+        <div class="col-lg-8">
+            <div class="product-detail-card h-100">
+                <h5 class="fw-bold border-bottom border-custom pb-3 mb-3">Mô tả chi tiết</h5>
+                <div class="text-light" style="line-height: 1.8;">
+                    @* Code thực tế: @Html.Raw(Model.Description) *@
+                    <p>Thanh lý dàn máy tính 8tr/1 bộ (cấu hình là h510 i5 11400f ram 16 ssd 256 nguồn 500w màn 24 in)</p>
+                    <p>Ghế 900/1<br>Bàn 300/1</p>
+                    <p>Hàng còn bảo hành dài hạn. Fix nhẹ cho anh em nhiệt tình đến xem trực tiếp.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cột phải: Bình luận -->
+        <div class="col-lg-4">
+            <div class="product-detail-card h-100">
+                <h5 class="fw-bold border-bottom border-custom pb-3 mb-3">Bình luận</h5>
+                <div class="text-center text-muted-custom py-5">
+                    <i class="bi bi-chat-square-text fs-1 mb-3 d-block"></i>
+                    <p>Chưa có bình luận nào</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ĐOẠN SCRIPT XỬ LÝ ĐỔI ẢNH KHI CLICK VÀO THUMBNAIL -->
+<script>
+    function changeImage(element) {
+        // Lấy src của ảnh được click
+        var newSrc = element.src;
+        // Đổi src của ảnh chính
+        document.getElementById('mainImage').src = newSrc;
+
+        // Xóa class 'active' ở tất cả các thumbnail
+        var thumbnails = document.getElementsByClassName('thumbnail-img');
+        for (var i = 0; i < thumbnails.length; i++) {
+            thumbnails[i].classList.remove('active');
+        }
+        // Thêm class 'active' vào thumbnail vừa được click
+        element.classList.add('active');
+    }
+</script>

@@ -52,7 +52,56 @@ namespace SecondLife.Controllers
                        .ToList();
             return View(ds);
         }
+        // ===== ĐƠN BÁN - các đơn chứa sản phẩm của mình =====
+        public ActionResult DonBan()
+        {
+            string id = User.Identity.GetUserId();
 
+            // Lấy các chi tiết đơn mà sản phẩm là của mình
+            var dsChiTiet = db.ChiTietDonHangs
+                              .Include(c => c.DonHang)
+                              .Include(c => c.DonHang.NguoiMua)
+                              .Include(c => c.SanPham)
+                              .Where(c => c.SanPham.MaNguoiBan == id)
+                              .OrderByDescending(c => c.DonHang.NgayDatHang)
+                              .ToList();
+
+            return View(dsChiTiet);
+        }
+
+        // ===== CẬP NHẬT TRẠNG THÁI ĐƠN =====
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CapNhatDonBan(int maDonHang, string trangThaiMoi)
+        {
+            string id = User.Identity.GetUserId();
+
+            // Kiểm tra đơn này có chứa sản phẩm của mình không
+            bool laCuaMinh = db.ChiTietDonHangs
+                               .Any(c => c.MaDonHang == maDonHang && c.SanPham.MaNguoiBan == id);
+
+            if (!laCuaMinh)
+            {
+                TempData["Loi"] = "Bạn không có quyền cập nhật đơn này.";
+                return RedirectToAction("DonBan");
+            }
+
+            var dh = db.DonHangs.FirstOrDefault(d => d.MaDonHang == maDonHang);
+            if (dh != null)
+            {
+                if (trangThaiMoi == "DangGiao")
+                    dh.TrangThai = TrangThaiDonHang.DangGiao;
+                else if (trangThaiMoi == "HoanTat")
+                    dh.TrangThai = TrangThaiDonHang.HoanTat;
+                else if (trangThaiMoi == "DaHuy")
+                    dh.TrangThai = TrangThaiDonHang.DaHuy;
+
+                db.SaveChanges();
+                TempData["ThongBao"] = "Đã cập nhật trạng thái đơn hàng.";
+            }
+
+            return RedirectToAction("DonBan");
+        }
         public ActionResult XacThuc()
         {
             string id = User.Identity.GetUserId();

@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewBag.Title - SecondLife</title>
-    <link rel="stylesheet" href="~/Content/secondlife.css?v=3" />
+    <link rel="stylesheet" href="~/Content/secondlife.css?v=6" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 </head>
 <body>
@@ -55,6 +55,9 @@
                 <a href="@Url.Action("DonHang", "Profile")" class="@(ViewBag.Tab == "don" ? "active" : "")">
                     <i class="fa-solid fa-box"></i> Đơn hàng của tôi
                 </a>
+                <a href="@Url.Action("DonBan", "Profile")" class="@(ViewBag.Tab == "donban" ? "active" : "")">
+                    <i class="fa-solid fa-store"></i> Đơn bán của tôi
+                </a>
                 <a href="@Url.Action("XacThuc", "Profile")" class="@(ViewBag.Tab == "xt" ? "active" : "")">
                     <i class="fa-solid fa-id-card"></i> Xác thực người bán
                 </a>
@@ -66,7 +69,11 @@
                 }
 
                 <div class="pf-divider"></div>
-                <a href="@Url.Action("Login", "Home")" class="pf-logout">
+                @using (Html.BeginForm("LogOut", "Home", FormMethod.Post, new { id = "formDangXuat" }))
+                {
+                    @Html.AntiForgeryToken()
+                }
+                <a href="javascript:void(0)" class="pf-logout" onclick="document.getElementById('formDangXuat').submit();">
                     <i class="fa-solid fa-right-from-bracket"></i> Đăng xuất
                 </a>
             </div>

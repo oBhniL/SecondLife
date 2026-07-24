@@ -253,6 +253,13 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\Script.js" />
+    <Content Include="Uploads\Avatar\a60062d0-f124-4604-b6d2-83a548f65a52_avatar.jpg" />
+    <Content Include="Uploads\Avatar\fe1bcc87-95db-4d25-87dd-2d946b64bdcc_avatar.jpg" />
+    <Content Include="Uploads\SanPham\1_1.jpg" />
+    <Content Include="Uploads\SanPham\2_1.jpg" />
+    <Content Include="Uploads\SanPham\2_2.jpg" />
+    <Content Include="Uploads\SanPham\3_1.jpg" />
+    <Content Include="Uploads\SanPham\4_1.jpg" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -289,6 +296,7 @@
     <Content Include="Views\Order\DatHang.cshtml" />
     <Content Include="Views\Cart\Index.cshtml" />
     <Content Include="Views\Order\ThanhToan.cshtml" />
+    <Content Include="Views\Profile\DonBan.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

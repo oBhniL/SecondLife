@@ -1,10 +1,34 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNet.Identity
+@using System.Linq
+@{
+    bool daXacThuc = false;
+    bool laAdmin = false;
+    string tenNguoiDung = "";
+    string avatarNguoiDung = null;
+
+    if (Request.IsAuthenticated)
+    {
+        laAdmin = User.IsInRole("Admin");
+
+        var dbLayout = new SecondLife.Models.ApplicationDbContext();
+        var uid = User.Identity.GetUserId();
+        var u = dbLayout.Users.FirstOrDefault(x => x.Id == uid);
+
+        if (u != null)
+        {
+            daXacThuc = (u.TinhTrangXacThuc == SecondLife.Models.TrangThaiXacThuc.DaDuyet);
+            tenNguoiDung = !string.IsNullOrEmpty(u.HoTen) ? u.HoTen : u.Email;
+            avatarNguoiDung = u.AnhDaiDien;
+        }
+    }
+}
+<!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewBag.Title - SecondLife</title>
-    <link rel="stylesheet" href="~/Content/secondlife.css?v=3" />
+    <link rel="stylesheet" href="~/Content/secondlife.css?v=6" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 </head>
 <body>
@@ -25,14 +49,67 @@
 
                 @if (Request.IsAuthenticated)
                 {
-                    <a href="@Url.Action("Index", "Cart")"><i class="fa-solid fa-cart-shopping"></i> Giỏ hàng</a>
-                    <a href="@Url.Action("Index", "Profile")"><i class="fa-solid fa-user"></i> Tài khoản</a>
-                    <a href="@Url.Action("DangTin", "Product")" class="btn-post"><i class="fa-solid fa-plus"></i> Đăng tin</a>
+                    if (!laAdmin)
+                    {
+                        <a href="@Url.Action("Index", "Cart")"><i class="fa-solid fa-cart-shopping"></i> Giỏ hàng</a>
+                    }
+
+                    <div class="user-drop">
+                        <a href="javascript:void(0)" onclick="toggleDrop()" style="display:flex; align-items:center; gap:8px;">
+                            @if (!string.IsNullOrEmpty(avatarNguoiDung))
+                            {
+                                <img src="@Url.Content(avatarNguoiDung)" alt="avatar"
+                                     style="width:30px; height:30px; border-radius:50%; object-fit:cover; flex-shrink:0;" />
+                            }
+                            else
+                            {
+                                <span style="width:30px; height:30px; border-radius:50%; background:#14a89c; color:#fff; display:flex; align-items:center; justify-content:center; font-size:14px; font-weight:700; flex-shrink:0;">@tenNguoiDung.Substring(0, 1).ToUpper()</span>
+                            }
+                            <span>@tenNguoiDung</span>
+                            <i class="fa-solid fa-chevron-down" style="font-size:11px;"></i>
+                        </a>
+
+                        <div class="drop-menu" id="dropMenu">
+                            @if (laAdmin)
+                            {
+                                <a href="@Url.Action("Index", "Admin")"><i class="fa-solid fa-gauge"></i> Trang quản trị</a>
+                                <div class="drop-line"></div>
+                                <a href="@Url.Action("LogOut", "Home")" style="color:#ef4444;">
+                                    <i class="fa-solid fa-right-from-bracket"></i> Đăng xuất
+                                </a>
+                            }
+                            else
+                            {
+                                <a href="@Url.Action("Index", "Profile")"><i class="fa-solid fa-user"></i> Thông tin cá nhân</a>
+                                <a href="@Url.Action("TinDaDang", "Profile")"><i class="fa-solid fa-tag"></i> Tin đã đăng</a>
+                                <a href="@Url.Action("DonHang", "Profile")"><i class="fa-solid fa-box"></i> Đơn hàng của tôi</a>
+                                <a href="@Url.Action("DonBan", "Profile")"><i class="fa-solid fa-store"></i> Đơn bán của tôi</a>
+                                <div class="drop-line"></div>
+                                <a href="@Url.Action("LogOut", "Home")" style="color:#ef4444;">
+                                    <i class="fa-solid fa-right-from-bracket"></i> Đăng xuất
+                                </a>
+                            }
+                        </div>
+                    </div>
+
+                    if (!laAdmin)
+                    {
+                        if (daXacThuc)
+                        {
+                            <a href="@Url.Action("DangTin", "Product")" class="btn-post"><i class="fa-solid fa-plus"></i> Đăng tin</a>
+                        }
+                        else
+                        {
+                            <a href="@Url.Action("XacThuc", "Profile")" class="btn-post" style="background:#f0b429;">
+                                <i class="fa-solid fa-id-card"></i> Xác thực để bán
+                            </a>
+                        }
+                    }
                 }
                 else
                 {
                     <a href="@Url.Action("Login", "Home")">Đăng nhập</a>
-                    <a href="@Url.Action("DangTin", "Product")" class="btn-post"><i class="fa-solid fa-plus"></i> Đăng tin</a>
+                    <a href="@Url.Action("Register", "Home")" class="btn-post">Đăng ký</a>
                 }
             </nav>
         </div>
@@ -49,6 +126,18 @@
     <script>
         var t = document.getElementById("toast");
         if (t) setTimeout(function () { t.style.display = "none"; }, 3000);
+
+        function toggleDrop() {
+            document.getElementById("dropMenu").classList.toggle("hien");
+        }
+
+        document.addEventListener("click", function (e) {
+            var drop = document.querySelector(".user-drop");
+            var menu = document.getElementById("dropMenu");
+            if (drop && menu && !drop.contains(e.target)) {
+                menu.classList.remove("hien");
+            }
+        });
     </script>
     @RenderSection("scripts", required: false)
 </body>

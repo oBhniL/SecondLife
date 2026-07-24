@@ -131,7 +131,7 @@ namespace SecondLife.Controllers
                     if (nd != null && UserManager.IsInRole(nd.Id, "Admin"))
                     {
                         TempData["ThongBao"] = "Chào Admin!";
-                        return RedirectToAction("Index", "Admin");
+                        return RedirectToAction("Index", "Home");
                     }
                     TempData["ThongBao"] = "Đăng nhập thành công!";
                     return RedirectToAction("Index", "Home");
@@ -146,8 +146,6 @@ namespace SecondLife.Controllers
         }
 
         // Đăng xuất
-        [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult LogOut()
         {
             AuthenticationManager.SignOut(Microsoft.AspNet.Identity.DefaultAuthenticationTypes.ApplicationCookie);

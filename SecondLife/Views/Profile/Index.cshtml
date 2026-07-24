@@ -4,7 +4,7 @@
     Layout = "~/Views/Shared/_LayoutProfile.cshtml";
     ViewBag.Title = "Thông tin cá nhân";
     ViewBag.Tab = "info";
-    ViewBag.HoTen = Model.HoTen;
+    ViewBag.HoTen = User.Identity.Name;
     ViewBag.AnhDaiDien = Model.AnhDaiDien;
     var tinCuaToi = ViewBag.TinCuaToi as List<Product> ?? new List<Product>();
     int tongTin = ViewBag.TongTin ?? 0;

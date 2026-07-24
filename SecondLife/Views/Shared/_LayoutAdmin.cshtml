@@ -292,6 +292,70 @@
                 border-bottom: 1px solid #1e3a52;
             }
         }
+        .ad-user-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+
+        .ad-avatar {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: #2ec4b6;
+            color: #0d1b2a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .ad-drop {
+            position: relative;
+        }
+
+        .ad-drop-menu {
+            display: none;
+            position: absolute;
+            top: calc(100% + 12px);
+            right: 0;
+            background: #132437;
+            border: 1px solid #1e3a52;
+            border-radius: 10px;
+            min-width: 200px;
+            padding: 6px;
+            z-index: 200;
+            box-shadow: 0 8px 24px rgba(0,0,0,.4);
+        }
+
+            .ad-drop-menu.hien {
+                display: block;
+            }
+
+            .ad-drop-menu a {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                padding: 10px 12px;
+                border-radius: 8px;
+                font-size: 14px;
+                color: #c5d1de;
+                white-space: nowrap;
+            }
+
+                .ad-drop-menu a:hover {
+                    background: #1b3350;
+                    color: #2ec4b6;
+                }
+
+        .ad-drop-line {
+            height: 1px;
+            background: #1e3a52;
+            margin: 5px 0;
+        }
     </style>
 </head>
 <body>
@@ -309,9 +373,24 @@
             SecondLife <span>ADMIN</span>
         </a>
         <div class="ad-user">
-            <span>@User.Identity.Name</span>
             <a href="@Url.Action("Index", "Home")"><i class="fa-solid fa-house"></i> Trang chủ</a>
-            <a href="@Url.Action("Login", "Home")" style="color:#ff6b6b;"><i class="fa-solid fa-right-from-bracket"></i> Đăng xuất</a>
+
+            <div class="ad-drop">
+                <a href="javascript:void(0)" onclick="toggleDropAd()" class="ad-user-btn">
+                    <span class="ad-avatar">@User.Identity.Name.Substring(0, 1).ToUpper()</span>
+                    <span>@User.Identity.Name</span>
+                    <i class="fa-solid fa-chevron-down" style="font-size:10px;"></i>
+                </a>
+
+                <div class="ad-drop-menu" id="dropAd">
+                    <a href="@Url.Action("Index", "Profile")"><i class="fa-solid fa-user"></i> Thông tin cá nhân</a>
+                    <a href="@Url.Action("Index", "Home")"><i class="fa-solid fa-store"></i> Về trang bán hàng</a>
+                    <div class="ad-drop-line"></div>
+                    <a href="@Url.Action("LogOut", "Home")" style="color:#ff6b6b;">
+                        <i class="fa-solid fa-right-from-bracket"></i> Đăng xuất
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -360,6 +439,18 @@
         ["toastOk", "toastLoi"].forEach(function (id) {
             var t = document.getElementById(id);
             if (t) setTimeout(function () { t.style.display = "none"; }, 3000);
+        });
+    </script>
+    <script>
+        function toggleDropAd() {
+            document.getElementById("dropAd").classList.toggle("hien");
+        }
+        document.addEventListener("click", function (e) {
+            var drop = document.querySelector(".ad-drop");
+            var menu = document.getElementById("dropAd");
+            if (drop && menu && !drop.contains(e.target)) {
+                menu.classList.remove("hien");
+            }
         });
     </script>
 </body>

@@ -4,7 +4,7 @@
     Layout = "~/Views/Shared/_LayoutProfile.cshtml";
     ViewBag.Title = "Tin đã đăng";
     ViewBag.Tab = "tin";
-    ViewBag.HoTen = Model.HoTen;
+    ViewBag.HoTen = User.Identity.Name;
 }
 
 <h2 style="color:#2ec4b6;">Tin đã đăng (@Model.Count)</h2>

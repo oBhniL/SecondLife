@@ -1,0 +1,194 @@
+﻿@model List<SecondLife.Models.OrderDetail>
+@using SecondLife.Models
+@{
+    Layout = "~/Views/Shared/_LayoutProfile.cshtml";
+    ViewBag.Title = "Đơn bán của tôi";
+    ViewBag.Tab = "donban";
+}
+
+<h2 style="color:#14a89c;">Đơn bán của tôi (@Model.Count)</h2>
+
+@if (TempData["Loi"] != null)
+{
+    <div class="sl-alert sl-alert-err">@TempData["Loi"]</div>
+}
+
+@if (!Model.Any())
+{
+    int soTin = ViewBag.SoTinDaDang ?? 0;
+    <div style="text-align:center; padding:40px 20px; color:#9ca3af;">
+        @if (soTin == 0)
+        {
+            <i class="fa-solid fa-store" style="font-size:36px; color:#14a89c; display:block; margin-bottom:12px;"></i>
+            <text>Bạn chưa đăng bán sản phẩm nào.</text>
+            <br />
+            <a href="@Url.Action("DangTin", "Product")" class="btn btn-primary" style="margin-top:14px;">Đăng tin đầu tiên</a>
+        }
+        else
+        {
+            <i class="fa-solid fa-clock" style="font-size:36px; color:#14a89c; display:block; margin-bottom:12px;"></i>
+            <text>Bạn đã đăng @soTin tin, nhưng chưa có ai đặt mua.</text>
+        }
+    </div>
+}
+else
+{
+    foreach (var ct in Model)
+    {
+        var dh = ct.DonHang;
+        string mau = dh.TrangThai == TrangThaiDonHang.HoanTat ? "#14a89c"
+                   : dh.TrangThai == TrangThaiDonHang.DangGiao ? "#6c8ebf"
+                   : dh.TrangThai == TrangThaiDonHang.ChoXacNhan ? "#f0b429" : "#ef4444";
+        string chu = dh.TrangThai == TrangThaiDonHang.HoanTat ? "Hoàn tất"
+                   : dh.TrangThai == TrangThaiDonHang.DangGiao ? "Đang giao"
+                   : dh.TrangThai == TrangThaiDonHang.ChoXacNhan ? "Chờ xác nhận" : "Đã hủy";
+
+        <div style="background:#f8f9fa; border-radius:10px; padding:16px; margin-bottom:14px;">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+                <strong>Đơn #@dh.MaDonHang</strong>
+                <span style="background:@mau; color:#fff; padding:4px 12px; border-radius:20px; font-size:12px;">@chu</span>
+            </div>
+
+            <div style="margin-top:10px; font-size:14px;">
+                <div><strong>Sản phẩm:</strong> @ct.SanPham.TieuDe</div>
+                <div style="color:#ef4444; font-weight:700; margin-top:4px;">@ct.GiaLucMua.ToString("N0") đ</div>
+            </div>
+
+            <div style="margin-top:10px; font-size:13px; color:#6b7280;">
+                <div>
+                    <i class="fa-solid fa-user"></i> Người mua:
+                    @(dh.NguoiMua != null && !string.IsNullOrEmpty(dh.NguoiMua.HoTen) ? dh.NguoiMua.HoTen : "Không rõ")
+                </div>
+                <div><i class="fa-solid fa-phone"></i> @dh.SoDienThoaiLienHe</div>
+                <div><i class="fa-solid fa-location-dot"></i> @dh.DiaChiGiaoHang</div>
+                <div><i class="fa-solid fa-clock"></i> @dh.NgayDatHang.ToString("dd/MM/yyyy HH:mm")</div>
+            </div>
+
+            @if (dh.TrangThai == TrangThaiDonHang.ChoXacNhan)
+            {
+                <div style="margin-top:12px; display:flex; gap:8px;">
+                    @using (Html.BeginForm("CapNhatDonBan", "Profile", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="maDonHang" value="@dh.MaDonHang" />
+                        <input type="hidden" name="trangThaiMoi" value="DangGiao" />
+                        <button type="submit" class="btn btn-primary" style="padding:7px 16px; font-size:13px;">Xác nhận &amp; giao hàng</button>
+                    }
+                    @using (Html.BeginForm("CapNhatDonBan", "Profile", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="maDonHang" value="@dh.MaDonHang" />
+                        <input type="hidden" name="trangThaiMoi" value="DaHuy" />
+                        <button type="button" class="btn btn-danger" style="padding:7px 16px; font-size:13px;"
+                                onclick="moModal(this)">
+                            Hủy đơn
+                        </button>
+                    }
+                </div>
+            }
+            else if (dh.TrangThai == TrangThaiDonHang.DangGiao)
+            {
+                <div style="margin-top:12px;">
+                    @using (Html.BeginForm("CapNhatDonBan", "Profile", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="maDonHang" value="@dh.MaDonHang" />
+                        <input type="hidden" name="trangThaiMoi" value="HoanTat" />
+                        <button type="submit" class="btn btn-primary" style="padding:7px 16px; font-size:13px;">Đánh dấu hoàn tất</button>
+                    }
+                </div>
+            }
+        </div>
+    }
+}
+<div id="modalHuy" class="modal-nen">
+    <div class="modal-hop">
+        <div class="modal-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
+        <h3>Hủy đơn hàng?</h3>
+        <p>Đơn hàng sẽ bị hủy và không thể khôi phục. Bạn chắc chắn chứ?</p>
+        <div class="modal-nut">
+            <button type="button" class="btn btn-outline" onclick="dongModal()">Quay lại</button>
+            <button type="button" class="btn btn-danger" onclick="xacNhanHuy()">Đồng ý hủy</button>
+        </div>
+    </div>
+</div>
+
+<style>
+    .modal-nen {
+        display: none;
+        position: fixed;
+        inset: 0;
+        z-index: 9999;
+        background: rgba(0,0,0,.5);
+        align-items: center;
+        justify-content: center;
+    }
+
+        .modal-nen.hien {
+            display: flex;
+        }
+
+    .modal-hop {
+        background: #fff;
+        border-radius: 14px;
+        padding: 28px;
+        max-width: 380px;
+        width: 90%;
+        text-align: center;
+        box-shadow: 0 20px 50px rgba(0,0,0,.25);
+    }
+
+    .modal-icon {
+        width: 56px;
+        height: 56px;
+        border-radius: 50%;
+        background: #fef2f2;
+        color: #ef4444;
+        font-size: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 16px;
+    }
+
+    .modal-hop h3 {
+        color: #111;
+        margin-bottom: 8px;
+        font-size: 19px;
+    }
+
+    .modal-hop p {
+        color: #6b7280;
+        font-size: 14px;
+        margin-bottom: 22px;
+    }
+
+    .modal-nut {
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+    }
+</style>
+
+<script>
+    var formDangHuy = null;
+
+    function moModal(nut) {
+        formDangHuy = nut.closest("form");
+        document.getElementById("modalHuy").classList.add("hien");
+    }
+
+    function dongModal() {
+        document.getElementById("modalHuy").classList.remove("hien");
+        formDangHuy = null;
+    }
+
+    function xacNhanHuy() {
+        if (formDangHuy) formDangHuy.submit();
+    }
+
+    // Bấm ra ngoài để đóng
+    document.getElementById("modalHuy").addEventListener("click", function (e) {
+        if (e.target === this) dongModal();
+    });
+</script>

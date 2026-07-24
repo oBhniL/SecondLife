@@ -27,6 +27,11 @@ namespace SecondLife.Controllers
         [HttpPost]
         public ActionResult Them(int id)
         {
+            if (User.IsInRole("Admin"))
+            {
+                TempData["Loi"] = "Tài khoản quản trị không thể đăng tin bán.";
+                return RedirectToAction("Index", "Home");
+            }
             string userId = User.Identity.GetUserId();
 
             // Kiểm tra sản phẩm còn bán không
@@ -45,19 +50,23 @@ namespace SecondLife.Controllers
                 return RedirectToAction("ChiTiet", "Product", new { id = id });
             }
 
-            // Nếu đã có trong giỏ thì thôi
+            // Nếu đã có trong giỏ thì báo, chưa có thì thêm
             bool daCo = db.GioHangs.Any(g => g.MaNguoiMua == userId && g.MaSanPham == id);
-            if (!daCo)
+            if (daCo)
+            {
+                TempData["Loi"] = "Sản phẩm đã có trong giỏ hàng.";
+            }
+            else
             {
                 var item = new CartItem();
                 item.MaNguoiMua = userId;
                 item.MaSanPham = id;
                 db.GioHangs.Add(item);
                 db.SaveChanges();
+                TempData["ThongBao"] = "Đã thêm vào giỏ hàng!";
             }
 
-            TempData["ThongBao"] = "Đã thêm vào giỏ hàng!";
-            return RedirectToAction("Index", "Cart");
+            return RedirectToAction("ChiTiet", "Product", new { id = id });
         }
 
         // ===== XÓA KHỎI GIỎ =====

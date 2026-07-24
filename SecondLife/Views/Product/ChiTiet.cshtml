@@ -2,6 +2,10 @@
 @{
     ViewBag.Title = Model.TieuDe;
 }
+@if (TempData["Loi"] != null)
+{
+    <div class="sl-alert sl-alert-err" style="margin-top:16px;">@TempData["Loi"]</div>
+}
 
 <a href="@Url.Action("Index", "Product")" style="display:inline-block; margin:20px 0; color:#2ec4b6;">
     <i class="fa-solid fa-arrow-left"></i> Quay lại danh sách

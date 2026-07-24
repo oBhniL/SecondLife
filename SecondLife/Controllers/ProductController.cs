@@ -54,6 +54,20 @@ namespace SecondLife.Controllers
         [Authorize]
         public ActionResult DangTin()
         {
+            if (User.IsInRole("Admin"))
+            {
+                TempData["Loi"] = "Tài khoản quản trị không thể đăng tin bán.";
+                return RedirectToAction("Index", "Home");
+            }
+            string userId = User.Identity.GetUserId();
+            var user = db.Users.FirstOrDefault(u => u.Id == userId);
+
+            if (user == null || user.TinhTrangXacThuc != TrangThaiXacThuc.DaDuyet)
+            {
+                TempData["Loi"] = "Bạn cần xác thực CCCD để được đăng tin.";
+                return RedirectToAction("XacThuc", "Profile");
+            }
+
             ViewBag.DanhMucs = db.DanhMucs.ToList();
             return View();
         }
@@ -74,6 +88,13 @@ namespace SecondLife.Controllers
             }
 
             string id = User.Identity.GetUserId();
+            // Chặn nếu chưa xác thực
+            var user = db.Users.FirstOrDefault(u => u.Id == id);
+            if (user == null || user.TinhTrangXacThuc != TrangThaiXacThuc.DaDuyet)
+            {
+                TempData["Loi"] = "Bạn cần xác thực CCCD để được đăng tin.";
+                return RedirectToAction("XacThuc", "Profile");
+            }
 
             var sp = new Product();
             sp.TieuDe = TieuDe;

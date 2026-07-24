@@ -3,7 +3,7 @@
     Layout = "~/Views/Shared/_LayoutProfile.cshtml";
     ViewBag.Title = "Chỉnh sửa thông tin";
     ViewBag.Tab = "info";
-    ViewBag.HoTen = Model.HoTen;
+    ViewBag.HoTen = User.Identity.Name;
     ViewBag.AnhDaiDien = Model.AnhDaiDien;
 }
 

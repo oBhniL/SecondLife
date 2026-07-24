@@ -57,7 +57,6 @@ namespace SecondLife.Controllers
         {
             string id = User.Identity.GetUserId();
 
-            // Lấy các chi tiết đơn mà sản phẩm là của mình
             var dsChiTiet = db.ChiTietDonHangs
                               .Include(c => c.DonHang)
                               .Include(c => c.DonHang.NguoiMua)
@@ -65,6 +64,7 @@ namespace SecondLife.Controllers
                               .Where(c => c.SanPham.MaNguoiBan == id)
                               .OrderByDescending(c => c.DonHang.NgayDatHang)
                               .ToList();
+            ViewBag.SoTinDaDang = db.SanPhams.Count(p => p.MaNguoiBan == id);
 
             return View(dsChiTiet);
         }

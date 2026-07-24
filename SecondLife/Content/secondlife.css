@@ -112,7 +112,8 @@ a {
 }
 
     .btn-post:hover {
-        background: #0f766e;
+        background: #0f8a80 !important;
+        color: #fff !important;
     }
 
 /* ---------- TITLE ---------- */
@@ -446,4 +447,75 @@ a {
     .sl-search {
         display: none;
     }
+}
+.nav-user {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.nav-avatar {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+.nav-avatar-chu {
+    background: #14a89c;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 700;
+}
+.user-drop {
+    position: relative;
+}
+
+.drop-menu {
+    display: none;
+    position: absolute;
+    top: calc(100% + 10px);
+    right: 0;
+    background: #fff;
+    border: 1px solid #eceff1;
+    border-radius: 10px;
+    min-width: 210px;
+    padding: 6px;
+    z-index: 200;
+    box-shadow: 0 8px 24px rgba(0,0,0,.12);
+}
+
+    .drop-menu.hien {
+        display: block;
+    }
+
+    .drop-menu a {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 12px;
+        border-radius: 8px;
+        font-size: 14px;
+        color: #444;
+        white-space: nowrap;
+    }
+
+        .drop-menu a:hover {
+            background: #f0fdfa;
+            color: #14a89c;
+        }
+
+        .drop-menu a i {
+            width: 16px;
+            text-align: center;
+        }
+
+.drop-line {
+    height: 1px;
+    background: #eceff1;
+    margin: 5px 0;
 }

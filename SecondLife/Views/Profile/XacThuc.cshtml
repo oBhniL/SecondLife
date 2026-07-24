@@ -4,20 +4,23 @@
     Layout = "~/Views/Shared/_LayoutProfile.cshtml";
     ViewBag.Title = "Xác thực người bán";
     ViewBag.Tab = "xt";
-    ViewBag.HoTen = Model.HoTen;
+    ViewBag.HoTen = User.Identity.Name;
 }
 
 <h2 style="color:#2ec4b6;">Xác thực người bán</h2>
-
+@if (TempData["Loi"] != null)
+{
+    <div class="sl-alert sl-alert-err">@TempData["Loi"]</div>
+}
 @switch (Model.TinhTrangXacThuc)
 {
     case TrangThaiXacThuc.DaDuyet:
         <div class="sl-alert sl-alert-ok">Tài khoản đã được xác thực. Bạn có thể đăng bán sản phẩm.</div>
         break;
     case TrangThaiXacThuc.DangCho:
-        <div class="sl-alert" style="background:#fef3c7; color:#b45309; border:1px solid #fde68a;">
-            Hồ sơ đang chờ admin duyệt. Nộp lúc @Model.NgayNopXacThuc?.ToString("dd/MM/yyyy HH:mm").
-        </div>
+<div class="sl-alert" style="background:#fef3c7; color:#b45309; border:1px solid #fde68a;">
+    Hồ sơ đang chờ admin duyệt. Nộp lúc @(Model.NgayNopXacThuc.HasValue ? Model.NgayNopXacThuc.Value.ToString("dd/MM/yyyy HH:mm") : "không rõ").
+</div>
         break;
     case TrangThaiXacThuc.TuChoi:
         <div class="sl-alert sl-alert-err">Hồ sơ bị từ chối. Lý do: @Model.LyDoTuChoi</div>

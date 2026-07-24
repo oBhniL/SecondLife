@@ -1,94 +1,51 @@
 ﻿@model SecondLife.Models.Product
 @{
-    Layout = null;
+    ViewBag.Title = "Đặt hàng";
 }
 
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Đặt hàng - SecondLife</title>
-    <link rel="stylesheet" href="/Content/style.css?v=1.2" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-</head>
-<body>
+<div class="sl-title">
+    <h1>Xác nhận đặt hàng</h1>
+</div>
 
-    <nav class="navbar">
-        <div class="nav-left">
-            <a href="/" class="logo-container">
-                <img src="/images/second-hand.png" alt="Logo" class="web-logo" />
-                <span class="brand-name">SecondLife</span>
-            </a>
+@if (TempData["Loi"] != null)
+{
+    <div class="sl-alert sl-alert-err" style="max-width:640px; margin:0 auto 16px;">@TempData["Loi"]</div>
+}
+
+<div class="sl-form">
+    <!-- Thông tin sản phẩm -->
+    <div style="display:flex; gap:14px; align-items:center; background:#f8f9fa; padding:14px; border-radius:10px; margin-bottom:22px;">
+        @if (Model.DanhSachAnh != null && Model.DanhSachAnh.Count > 0)
+        {
+            <img src="@Url.Content(Model.DanhSachAnh.First().DuongDanAnh)" alt="@Model.TieuDe"
+                 style="width:80px; height:80px; object-fit:cover; border-radius:8px;" />
+        }
+        <div>
+            <h3 style="color:#111;">@Model.TieuDe</h3>
+            <p style="color:#ef4444; font-weight:700; font-size:20px; margin-top:4px;">@Model.Gia.ToString("#,##0")đ</p>
         </div>
-        <div class="nav-menu">
-            <a href="/">Trang Chủ</a>
-            <a href="/Product">Sản Phẩm</a>
+    </div>
+
+    @using (Html.BeginForm("DatHang", "Order", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        <input type="hidden" name="MaSanPham" value="@Model.MaSanPham" />
+
+        <div class="group">
+            <label>Địa chỉ giao hàng</label>
+            <input type="text" name="DiaChiGiaoHang" placeholder="Số nhà, đường, phường, quận, tỉnh/thành" required />
         </div>
-        <div class="nav-auth">
-            <a href="/Profile" class="btn-login">Tài Khoản</a>
+
+        <div class="group">
+            <label>Số điện thoại liên hệ</label>
+            <input type="tel" name="SoDienThoaiLienHe" placeholder="Nhập số điện thoại" required />
         </div>
-    </nav>
 
-    <section class="order" style="padding: 40px 20px;">
-        <div class="order-content">
-            <div class="section-header">
-                <h2>Xác Nhận <span>Đặt Hàng</span></h2>
-            </div>
-
-            @if (TempData["Loi"] != null)
-            {
-                <p style="color: red; text-align: center;">@TempData["Loi"]</p>
-            }
-
-            <!-- Thông tin sản phẩm -->
-            <div style="display: flex; gap: 15px; align-items: center; background: #f8f9fa; padding: 15px; border-radius: 10px; margin-bottom: 25px;">
-                @if (Model.DanhSachAnh != null && Model.DanhSachAnh.Count > 0)
-                {
-                    <img src="@Url.Content(Model.DanhSachAnh.First().DuongDanAnh)" alt="@Model.TieuDe"
-                         style="width: 90px; height: 90px; object-fit: cover; border-radius: 8px;" />
-                }
-                <div>
-                    <h3 style="margin: 0; color: #111;">@Model.TieuDe</h3>
-                    <p style="color: #2ec4b6; font-weight: bold; font-size: 1.3rem; margin: 5px 0;">
-                        @Model.Gia.ToString("#,##0")đ
-                    </p>
-                </div>
-            </div>
-
-            <div class="order-form">
-                @using (Html.BeginForm("DatHang", "Order", FormMethod.Post))
-                {
-                    @Html.AntiForgeryToken()
-                    <input type="hidden" name="MaSanPham" value="@Model.MaSanPham" />
-
-                    <div class="form-group">
-                        <label><i class="fa-solid fa-location-dot"></i> Địa chỉ giao hàng</label>
-                        <input type="text" name="DiaChiGiaoHang" placeholder="Số nhà, đường, phường, quận, tỉnh/thành" required />
-                    </div>
-
-                    <div class="form-group">
-                        <label><i class="fa-solid fa-phone"></i> Số điện thoại liên hệ</label>
-                        <input type="tel" name="SoDienThoaiLienHe" placeholder="Nhập số điện thoại" required />
-                    </div>
-
-                    <div style="text-align: center; margin: 20px 0; font-size: 1.1rem;">
-                        Tổng thanh toán:
-                        <strong style="color: #2ec4b6; font-size: 1.4rem;">@Model.Gia.ToString("#,##0")đ</strong>
-                    </div>
-
-                    <button type="submit" class="btn-submit">
-                        <i class="fa-solid fa-check"></i> Xác Nhận Đặt Hàng
-                    </button>
-                }
-            </div>
+        <div style="text-align:center; margin:18px 0; font-size:16px;">
+            Tổng thanh toán:
+            <strong style="color:#ef4444; font-size:22px;">@Model.Gia.ToString("#,##0")đ</strong>
         </div>
-    </section>
 
-    <footer class="footer">
-        <div class="footer-content">
-            <p>© 2026 SecondLife.</p>
-        </div>
-    </footer>
-</body>
-</html>
+        <button type="submit" class="btn btn-primary btn-block"><i class="fa-solid fa-check"></i> Xác nhận đặt hàng</button>
+    }
+</div>

@@ -1,4 +1,28 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNet.Identity
+@using System.Linq
+@{
+    bool daXacThuc = false;
+    bool laAdmin = false;
+    string tenNguoiDung = User.Identity.Name;
+    string avatarNguoiDung = null;
+
+    if (Request.IsAuthenticated)
+    {
+        laAdmin = User.IsInRole("Admin");
+
+        var dbLayout = new SecondLife.Models.ApplicationDbContext();
+        var uid = User.Identity.GetUserId();
+        var u = dbLayout.Users.FirstOrDefault(x => x.Id == uid);
+
+        if (u != null)
+        {
+            daXacThuc = (u.TinhTrangXacThuc == SecondLife.Models.TrangThaiXacThuc.DaDuyet);
+            tenNguoiDung = !string.IsNullOrEmpty(u.HoTen) ? u.HoTen : u.Email;
+            avatarNguoiDung = u.AnhDaiDien;
+        }
+    }
+}
+<!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="utf-8" />
@@ -18,31 +42,47 @@
             <a href="@Url.Action("Index", "Home")" class="sl-logo">
                 <img src="~/images/second-hand.png" alt="Logo" /> SecondLife
             </a>
+
             <nav class="sl-nav" style="margin-left:auto;">
                 <a href="@Url.Action("Index", "Home")">Trang chủ</a>
                 <a href="@Url.Action("Index", "Product")">Sản phẩm</a>
-                <a href="@Url.Action("DangTin", "Product")" class="btn-post"><i class="fa-solid fa-plus"></i> Đăng tin</a>
+
+                @if (!laAdmin)
+                {
+                    <a href="@Url.Action("Index", "Cart")"><i class="fa-solid fa-cart-shopping"></i> Giỏ hàng</a>
+
+                    if (daXacThuc)
+                    {
+                        <a href="@Url.Action("DangTin", "Product")" class="btn-post"><i class="fa-solid fa-plus"></i> Đăng tin</a>
+                    }
+                    else
+                    {
+                        <a href="@Url.Action("XacThuc", "Profile")" class="btn-post" style="background:#f0b429;">
+                            <i class="fa-solid fa-id-card"></i> Xác thực để bán
+                        </a>
+                    }
+                }
+                else
+                {
+                    <a href="@Url.Action("Index", "Admin")" class="btn-post"><i class="fa-solid fa-gauge"></i> Trang quản trị</a>
+                }
             </nav>
         </div>
     </header>
 
     <div class="pf-wrap">
         <div class="pf-side">
-            @{
-                var ten = ViewBag.HoTen as string ?? User.Identity.Name;
-                var anhDD = ViewBag.AnhDaiDien as string;
-            }
             <div class="pf-avatar">
-                @if (!string.IsNullOrEmpty(anhDD))
+                @if (!string.IsNullOrEmpty(avatarNguoiDung))
                 {
-                    <img src="@(Url.Content(anhDD))?v=@DateTime.Now.Ticks" alt="avatar" />
+                    <img src="@(Url.Content(avatarNguoiDung))?v=@DateTime.Now.Ticks" alt="avatar" />
                 }
                 else
                 {
-                    @ten.Substring(0, 1).ToUpper()
+                    @tenNguoiDung.Substring(0, 1).ToUpper()
                 }
             </div>
-            <div class="pf-name">@ten</div>
+            <div class="pf-name">@tenNguoiDung</div>
             <div class="pf-mail">@User.Identity.Name</div>
 
             <div class="pf-menu">
@@ -62,18 +102,14 @@
                     <i class="fa-solid fa-id-card"></i> Xác thực người bán
                 </a>
 
-                @if (User.IsInRole("Admin"))
+                @if (laAdmin)
                 {
                     <div class="pf-divider"></div>
                     <a href="@Url.Action("Index", "Admin")"><i class="fa-solid fa-gauge"></i> Trang quản trị</a>
                 }
 
                 <div class="pf-divider"></div>
-                @using (Html.BeginForm("LogOut", "Home", FormMethod.Post, new { id = "formDangXuat" }))
-                {
-                    @Html.AntiForgeryToken()
-                }
-                <a href="javascript:void(0)" class="pf-logout" onclick="document.getElementById('formDangXuat').submit();">
+                <a href="@Url.Action("LogOut", "Home")" class="pf-logout">
                     <i class="fa-solid fa-right-from-bracket"></i> Đăng xuất
                 </a>
             </div>
@@ -84,9 +120,96 @@
         </div>
     </div>
 
+    <!-- MODAL XÁC NHẬN DÙNG CHUNG -->
+    <div id="modalXacNhan" class="modal-nen">
+        <div class="modal-hop">
+            <div class="modal-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
+            <h3 id="modalTieuDe">Xác nhận</h3>
+            <p id="modalNoiDung">Bạn chắc chắn muốn thực hiện thao tác này?</p>
+            <div class="modal-nut">
+                <button type="button" class="btn btn-outline" onclick="dongModal()">Quay lại</button>
+                <button type="button" class="btn btn-danger" onclick="xacNhanModal()">Đồng ý</button>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .modal-nen {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            background: rgba(0,0,0,.5);
+            align-items: center;
+            justify-content: center;
+        }
+
+            .modal-nen.hien {
+                display: flex;
+            }
+
+        .modal-hop {
+            background: #fff;
+            border-radius: 14px;
+            padding: 28px;
+            max-width: 380px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 20px 50px rgba(0,0,0,.25);
+        }
+
+        .modal-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: #fef2f2;
+            color: #ef4444;
+            font-size: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 16px;
+        }
+
+        .modal-hop h3 {
+            color: #111;
+            margin-bottom: 8px;
+            font-size: 19px;
+        }
+
+        .modal-hop p {
+            color: #6b7280;
+            font-size: 14px;
+            margin-bottom: 22px;
+        }
+
+        .modal-nut {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+    </style>
+
     <script>
         var t = document.getElementById("toast");
         if (t) setTimeout(function () { t.style.display = "none"; }, 3000);
-    </script>
-</body>
-</html>
+
+        var formDangCho = null;
+
+        function moModal(nut, tieuDe, noiDung) {
+            formDangCho = nut.closest("form");
+            document.getElementById("modalTieuDe").innerText = tieuDe || "Xác nhận";
+            document.getElementById("modalNoiDung").innerText = noiDung || "Bạn chắc chắn muốn thực hiện thao tác này?";
+            document.getElementById("modalXacNhan").classList.add("hien");
+        }
+
+        function dongModal() {
+            document.getElementById("modalXacNhan").classList.remove("hien");
+            formDangCho = null;
+        }
+
+        function xacNhanModal() {
+            if (formDangCho) formDangCho.submit();
+        }
+
+        document.getElementById("modalXacNhan").

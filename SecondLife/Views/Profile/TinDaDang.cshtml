@@ -40,8 +40,8 @@ else
                     using (Html.BeginForm("XoaTin", "Product", FormMethod.Post))
                     {
                         <input type="hidden" name="id" value="@sp.MaSanPham" />
-                        <button type="submit" class="btn btn-danger" style="padding:5px 14px; font-size:12px;"
-                                onclick="return confirm('Gỡ tin này?');">
+                        <button type="button" class="btn btn-danger" style="padding:5px 14px; font-size:12px;"
+                                onclick="moModal(this, 'Gỡ tin đăng?', 'Tin sẽ bị gỡ khỏi trang bán hàng.')">
                             Gỡ tin
                         </button>
                     }

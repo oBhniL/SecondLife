@@ -212,4 +212,9 @@
             if (formDangCho) formDangCho.submit();
         }
 
-        document.getElementById("modalXacNhan").
+        document.getElementById("modalXacNhan").addEventListener("click", function (e) {
+            if (e.target === this) dongModal();
+        });
+    </script>
+</body>
+</html>

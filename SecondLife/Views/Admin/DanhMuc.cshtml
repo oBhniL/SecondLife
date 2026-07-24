@@ -95,8 +95,8 @@
                                     <i class="fa-solid fa-pen"></i> Sửa
                                 </button>
                                 <form action="@Url.Action("XoaDanhMuc", "Admin")" method="post"
-                                      onsubmit="return confirm('Xóa danh mục &quot;@dm.TenDanhMuc&quot;?');" style="display:inline;">
-                                    @Html.AntiForgeryToken()
+                                    <button type="button" class="btn btn-do btn-nho"
+                                        onclick="moModal(this, 'Xóa danh mục?', 'Danh mục sẽ bị xóa vĩnh viễn.')">Xóa</button>                                    @Html.AntiForgeryToken()
                                     <input type="hidden" name="id" value="@dm.MaDanhMuc" />
                                     <button type="submit" class="btn btn-do btn-nho">
                                         <i class="fa-solid fa-trash"></i> Xóa

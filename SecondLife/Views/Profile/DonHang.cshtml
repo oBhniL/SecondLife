@@ -24,13 +24,22 @@ else
                    : dh.TrangThai == TrangThaiDonHang.DangGiao ? "Đang giao"
                    : dh.TrangThai == TrangThaiDonHang.ChoXacNhan ? "Chờ xác nhận" : "Đã hủy";
 
-        <div style="background:#f8f9fa; border-radius:10px; padding:16px; margin-bottom:12px;">
-            <div style="display:flex; justify-content:space-between;">
-                <div style="font-weight:600;">Đơn #@dh.MaDonHang</div>
-                <span style="background:@mau; color:#fff; padding:4px 12px; border-radius:20px; font-size:12px;">@chu</span>
-            </div>
-            <div style="font-size:13px; color:#9ca3af; margin-top:8px;">@dh.NgayDatHang.ToString("dd/MM/yyyy HH:mm") · @dh.DiaChiGiaoHang</div>
-            <div style="color:#ef4444; font-weight:700; margin-top:8px;">Tổng: @dh.TongTien.ToString("N0") đ</div>
+<div style="background:#f8f9fa; border-radius:10px; padding:16px; margin-bottom:12px;">
+    <div style="display:flex; justify-content:space-between;">
+        <div style="font-weight:600;">Đơn #@dh.MaDonHang</div>
+        <span style="background:@mau; color:#fff; padding:4px 12px; border-radius:20px; font-size:12px;">@chu</span>
+    </div>
+    <div style="font-size:13px; color:#9ca3af; margin-top:8px;">@dh.NgayDatHang.ToString("dd/MM/yyyy HH:mm") · @dh.DiaChiGiaoHang</div>
+    <div style="color:#ef4444; font-weight:700; margin-top:8px;">Tổng: @dh.TongTien.ToString("N0") đ</div>
+    @if (dh.TrangThai == TrangThaiDonHang.HoanTat)
+    {
+        <div style="margin-top:12px;">
+            <a href="@Url.Action("DanhGia", "Review", new { id = dh.MaDonHang })"
+               class="btn btn-primary" style="padding:7px 16px; font-size:13px;">
+                <i class="fa-solid fa-star"></i> Đánh giá người bán
+            </a>
         </div>
+    }
+</div>
     }
 }

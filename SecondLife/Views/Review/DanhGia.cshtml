@@ -1,0 +1,83 @@
+﻿@{
+    Layout = "~/Views/Shared/_LayoutProfile.cshtml";
+    ViewBag.Title = "Đánh giá người bán";
+    ViewBag.Tab = "don";
+    var nguoiBan = ViewBag.NguoiBan as SecondLife.Models.ApplicationUser;
+}
+
+<h2 style="color:#14a89c;">Đánh giá người bán</h2>
+
+@if (TempData["Loi"] != null)
+{
+    <div class="sl-alert sl-alert-err">@TempData["Loi"]</div>
+}
+
+<div style="background:#f8f9fa; border-radius:10px; padding:16px; margin-bottom:22px;">
+    <div style="font-size:14px; color:#6b7280;">Đơn hàng #@ViewBag.MaDonHang</div>
+    <div style="font-weight:600; margin-top:4px;">@ViewBag.TenSanPham</div>
+    <div style="margin-top:8px; font-size:14px;">
+        <i class="fa-solid fa-user"></i> Người bán:
+        <strong>@(nguoiBan != null && !string.IsNullOrEmpty(nguoiBan.HoTen) ? nguoiBan.HoTen : "Không rõ")</strong>
+    </div>
+</div>
+
+@using (Html.BeginForm("DanhGia", "Review", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    <input type="hidden" name="MaDonHang" value="@ViewBag.MaDonHang" />
+    <input type="hidden" name="SoSao" id="soSaoChon" value="5" />
+
+    <div style="margin-bottom:20px;">
+        <label style="display:block; font-weight:600; margin-bottom:10px;">Bạn hài lòng ở mức nào?</label>
+        <div id="khungSao" style="font-size:34px; color:#f0b429; cursor:pointer;">
+            <i class="fa-solid fa-star" data-sao="1"></i>
+            <i class="fa-solid fa-star" data-sao="2"></i>
+            <i class="fa-solid fa-star" data-sao="3"></i>
+            <i class="fa-solid fa-star" data-sao="4"></i>
+            <i class="fa-solid fa-star" data-sao="5"></i>
+        </div>
+        <div id="chuSao" style="color:#6b7280; font-size:14px; margin-top:6px;">Rất hài lòng</div>
+    </div>
+
+    <div class="group" style="max-width:560px;">
+        <label style="font-weight:600;">Nhận xét của bạn</label>
+        <textarea name="BinhLuan" rows="4" placeholder="Chia sẻ trải nghiệm mua hàng của bạn..."
+                  style="width:100%; padding:10px 12px; border:1px solid #d1d5db; border-radius:8px; font-family:inherit;"></textarea>
+    </div>
+
+    <div style="margin-top:20px; display:flex; gap:12px;">
+        <button type="submit" class="btn btn-primary">Gửi đánh giá</button>
+        <a href="@Url.Action("DonHang", "Profile")" class="btn btn-outline">Hủy</a>
+    </div>
+}
+
+<script>
+    var cacSao = document.querySelectorAll("#khungSao i");
+    var oSoSao = document.getElementById("soSaoChon");
+    var chuSao = document.getElementById("chuSao");
+    var moTa = ["", "Rất tệ", "Không hài lòng", "Bình thường", "Hài lòng", "Rất hài lòng"];
+
+    function veSao(n) {
+        cacSao.forEach(function (s, i) {
+            s.style.color = (i < n) ? "#f0b429" : "#d1d5db";
+        });
+        chuSao.innerText = moTa[n];
+    }
+
+    cacSao.forEach(function (sao) {
+        sao.addEventListener("click", function () {
+            var n = parseInt(this.getAttribute("data-sao"));
+            oSoSao.value = n;
+            veSao(n);
+        });
+        sao.addEventListener("mouseover", function () {
+            veSao(parseInt(this.getAttribute("data-sao")));
+        });
+    });
+
+    document.getElementById("khungSao").addEventListener("mouseleave", function () {
+        veSao(parseInt(oSoSao.value));
+    });
+
+    veSao(5);
+</script>
